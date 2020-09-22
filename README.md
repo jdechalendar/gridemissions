@@ -1,10 +1,10 @@
 # gridemissions
 Tools for power sector emissions tracking
 
-# Installation
+## Installation
 Clone this repository and then run `pip install .` from within it.
 
-# Usage
+## Usage
 See the docs for more advanced usage. A download script is provided to quickly download data:
 ```python
 # Download data for CAISO for a year
