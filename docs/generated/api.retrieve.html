@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>api.retrieve &#8212; Grid emissions  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Documentation for the gridemissions project" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api-retrieve">
+<h1>api.retrieve<a class="headerlink" href="#api-retrieve" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="api.retrieve">
+<code class="sig-prename descclassname">api.</code><code class="sig-name descname">retrieve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variable</span><span class="o">=</span><span class="default_value">'co2'</span></em>, <em class="sig-param"><span class="n">ba</span><span class="o">=</span><span class="default_value">'CISO'</span></em>, <em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">'20200101'</span></em>, <em class="sig-param"><span class="n">end</span><span class="o">=</span><span class="default_value">'20200102'</span></em>, <em class="sig-param"><span class="n">field</span><span class="o">=</span><span class="default_value">'D'</span></em>, <em class="sig-param"><span class="n">ba2</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/jdechalendar/gridemissions/blob/master/src/gridemissions/..\..\..\webapp-emissions\gridemissions\src\gridemissions\api.py#L7-L55"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.retrieve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve data from the gridemissions API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<em>str</em><em>, </em><em>one of &quot;co2&quot;</em><em>, </em><em>&quot;elec&quot;</em><em>, </em><em>&quot;elec_raw&quot;</em>) – </p></li>
+<li><p><strong>ba</strong> (<em>str</em><em> or </em><em>list of str</em>) – Which balancing area(s) to pull data for</p></li>
+<li><p><strong>start</strong> (<em>str</em>) – </p></li>
+<li><p><strong>end</strong> (<em>str</em>) – </p></li>
+<li><p><strong>field</strong> (<em>str {&quot;D&quot;</em><em>, </em><em>&quot;NG&quot;</em><em>, </em><em>&quot;TI&quot;</em><em>, </em><em>&quot;ID&quot;}</em>) – </p></li>
+<li><p><strong>ba2</strong> (<em>str</em>) – Second balancing area - if field is “ID”</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p><cite>start</cite> and <cite>end</cite> must be parseable by <cite>pandas.to_datetime</cite>. We assume they
+are specified in UTC.</p>
+<p class="rubric">Examples</p>
+<p>To download co2 consumption data for CISO for the year of 2019:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gridemissions</span> <span class="kn">import</span> <span class="n">api</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">api</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s2">&quot;co2&quot;</span><span class="p">,</span> <span class="n">ba</span><span class="o">=</span><span class="s2">&quot;CISO&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span>
+<span class="gp">... </span>             <span class="n">end</span><span class="o">=</span><span class="s2">&quot;20200101&quot;</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To download electricity generation data for ERCOT and BPAT for a year:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">api</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s2">&quot;elec&quot;</span><span class="p">,</span> <span class="n">ba</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ERCOT&quot;</span><span class="p">,</span> <span class="s2">&quot;BPAT&quot;</span><span class="p">],</span>
+<span class="gp">... </span>             <span class="n">start</span><span class="o">=</span><span class="s2">&quot;20190101&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;20200101&quot;</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;NG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Grid emissions</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">api.retrieve</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Documentation for the gridemissions project</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jacques de Chalendar.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/api.retrieve.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
