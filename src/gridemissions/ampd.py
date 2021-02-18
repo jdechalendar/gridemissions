@@ -209,7 +209,7 @@ def extract_state(x):
 
 
 if __name__ == "__main__":
-    from seed import config
+    from gridemissions import config
     from os.path import join
 
     # Download data for 2019

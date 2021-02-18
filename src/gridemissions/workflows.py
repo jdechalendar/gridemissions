@@ -6,13 +6,13 @@ from os.path import join
 import time
 import logging
 import pandas as pd
-from seed import config
-from seed.load import BaData
-from seed.eia_api import EBA_data_scraper, load_eia_columns
-from seed.clean import BaDataBasicCleaner, BaDataCvxCleaner
-from seed.clean import BaDataRollingCleaner
-from seed.emissions import BaDataEmissionsCalc
-from seed.viz.d3map import create_graph
+from gridemissions import config
+from gridemissions.load import BaData
+from gridemissions.eia_api import EBA_data_scraper, load_eia_columns
+from gridemissions.clean import BaDataBasicCleaner, BaDataCvxCleaner
+from gridemissions.clean import BaDataRollingCleaner
+from gridemissions.emissions import BaDataEmissionsCalc
+from gridemissions.viz.d3map import create_graph
 
 
 # Optimization-based cleaning is different pre and post July 2018
@@ -22,7 +22,7 @@ THRESH_DATE = pd.to_datetime("20180701", utc=True)
 def make_dataset(
     start="20191110T08Z",
     end="20191115T08Z",
-    file_name="seed_data",
+    file_name="EBA",
     tmp_folder="tmp",
     folder_hist=None,
     scrape=True,
@@ -105,7 +105,7 @@ def make_dataset(
     co2_calc.poll_data.df.to_csv(join(tmp_folder, "%s_co2.csv" % file_name))
 
     logger.info(
-        "seed.workflows.make_dataset took %.2f seconds" % (time.time() - start_time)
+        "gridemissions.workflows.make_dataset took %.2f seconds" % (time.time() - start_time)
     )
 
 

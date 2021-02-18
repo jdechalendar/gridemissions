@@ -11,8 +11,8 @@ import pandas as pd
 import logging
 import json
 import re
-from seed import config
-from seed.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
+from gridemissions import config
+from gridemissions.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
 import dask
 
 

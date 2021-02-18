@@ -7,8 +7,8 @@ import argparse
 import logging.config
 from datetime import datetime, timedelta
 
-from seed import config
-from seed.workflows import make_dataset, update_dataset, update_d3map
+from gridemissions import config
+from gridemissions.workflows import make_dataset, update_dataset, update_d3map
 from .utils import str2bool
 
 

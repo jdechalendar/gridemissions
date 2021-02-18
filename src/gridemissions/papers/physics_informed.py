@@ -3,8 +3,8 @@ from matplotlib.patches import Rectangle
 import numpy as np
 import pandas as pd
 
-from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS
-from seed.eia_api import KEYS, SRC
+from gridemissions.viz.base import PAGE_WIDTH, ROW_HEIGHT, COLORS
+from gridemissions.eia_api import KEYS, SRC
 
 
 def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig=False):

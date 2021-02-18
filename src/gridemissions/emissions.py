@@ -2,8 +2,8 @@ import sys
 import logging
 import time
 import numpy as np
-from seed.eia_api import SRC, KEYS
-from seed.load import BaData
+from gridemissions.eia_api import SRC, KEYS
+from gridemissions.load import BaData
 
 
 # UNK is 2017 average US power grid intensity according to Schivley 2018

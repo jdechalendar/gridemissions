@@ -1,7 +1,7 @@
 import os
 import json
 import numpy as np
-from seed import config
+from gridemissions import config
 
 
 data_path = os.path.join(config["DATA_PATH"], "analysis", "d3map")

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from seed import config
+from gridemissions import config
 import argparse
 import logging
 from os.path import join
-from seed.viz.ba_plots import annual_plot_hourly, annual_plot_weekly
+from gridemissions.viz.ba_plots import annual_plot_hourly, annual_plot_weekly
 from datetime import datetime, timedelta
-from seed.load import BaData
+from gridemissions.load import BaData
 import matplotlib.pyplot as plt
 import cmocean
 import seaborn as sns
@@ -30,7 +30,7 @@ def main():
 
     # Load data
     folder_in = join(config["DATA_PATH"], "analysis", "local")
-    file_name = "seed_data"
+    file_name = "EBA"
     co2 = BaData(fileNm=join(folder_in, "%s_co2.csv" % file_name), variable="CO2")
     elec = BaData(fileNm=join(folder_in, "%s_elec.csv" % file_name))
 

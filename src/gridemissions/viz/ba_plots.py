@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS
-from seed.eia_api import SRC
+from gridemissions.eia_api import SRC
 
 
 def separate_imp_exp(data, ba):
@@ -338,7 +338,6 @@ def cleaning_plot(
         if len(ax2.lines)/2>10:
             ncol=2
         handles, labels = ax2.get_legend_handles_labels()
-        print(labels)
         ax2.legend(loc=6, ncol=ncol)
         ax2.set_ylabel(f"Electricity trade ({unit})")
 

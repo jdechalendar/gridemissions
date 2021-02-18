@@ -4,7 +4,7 @@ Tools to interact with the EIA API at https://www.eia.gov/opendata/
 
 import logging
 import pandas as pd
-from seed import config
+from gridemissions import config
 import requests
 import re
 import json

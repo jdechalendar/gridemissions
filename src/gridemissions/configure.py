@@ -3,8 +3,8 @@ from os.path import expanduser
 import json
 import logging.config
 
-CONFIG_FILE_PATH = expanduser("~/.config/seed/config.json")
-LOG_CONFIG_FILE_PATH = expanduser("~/.config/seed/logging.conf")
+CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/config.json")
+LOG_CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/logging.conf")
 DEFAULT_LOGGING_CONF = """# Config file for logging
 [loggers]
 keys=root,scraper

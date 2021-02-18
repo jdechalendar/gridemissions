@@ -3,8 +3,8 @@ from os.path import join
 import pandas as pd
 import argparse
 import logging.config
-from seed import config
-from seed.ampd import AMPD_download, extract_state
+from gridemissions import config
+from gridemissions.ampd import AMPD_download, extract_state
 
 
 def main():
