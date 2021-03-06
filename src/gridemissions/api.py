@@ -26,6 +26,8 @@ def retrieve(
     -----
     `start` and `end` must be parseable by `pandas.to_datetime`. We assume they
     are specified in UTC.
+    If field is None or ba is [], then data for all balancing areas and all fields
+    is queried.
 
     Examples
     --------
@@ -50,8 +52,9 @@ def retrieve(
         "end": end,
         "variable": variable,
         "ba": ba,
-        "field": field,
     }
+    if field is not None:
+        params["field"] = field
 
     url = gridemissions.base_url + "/data"
 
