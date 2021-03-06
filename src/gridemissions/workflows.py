@@ -128,6 +128,8 @@ def update_dataset(
 
 
     if folder_2weeks is not None:
+        shutil.rmtree(folder_2weeks)
+        os.makedirs(folder_2weeks, exist_ok=True)
         for file_name in file_names:
             _extract_last2weeks(folder_hist, file_name, folder_2weeks)
 

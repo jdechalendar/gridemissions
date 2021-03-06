@@ -168,7 +168,6 @@ def main():
             args.folder_hist,
             file_names,
             args.folder_new,
-            with_d3map=args.update_d3map,
             folder_2weeks=folder_2weeks,
         )
 
@@ -178,5 +177,6 @@ def main():
             args.folder_new, join(args.folder_hist, "d3map"), file_name=file_name, thresh_date=thresh_date
         )
 
+    logger.debug("Writing last_update.txt")
     with open(join(args.folder_hist, "last_update.txt"), "w") as fw:
         fw.write(datetime.utcnow().isoformat())
