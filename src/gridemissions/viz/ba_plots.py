@@ -375,11 +375,16 @@ def cleaning_plot(
                 ax3.plot([], [], alpha=0.8, color="k", ls="--", label="after")
             axes = (ax1, ax2, ax3)
 
-#     f.autofmt_xdate()
     import matplotlib.dates as mdates
-
-    for a in list(axes):
-        a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%y"))
+    if summarize:
+        for a in list(axes):
+            a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%y"))
+    else:
+        for a in list(axes):
+            a.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
+            for label in a.get_xticklabels(which="major"):
+                label.set_ha("right")
+                label.set_rotation(30)
     f.tight_layout()
 
     if save and (fig_folder is not None):
