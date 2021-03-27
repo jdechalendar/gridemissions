@@ -13,7 +13,6 @@ import json
 import re
 from gridemissions import config
 from gridemissions.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
-import dask
 
 
 class BaData(object):
