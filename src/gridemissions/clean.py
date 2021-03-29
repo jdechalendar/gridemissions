@@ -7,8 +7,6 @@ import os
 import logging
 import time
 import re
-import pyomo.environ as pyo
-from pyomo.opt import SolverFactory
 from gridemissions.load import BaData
 from gridemissions.eia_api import SRC, KEYS
 import pandas as pd
@@ -516,6 +514,10 @@ class BaDataPyoCleaner(BaDataCleaner):
 
     def __init__(self, ba_data, weights=None, solver="gurobi"):
         super().__init__(ba_data)
+
+        import pyomo.environ as pyo
+        from pyomo.opt import SolverFactory
+        
         self.m = BaDataPyoCleaningModel().m
         self.opt = SolverFactory(solver)
         self.weights = weights
