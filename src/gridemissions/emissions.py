@@ -27,6 +27,19 @@ EMISSIONS_FACTORS = {
 
 def consumption_emissions(F, P, ID):
     """
+    Form and solve linear system to compute consumption emissions
+
+    Parameters
+    ----------
+    F: np.array
+        emissions
+    P: np.array
+        production
+    ID: np.array
+        exchanges
+
+    Notes
+    -----
     Create linear system to calculate consumption emissions
     - Create import matrix
     - Create linear system and solve:

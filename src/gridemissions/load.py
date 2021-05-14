@@ -21,6 +21,12 @@ class BaData(object):
     the regional (IEA-defined) level. User guide:
         https://www.eia.gov/realtime_grid/docs/userguide-knownissues.pdf
 
+    The class is a light wrapped around the pd.DataFrame object which is the
+    format in which the underlying data are stored.
+
+    The main purpose of the class is to provide convenience functions that make
+    handling the data easier.
+
     Timestamps are in UTC.
 
     EBA data columns
@@ -46,7 +52,28 @@ class BaData(object):
     regions : are in alphabetical order
     df : raw dataframe
     """
-    def __init__(self, step=None, fileNm=None, df=None, variable="E", dataset="EBA"):
+    def __init__(self, fileNm=None, df=None, variable="E", dataset="EBA", step=None):
+        """
+        Initialize the BaData object
+
+        There are two preferred ways to initialize this object: by passing a `pd.DataFrame`,
+        or by passing a file name from which to read the data using `pd.read_csv`.
+
+
+        Parameters
+        ----------
+        fileNm: str, default None
+            fileNm from which to read the data
+        df: pd.DataFrame, default None
+            data 
+        dataset: str, default "EBA"
+            base name for file in which data are stored. Parameter will be deprecated soon and
+            should not be used.
+        step: int, default None
+            processing step at which to load the data. Parameter will be deprecated soon and
+            should not be used.
+
+        """
         self.logger = logging.getLogger("load")
 
         if df is not None:
@@ -66,6 +93,22 @@ class BaData(object):
         self.KEY = KEYS[variable]
 
     def get_cols(self, r=None, field="D"):
+        """
+        Retrieve column name(s) corresponding to region(s) and a field
+
+        Parameters
+        ----------
+        r: str or list of str, default None
+            regions. If None, data is returned for all regions
+        field: str
+            field for which to load columns. Used to index in self.KEY
+
+        Returns
+        -------
+        cols: list of str
+        """
+        if field not in self.KEY:
+            raise ValueError(f"{{field} not in str(list(self.KEY.keys()))}")
         if field != "ID":
             if r is None:
                 r = self.regions
@@ -84,13 +127,21 @@ class BaData(object):
                 if self.KEY[field] % (ir, ir2) in self.df.columns
             ]
 
-    def get_trade_partners(self, ba):
+    def get_trade_partners(self, r):
+        """
+        Return list of regions that trade with a given region
+
+        Parameter
+        ---------
+        r: str
+            region for which to search
+        """
         partners = []
-        for ba2 in self.regions:
-            if (self.KEY["ID"] % (ba, ba2) in self.df.columns) and (
-                self.KEY["ID"] % (ba2, ba) in self.df.columns
+        for r2 in self.regions:
+            if (self.KEY["ID"] % (r, r2) in self.df.columns) and (
+                self.KEY["ID"] % (r2, r) in self.df.columns
             ):
-                partners += [ba2]
+                partners += [r2]
         return partners
 
     def _parse_data_cols(self):
