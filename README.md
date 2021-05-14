@@ -19,6 +19,14 @@ Two configuration files are generated automatically in a directory called  `~/.c
 
 You can then modify these files to change confirguration, such as the `DATA_PATH` variable in `config.json` which is where the package will look for data (by default `~/data`).
 
+## Documentation
+Documentation uses [Sphinx](https://www.sphinx-doc.org/en/master/) and was generated in the `docs` folder. Open the index.html file in a browser to view the documentation. To re-generate the documentation you shoud be able to simply do
+```
+cd doc
+make html
+```
+This requires that you have `sphinx` installed.
+
 ## API Usage
 A download script is provided to quickly download data:
 ```python
