@@ -10,6 +10,14 @@ The tools in this repository power the visualization [here](https://energy.stanf
 Clone or download this repository from Github and then install:
 * the base packages needed to make calls to the API: `pip install .`
 * all packages (including those needed for automated data cleaning): `pip install .[all]`
+* in editable mode to make it easier to modify the codebase: `pip install -e .[all]`
+
+## Configuration
+Two configuration files are generated automatically in a directory called  `~/.config/gridemissions` the first time you import the package:
+* `config.json` stores environment variables
+* logging.conf configures different loggers
+
+You can then modify these files to change confirguration, such as the `DATA_PATH` variable in `config.json` which is where the package will look for data (by default `~/data`).
 
 ## API Usage
 A download script is provided to quickly download data:
