@@ -108,7 +108,7 @@ class BaData(object):
         cols: list of str
         """
         if field not in self.KEY:
-            raise ValueError(f"{{field} not in str(list(self.KEY.keys()))}")
+            raise ValueError(f"{field} not in str(list(self.KEY.keys()))")
         if field != "ID":
             if r is None:
                 r = self.regions

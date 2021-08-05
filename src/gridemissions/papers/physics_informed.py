@@ -14,12 +14,9 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
     d_col = ba_data_A.get_cols(ba, "D")[0]
 
     # Plot 1: demand at different steps
-    ax[0, 0].plot(ba_data_A.df.loc[:, d_col] * scale, "-o", ms=3, lw=0.7, label="raw")
-    ax[0, 0].plot(
-        ba_data_B.df.loc[:, d_col] * scale, "-x", ms=3, lw=0.7, label="expansion"
-    )
-    ax[0, 0].plot(ba_data_C.df.loc[:, d_col] * scale, ms=3, lw=0.7, label="rejection")
-    ax[0, 0].plot(ba_data_D.df.loc[:, d_col] * scale, ms=3, lw=0.7, label="reconciled")
+    ax[0, 0].plot(ba_data_A.df.loc[:, d_col] * scale, "-o", ms=2, lw=0.7, label="raw")
+    ax[0, 0].plot(ba_data_C.df.loc[:, d_col] * scale, lw=0.7, ls="--", label="pre-processed")
+    ax[0, 0].plot(ba_data_D.df.loc[:, d_col] * scale, lw=0.7, label="reconciled")
     ax[0, 0].set_ylim(bottom=0)
 
     # Plot 2: D, G, TI before after
@@ -93,7 +90,7 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
             )
 
     ax[0, 0].set_title("(a) Cleaning steps (shown for demand)")
-    ax[0, 1].set_title("(b) Demand, Generation, Total Interchange")
+    ax[0, 1].set_title("(b) Demand, Generation, Tot. Interchange")
     ax[1, 0].set_title("(c) Interchange")
     ax[2, 0].set_title("(e) Interchange (cont'd)")
     ax[1, 1].set_title("(d) Generation by source")
@@ -102,7 +99,7 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
     for a in [ax[1, 0], ax[2, 0]]:
         a.set_ylim(-1.5, 1.1)
         a.legend(loc=3, ncol=2)
-    ax[0, 0].legend(loc=3, ncol=2)
+    ax[0, 0].legend(loc=3, ncol=2, handlelength=1.5, columnspacing=1)
     ax[0, 1].legend(loc=6, ncol=2)
     ax[1, 1].legend(loc=3, ncol=2)
     ax[2, 1].legend(loc=6, ncol=2)
@@ -111,6 +108,11 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
 
     for a in ax.flatten():
         a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%d"))
+        a.set_ylabel("GW")
+        
+    ax[1, 1].set_yticks([0., 5, 10, 15])
+    ax[1, 0].set_yticks([-2, -1, 0, 1])
+    ax[2, 0].set_yticks([-2, -1, 0, 1])
 
     f.autofmt_xdate()
     f.tight_layout()
