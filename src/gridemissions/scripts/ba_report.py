@@ -46,8 +46,7 @@ def main():
     logger = logging.getLogger("gridemissions")
     FIG_PATH = gridemissions.config["FIG_PATH"]
     # Load data
-    #     file_name = join(gridemissions.config["DATA_PATH"], "analysis", "local", "EBA_%s.csv")
-    file_name = join(gridemissions.config["APEN_PATH"], "data", "EBA_%s.csv")
+    file_name = join(gridemissions.config["DATA_PATH"], "analysis", "webapp", "EBA_%s.csv")
     co2 = BaData(fileNm=file_name % "co2", variable="CO2")
     elec = BaData(fileNm=file_name % "elec", variable="E")
 
@@ -82,7 +81,7 @@ def main():
         logger.info(f"Running report heatmap for year {args.year}")
         fig_folder = join(FIG_PATH, "heatmap_report")
         os.makedirs(fig_folder, exist_ok=True)
-        heatmap_report(co2, elec, fig_folder=fig_folder)
+        heatmap_report(co2, elec, year=args.year, fig_folder=fig_folder)
 
     else:
         logger.error("Unknown report option! %s" % args.report)
