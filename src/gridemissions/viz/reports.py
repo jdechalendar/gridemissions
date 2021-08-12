@@ -457,7 +457,7 @@ def heatmap_report(
     """
     logger = logging.getLogger("gridemissions")
     start = pd.to_datetime(f"{year}0101T0000Z")
-    end = pd.to_datetime(f"{year+1}0101T0000Z")
+    end = pd.to_datetime(f"{int(year)+1}0101T0000Z")
     co2i = pd.DataFrame(
         {
             ba: (
