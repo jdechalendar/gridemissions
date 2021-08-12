@@ -7,7 +7,7 @@ CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/config.json")
 LOG_CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/logging.conf")
 DEFAULT_LOGGING_CONF = """# Config file for logging
 [loggers]
-keys=root,scraper
+keys=root,scraper,gridemissions
 
 [handlers]
 keys=consoleHandler
@@ -23,6 +23,12 @@ handlers=consoleHandler
 level=INFO
 handlers=consoleHandler
 qualname=scraper
+propagate=0
+
+[logger_gridemissions]
+level=INFO
+handlers=consoleHandler
+qualname=gridemissions
 propagate=0
 
 [handler_consoleHandler]

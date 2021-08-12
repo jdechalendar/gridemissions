@@ -1,11 +1,55 @@
+import logging
 from os.path import join
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS
+from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
 from gridemissions.eia_api import SRC
+
+HEATMAP_BAS = [
+    "MISO",
+    "PJM",
+    "ERCO",
+    "SWPP",
+    "SOCO",
+    "CISO",
+    "FPL",
+    "TVA",
+    "NYIS",
+    "FPC",
+    "ISNE",
+    "LGEE",
+    "PACE",
+    "DUK",
+    "PSCO",
+    "NEVP",
+    "CPLE",
+    "AECI",
+    "WACM",
+    "SC",
+    "TEC",
+    "SRP",
+    "FMPP",
+    "LDWP",
+    "AZPS",
+    "SCEG",
+    "JEA",
+    "TEPC",
+    "PNM",
+    "WALC",
+    "PACW",
+    "NWMT",
+    "PSEI",
+    "EPE",
+    "IPCO",
+    "BANC",
+    "PGE",
+    "AEC",
+    "SEC",
+    "BPAT",
+]
 
 
 def separate_imp_exp(data, ba):
@@ -87,7 +131,7 @@ def annual_plot_hourly(elec, co2, ba, save=False, fig_folder=None):
     return (f, (ax1, ax2, ax3, ax4, ax5))
 
 
-def summ_stats(s, ax, color, label, q_up=.9, q_down=.1):
+def summ_stats(s, ax, color, label, q_up=0.9, q_down=0.1):
     s1 = s.groupby(s.index.weekofyear).mean()
     s1_up = s.groupby(s.index.weekofyear).quantile(q_up)
     s1_down = s.groupby(s.index.weekofyear).quantile(q_down)
@@ -335,8 +379,8 @@ def cleaning_plot(
                     summarize=summarize,
                 )
         ncol = 1
-        if len(ax2.lines)/2>10:
-            ncol=2
+        if len(ax2.lines) / 2 > 10:
+            ncol = 2
         handles, labels = ax2.get_legend_handles_labels()
         ax2.legend(loc=6, ncol=ncol)
         ax2.set_ylabel(f"Electricity trade ({unit})")
@@ -366,8 +410,8 @@ def cleaning_plot(
                             summarize=summarize,
                         )
             ncol = 1
-            if len(ax3.lines)/2>10:
-                ncol=2
+            if len(ax3.lines) / 2 > 10:
+                ncol = 2
             ax3.legend(loc=6, ncol=ncol)
             ax3.set_ylabel(f"Generation by source ({unit})")
             if after is not None:
@@ -376,6 +420,7 @@ def cleaning_plot(
             axes = (ax1, ax2, ax3)
 
     import matplotlib.dates as mdates
+
     if summarize:
         for a in list(axes):
             a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%y"))
@@ -391,3 +436,119 @@ def cleaning_plot(
         f.savefig(join(fig_folder, "%s.pdf" % ba))
         plt.close(f)
     return (f, axes)
+
+
+def heatmap_report(
+    co2, elec, year=2021, which="individual", fig_folder=None, tz_offset=6
+):
+    """
+
+    Parameters
+    ----------
+    co2: BaData
+        carbon data
+    elec: BaData
+        electricity data
+    which: str in ["individual", "group"]
+    fig_folder: str, default None
+    tz_offset: int, default 6
+        offset to shift the time stamps (assumes data is provided in UTC)
+        default is Mountain time
+    """
+    logger = logging.getLogger("gridemissions")
+    start = pd.to_datetime(f"{year}0101T0000Z")
+    end = pd.to_datetime(f"{year+1}0101T0000Z")
+    co2i = pd.DataFrame(
+        {
+            ba: (
+                co2.df.loc[start:end, co2.get_cols(ba, field="D")].values.flatten()
+                / elec.df.loc[start:end, elec.get_cols(ba, field="D")].values.flatten()
+            )
+            for ba in HEATMAP_BAS
+        },
+        index=co2.df.loc[start:end].index,
+    )
+
+    # Change timezone
+    co2i.index -= pd.Timedelta(f"{tz_offset}h")
+
+    logger.info(f"co2 has {len(co2.df)} rows")
+    logger.info(f"elec has {len(elec.df)} rows")
+    logger.info(f"co2i has {len(co2i)} rows")
+    for ba in HEATMAP_BAS:
+        f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
+        heatmap(
+            co2i[ba],
+            fax=(f, ax),
+            cmap="RdYlGn_r",
+            cbar_label=f"{ba} - kg/MWh",
+            transpose=True,
+        )
+        add_watermark(ax)
+        f.tight_layout()
+        if fig_folder is not None:
+            f.savefig(join(fig_folder, f"Heatmap {ba} {year} A.pdf"))
+        plt.close(f)
+
+        f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
+        heatmap(
+            co2i[ba],
+            fax=(f, ax),
+            vmin=100,
+            vmax=900,
+            cmap="RdYlGn_r",
+            cbar_label=f"{ba} - kg/MWh",
+            transpose=True,
+        )
+        add_watermark(ax)
+        f.tight_layout()
+        if fig_folder is not None:
+            f.savefig(join(fig_folder, f"Heatmap {ba} {year} B.pdf"))
+        plt.close(f)
+
+    n = len(HEATMAP_BAS)
+    nrows = n // 4
+    f, ax = plt.subplots(nrows, 4, figsize=(1.2 * PAGE_WIDTH, nrows / 2 * ROW_HEIGHT))
+    ax = ax.flatten()
+
+    for iba, ba in enumerate(HEATMAP_BAS[:-1]):
+        ax[iba].set_title(ba)
+        heatmap(
+            co2i[ba],
+            fax=(f, ax[iba]),
+            vmin=100,
+            vmax=900,
+            cmap="RdYlGn_r",
+            cbar_label="kg/MWh",
+            with_cbar=False,
+        )
+
+    for a in ax:
+        a.set_yticks([])
+        a.set_xticks([])
+        a.set_ylabel("")
+        a.set_xlabel("")
+    f.tight_layout()
+
+    ba = HEATMAP_BAS[-1]
+    iba = len(HEATMAP_BAS) - 1
+    ax[iba].set_title(ba)
+    heatmap(
+        co2i[ba],
+        fax=(f, ax[iba]),
+        vmin=100,
+        vmax=900,
+        cmap="RdYlGn_r",
+        cbar_label="kg/MWh",
+        with_cbar=True,
+        cbar_ax=[ax[-4:]],
+    )
+    for a in ax:
+        a.set_yticks([])
+        a.set_xticks([])
+        a.set_ylabel("")
+        a.set_xlabel("")
+    viz.add_watermark(ax[iba], y=-0.05)
+
+    if fig_folder is not None:
+        f.savefig(join(fig_folder, f"Top {n} heatmaps {year}.pdf"))

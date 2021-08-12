@@ -13,7 +13,7 @@ setup(
     extras_require={
         "all":[
             'dask[complete]',
-            'matplotlib',
+            'matplotlib>=3.4.2',
             'joblib',
             'cmocean',
             'cvxpy',
