@@ -472,9 +472,6 @@ def heatmap_report(
     # Change timezone
     co2i.index -= pd.Timedelta(f"{tz_offset}h")
 
-    logger.info(f"co2 has {len(co2.df)} rows")
-    logger.info(f"elec has {len(elec.df)} rows")
-    logger.info(f"co2i has {len(co2i)} rows")
     for ba in HEATMAP_BAS:
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
         heatmap(
@@ -548,7 +545,7 @@ def heatmap_report(
         a.set_xticks([])
         a.set_ylabel("")
         a.set_xlabel("")
-    viz.add_watermark(ax[iba], y=-0.05)
+    add_watermark(ax[iba], y=-0.05)
 
     if fig_folder is not None:
         f.savefig(join(fig_folder, f"Top {n} heatmaps {year}.pdf"))
