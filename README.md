@@ -1,15 +1,14 @@
 # gridemissions: Tools for power sector emissions tracking
 <img src="https://user-images.githubusercontent.com/20404131/129465144-5b086d9b-6c46-462f-a036-3f1e4cd958eb.png" width="50%" align="right">
 
-The tools in this repository power the visualization [here](https://energy.stanford.edu/gridemissions), updated hourly. Data is made publicly available and hosted on an AWS S3 bucket. The notebooks [here](tocome.com) can be used to quickly explore the data that are available. 
-
-
-
-
+The tools in this repository power the visualization [here](https://energy.stanford.edu/gridemissions), updated hourly. Data is made publicly available and hosted on an AWS S3 bucket.  
 
 ## References
 * "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
 * "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. In review. [ArXiv preprint](https://arxiv.org/abs/2103.05663).
+
+## Demo
+[This Jupyter notebook](https://colab.research.google.com/drive/1HYHqiA2iA-vVMuqFHrKtUUkdPLN5UJYS) hosted on Colab provides a quick introduction to the module, including usage examples.
 
 ## Installation
 Clone this repository on your machine using HTTPS:  
