@@ -6,17 +6,27 @@ The tools in this repository power the visualization [here](https://energy.stanf
 * "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. In review. [ArXiv preprint](https://arxiv.org/abs/2103.05663).
 
 ## Installation
-Clone this repository on your machine using HTTPS:
-```git clone https://github.com/jdechalendar/gridemissions.git```
-or using SSH (your GitHub account needs to have been configurd in this case):
-```git clone git@github.com:jdechalendar/gridemissions.git```
+Clone this repository on your machine using HTTPS:  
+```
+git clone https://github.com/jdechalendar/gridemissions.git
+```  
+or using SSH (your GitHub account needs to have been configured in this case):  
+```
+git clone git@github.com:jdechalendar/gridemissions.git
+```  
 From the `gridemissions` directory (the one that contains this README file), install this repository:
-```pip install .```
+```
+pip install .
+```
 Installing the project in this way means that you can now use statements like `import gridemissions` to make the code in this repository accessible anywhere on your system.  
 To install the optional dependencies as well (needed if you would like to run the automated data cleaning workflows)
-```pip install .[all]```
+```
+pip install .[all]
+```
 If you intend to modify the code, you may want to install with the editable flag:
-```pip install -e .[all]```
+```
+pip install -e .[all]
+```
 As explained [here](https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs), this installs the package in setuptools' ["Development mode"](https://setuptools.readthedocs.io/en/latest/userguide/development_mode.html) so that you don't need to re-build the project every time you edit the code.     
 Open a Python interpreter and import the package to create the default configuration files for the project. When you import the package, it will check if configuration files exist. If not, a message will be printed to the screen to tell you where the configuration files are created on your system.  
 Optionally, you can customize the configuration files. See the configuration section for details.
