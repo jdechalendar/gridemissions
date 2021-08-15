@@ -3,8 +3,13 @@ from os.path import expanduser
 import json
 import logging.config
 
-CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/config.json")
-LOG_CONFIG_FILE_PATH = expanduser("~/.config/gridemissions/logging.conf")
+
+CONF_DIR = pathlib.Path(expanduser("~/.config/gridemissions"))
+CONF_DIR.mkdir(exist_ok=True)
+
+LOG_CONFIG_FILE_PATH = CONF_DIR / "logging.conf"
+CONFIG_FILE_PATH = CONF_DIR / "config.json"
+
 DEFAULT_LOGGING_CONF = """# Config file for logging
 [loggers]
 keys=root,scraper
@@ -39,21 +44,36 @@ try:
     with open(CONFIG_FILE_PATH, "r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("Generating config file in ~/.config/gridemissions/ with default values")
-    os.makedirs(expanduser("~/.config/gridemissions"), exist_ok=True)
-    os.makedirs(expanduser("~/data"), exist_ok=True)
-    config = {"DATA_PATH": expanduser("~/data"), "TMP_PATH": expanduser("~/tmp")}
+    print(f"Generating config file in {CONF_DIR} with default values")
+    default_data_dir = pathlib.Path(expanduser("~/gridemissions/data"))
+    default_tmp_dir = pathlib.Path(expanduser("~/gridemissions/tmp"))
+    default_data_dir.mkdir(exist_ok=True)
+    default_tmp_dir.mkdir(exist_ok=True)
+    config = {
+        "DATA_PATH": str(default_data_dir),
+        "TMP_PATH": str(default_tmp_dir),
+    }
 
     # Store for later use
     with open(CONFIG_FILE_PATH, "w") as f:
-        json.dump(config, f)
+        json.dump(config, f, indent=4)
 
+    # Sanity check: reload
+    with open(CONFIG_FILE_PATH, "r") as f:
+        config = json.load(f)
+
+for k in config:
+    if k.endswith("_PATH"):  # by convention, this is a directory
+        config[k] = pathlib.Path(config[k])
+
+# Setup logging
 try:
     logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
 except KeyError:
-    print("Generating logging config file in ~/.config/gridemissions/ with default values")
+    print(f"Generating logging config file in {CONF_DIR} with default values")
     with open(LOG_CONFIG_FILE_PATH, "w") as f:
         f.write(DEFAULT_LOGGING_CONF)
+    logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
 
 if "ENV" not in config:
     config["ENV"] = ""
