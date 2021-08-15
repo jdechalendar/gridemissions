@@ -7,8 +7,11 @@ The tools in this repository power the visualization [here](https://energy.stanf
 * "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
 * "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. In review. [ArXiv preprint](https://arxiv.org/abs/2103.05663).
 
-## Demo
-[This Jupyter notebook](https://colab.research.google.com/drive/1HYHqiA2iA-vVMuqFHrKtUUkdPLN5UJYS) hosted on Colab provides a quick introduction to the module, including usage examples.
+## Demo notebooks
+For a quick introduction to the module, see the notebooks in the `notebooks/demo` folder. The following notebooks can also be loaded on Colab:
+* [API Demo.ipynb](https://colab.research.google.com/drive/1HYHqiA2iA-vVMuqFHrKtUUkdPLN5UJYS) shows how data can be retrieved from our API
+* Consumption emissions.ipynb showcases our method to compute consumption-based emissions factors [TO COME]
+* Data reconciliation.ipynb showcases our automated data reconciliation framework [TO COME]
 
 ## Installation
 Clone this repository on your machine using HTTPS:  
