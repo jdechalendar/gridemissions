@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import json
+import matplotlib.image as image
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
 from gridemissions.eia_api import SRC
@@ -472,6 +474,13 @@ def heatmap_report(
     # Change timezone
     co2i.index -= pd.Timedelta(f"{tz_offset}h")
 
+    free_folder = fig_folder / f"{year}" / "free_scale"
+    fixed_folder = fig_folder / f"{year}" / "fixed_scale"
+    free_folder_thumb = free_folder / "thumb"
+    fixed_folder_thumb = fixed_folder / "thumb"
+    free_folder_thumb.mkdir(parents=True, exist_ok=True)
+    fixed_folder_thumb.mkdir(parents=True, exist_ok=True)
+
     for ba in HEATMAP_BAS:
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
         heatmap(
@@ -484,7 +493,10 @@ def heatmap_report(
         add_watermark(ax)
         f.tight_layout()
         if fig_folder is not None:
-            f.savefig(join(fig_folder, f"Heatmap {ba} {year} A.pdf"))
+            f.savefig(free_folder / f"{ba}.pdf")
+            png_path = free_folder / f"{ba}.png"
+            f.savefig(png_path)
+            fig = image.thumbnail(png_path, free_folder_thumb / f"{ba}.png", scale=0.1)
         plt.close(f)
 
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
@@ -500,7 +512,10 @@ def heatmap_report(
         add_watermark(ax)
         f.tight_layout()
         if fig_folder is not None:
-            f.savefig(join(fig_folder, f"Heatmap {ba} {year} B.pdf"))
+            f.savefig(fixed_folder / f"{ba}.pdf")
+            png_path = fixed_folder / f"{ba}.png"
+            f.savefig(png_path)
+            fig = image.thumbnail(png_path, fixed_folder_thumb / f"{ba}.png", scale=0.1)
         plt.close(f)
 
     n = len(HEATMAP_BAS)
@@ -548,4 +563,5 @@ def heatmap_report(
     add_watermark(ax[iba], y=-0.05)
 
     if fig_folder is not None:
-        f.savefig(join(fig_folder, f"Top {n} heatmaps {year}.pdf"))
+        f.savefig(fig_folder / f"{year}" / f"Top {n} heatmaps.pdf")
+        f.savefig(fig_folder / f"{year}" / f"Top {n} heatmaps.png")

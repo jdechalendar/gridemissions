@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import pathlib
+import json
 import argparse
 import logging
 import os
@@ -46,7 +48,9 @@ def main():
     logger = logging.getLogger("gridemissions")
     FIG_PATH = gridemissions.config["FIG_PATH"]
     # Load data
-    file_name = join(gridemissions.config["DATA_PATH"], "analysis", "webapp", "EBA_%s.csv")
+    file_name = join(
+        gridemissions.config["DATA_PATH"], "analysis", "webapp", "EBA_%s.csv"
+    )
     co2 = BaData(fileNm=file_name % "co2", variable="CO2")
     elec = BaData(fileNm=file_name % "elec", variable="E")
 
@@ -79,9 +83,28 @@ def main():
 
     elif args.report == "heatmap":
         logger.info(f"Running report heatmap for year {args.year}")
-        fig_folder = join(FIG_PATH, "heatmap_report")
-        os.makedirs(fig_folder, exist_ok=True)
+        fig_folder = pathlib.Path(FIG_PATH) / "heatmap_report"
         heatmap_report(co2, elec, year=args.year, fig_folder=fig_folder)
+        _generate_contents(fig_folder)
 
     else:
         logger.error("Unknown report option! %s" % args.report)
+
+
+def _generate_contents(folder):
+    """Generate json file with map to the different heatmaps"""
+    contents = {}
+
+    for year in folder.iterdir():
+        if not (year.is_dir() and year.name.isnumeric()):
+            continue
+        contents[year.name] = {}
+        for scale in year.iterdir():
+            if not scale.is_dir():
+                continue
+            contents[year.name][scale.name] = [
+                x.name.strip(".png") for x in scale.iterdir() if x.name.endswith(".png")
+            ]
+
+    with open(folder / "contents.json", "w") as fw:
+        json.dump(contents, fw)
