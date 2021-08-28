@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 import matplotlib.image as image
+import matplotlib.dates as mdates
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
 from gridemissions.eia_api import SRC
@@ -476,10 +477,8 @@ def heatmap_report(
 
     free_folder = fig_folder / f"{year}" / "free_scale"
     fixed_folder = fig_folder / f"{year}" / "fixed_scale"
-    free_folder_thumb = free_folder / "thumb"
-    fixed_folder_thumb = fixed_folder / "thumb"
-    free_folder_thumb.mkdir(parents=True, exist_ok=True)
-    fixed_folder_thumb.mkdir(parents=True, exist_ok=True)
+    free_folder.mkdir(parents=True, exist_ok=True)
+    fixed_folder.mkdir(parents=True, exist_ok=True)
 
     for ba in HEATMAP_BAS:
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
@@ -494,9 +493,12 @@ def heatmap_report(
         f.tight_layout()
         if fig_folder is not None:
             f.savefig(free_folder / f"{ba}.pdf")
-            png_path = free_folder / f"{ba}.png"
-            f.savefig(png_path)
-            fig = image.thumbnail(png_path, free_folder_thumb / f"{ba}.png", scale=0.1)
+            f.savefig(free_folder / f"{ba}.png")
+            image.thumbnail(
+                free_folder / f"{ba}.png",
+                free_folder / f"{ba}-thumbnail.png",
+                scale=0.1,
+            )
         plt.close(f)
 
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
@@ -513,9 +515,12 @@ def heatmap_report(
         f.tight_layout()
         if fig_folder is not None:
             f.savefig(fixed_folder / f"{ba}.pdf")
-            png_path = fixed_folder / f"{ba}.png"
-            f.savefig(png_path)
-            fig = image.thumbnail(png_path, fixed_folder_thumb / f"{ba}.png", scale=0.1)
+            f.savefig(fixed_folder / f"{ba}.png")
+            image.thumbnail(
+                fixed_folder / f"{ba}.png",
+                fixed_folder / f"{ba}-thumbnail.png",
+                scale=0.1,
+            )
         plt.close(f)
 
     n = len(HEATMAP_BAS)
@@ -565,3 +570,173 @@ def heatmap_report(
     if fig_folder is not None:
         f.savefig(fig_folder / f"{year}" / f"Top {n} heatmaps.pdf")
         f.savefig(fig_folder / f"{year}" / f"Top {n} heatmaps.png")
+
+
+def timeseries_report_plot(func):
+    """
+    Decorator for plotting functions for the timeseries report
+    """
+
+    def decorated(*args, **kwargs):
+        ba = args[0]
+        if "add_title" not in kwargs:
+            kwargs["add_title"] = ""
+        add_title = kwargs["add_title"]
+        if ("fig_folder" in kwargs) and (kwargs["fig_folder"] is not None):
+            kwargs["fig_folder"] = kwargs["fig_folder"] / add_title
+        else:
+            kwargs["fig_folder"] = None
+        if len(add_title) > 0:
+            add_title = f": {add_title}"
+
+        if not (("fax" in kwargs) and (kwargs["fax"] is not None)):
+            fax = plt.subplots(1, 1, figsize=(PAGE_WIDTH, ROW_HEIGHT))
+            kwargs["fax"] = fax
+
+        f, ax = func(*args, **kwargs)
+
+        # Post process plot
+        ncol = 1
+        if len(ax.lines) / 2 > 10:
+            ncol = 2
+        ax.legend(loc=6, ncol=ncol)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%b-%y"))
+        ax.set_title(ba + add_title)
+        ax.set_ylabel(f"{kwargs['unit']}")
+        add_watermark(ax)
+        f.tight_layout()
+
+        if kwargs["fig_folder"] is not None:
+            fig_folder = kwargs["fig_folder"]
+            fig_folder.mkdir(exist_ok=True, parents=True)
+            f.savefig(fig_folder / f"{ba}.png")
+            f.savefig(fig_folder / f"{ba}.pdf")
+            image.thumbnail(
+                fig_folder / f"{ba}.png", fig_folder / f"{ba}-thumbnail.png", scale=0.1
+            )
+            plt.close(f)
+
+    return decorated
+
+
+@timeseries_report_plot
+def _plot_electricity_carbon(ba, ba_data, fax=None, scale=1e-3, **kwargs):
+    f, ax = fax
+    df_plot = ba_data.df
+    D = df_plot.loc[:, ba_data.get_cols(r=ba, field="D")[0]] * scale
+    G = df_plot.loc[:, ba_data.get_cols(r=ba, field="NG")[0]] * scale
+    TI = df_plot.loc[:, ba_data.get_cols(r=ba, field="TI")[0]] * scale
+    myplot(ax, D, label="Demand", color=COLORS[0])
+    myplot(ax, G, label="Generation", alpha=0.8, color=COLORS[1])
+    myplot(ax, TI, label="Total Interchange", alpha=0.8, color=COLORS[2])
+
+    return f, ax
+
+
+@timeseries_report_plot
+def _plot_trade(ba, ba_data, fax=None, scale=1e-3, **kwargs):
+    f, ax = fax
+    partners = ba_data.get_trade_partners(ba)
+    for iba2, ba2 in enumerate(partners):
+        myplot(
+            ax,
+            ba_data.df.loc[:, ba_data.KEY["ID"] % (ba, ba2)] * scale,
+            label=ba2,
+            alpha=0.7,
+            color=COLORS[iba2 % len(COLORS)],
+        )
+    return f, ax
+
+
+@timeseries_report_plot
+def _plot_generation_by_source(ba, elec, fax=None, scale=1e-3, **kwargs):
+    f, ax = fax
+    for isrc, src in enumerate(SRC):
+        if elec.KEY[f"SRC_{src}"] % ba in elec.df.columns:
+            myplot(
+                ax,
+                elec.df.loc[:, elec.KEY[f"SRC_{src}"] % ba] * scale,
+                label=src,
+                alpha=0.7,
+                color=COLORS[isrc % len(COLORS)],
+            )
+    return f, ax
+
+
+@timeseries_report_plot
+def _plot_carbon_intensity(ba, co2, elec, fax=None, **kwargs):
+    f, ax = fax
+    co2iD = (
+        co2.df.loc[:, co2.get_cols(r=ba, field="D")].values.flatten()
+        / elec.df.loc[:, elec.get_cols(r=ba, field="D")].values.flatten()
+    )
+    co2iG = (
+        co2.df.loc[:, co2.get_cols(r=ba, field="NG")].values.flatten()
+        / elec.df.loc[:, elec.get_cols(r=ba, field="NG")].values.flatten()
+    )
+    co2iD[co2iD > 2000] = np.nan
+    co2iG[co2iG > 2000] = np.nan
+
+    impC, expC = separate_imp_exp(co2, ba)
+    impE, expE = separate_imp_exp(elec, ba)
+
+    co2i_imp = impC / impE
+    co2i_exp = expC / expE
+    myplot(ax, pd.Series(co2iD, index=co2.df.index), label="Demand", color=COLORS[0])
+    myplot(
+        ax, pd.Series(co2iG, index=co2.df.index), label="Generation", color=COLORS[1]
+    )
+    myplot(
+        ax, pd.Series(co2i_imp, index=co2.df.index), label="Imports", color=COLORS[2]
+    )
+    # Sanity check: Exports is same as Demand
+    #     myplot(ax, pd.Series(co2i_exp, index=co2.df.index), label="Exports", color=COLORS[3])
+    ax.set_ylim(bottom=0.0)
+    return f, ax
+
+
+def timeseries_report(co2, elec, fig_folder=None):
+    for ba in HEATMAP_BAS:
+        _plot_electricity_carbon(
+            ba,
+            elec,
+            fig_folder=fig_folder,
+            scale=1e-3,
+            unit="GWh",
+            add_title="Electricity",
+        )
+        _plot_electricity_carbon(
+            ba, co2, fig_folder=fig_folder, scale=1e-6, unit="kton", add_title="Carbon"
+        )
+        _plot_trade(
+            ba,
+            elec,
+            fig_folder=fig_folder,
+            scale=1e-3,
+            unit="GWh",
+            add_title="Electricity trade",
+        )
+        _plot_trade(
+            ba,
+            co2,
+            fig_folder=fig_folder,
+            scale=1e-6,
+            unit="kton",
+            add_title="Carbon trade",
+        )
+        _plot_carbon_intensity(
+            ba,
+            co2,
+            elec,
+            fig_folder=fig_folder,
+            add_title="Carbon intensity",
+            unit="kg/MWh",
+        )
+        _plot_generation_by_source(
+            ba,
+            elec,
+            fig_folder=fig_folder,
+            scale=1e-3,
+            unit="GWh",
+            add_title="Generation by source",
+        )

@@ -17,6 +17,7 @@ from gridemissions.viz.reports import (
     annual_plot_hourly,
     annual_plot_weekly,
     heatmap_report,
+    timeseries_report,
 )
 from gridemissions.load import BaData
 
@@ -85,13 +86,19 @@ def main():
         logger.info(f"Running report heatmap for year {args.year}")
         fig_folder = pathlib.Path(FIG_PATH) / "heatmap_report"
         heatmap_report(co2, elec, year=args.year, fig_folder=fig_folder)
-        _generate_contents(fig_folder)
+        _generate_contents_heatmap(fig_folder)
+
+    elif args.report == "timeseries":
+        logger.info(f"Running report timeseries")
+        fig_folder = pathlib.Path(FIG_PATH) / "timeseries_report"
+        timeseries_report(co2, elec, fig_folder=fig_folder)
+        _generate_contents_timeseries(fig_folder)
 
     else:
         logger.error("Unknown report option! %s" % args.report)
 
 
-def _generate_contents(folder):
+def _generate_contents_heatmap(folder):
     """Generate json file with map to the different heatmaps"""
     contents = {}
 
@@ -103,8 +110,26 @@ def _generate_contents(folder):
             if not scale.is_dir():
                 continue
             contents[year.name][scale.name] = [
-                x.name.strip(".png") for x in scale.iterdir() if x.name.endswith(".png")
+                x.name.strip("-thumbnail.png")
+                for x in scale.iterdir()
+                if x.name.endswith("-thumbnail.png")
             ]
+
+    with open(folder / "contents.json", "w") as fw:
+        json.dump(contents, fw)
+
+
+def _generate_contents_timeseries(folder):
+    """Generate json file with map to timeseries plots"""
+    contents = {}
+    for ff in folder.iterdir():
+        if not ff.is_dir():
+            continue
+        contents[ff.name] = [
+            x.name.strip("-thumbnail.png")
+            for x in ff.iterdir()
+            if x.name.endswith("-thumbnail.png")
+        ]
 
     with open(folder / "contents.json", "w") as fw:
         json.dump(contents, fw)
