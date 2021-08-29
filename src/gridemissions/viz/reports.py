@@ -60,8 +60,8 @@ def separate_imp_exp(data, ba):
     imp = 0.0
     exp = 0.0
     for ba2 in data.get_trade_partners(ba):
-        imp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: min(x, 0))
-        exp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: max(x, 0))
+        imp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: min(x, 0)).fillna(0.)
+        exp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: max(x, 0)).fillna(0.)
     return imp, exp
 
 
@@ -486,10 +486,11 @@ def heatmap_report(
             co2i[ba],
             fax=(f, ax),
             cmap="RdYlGn_r",
-            cbar_label=f"{ba} - kg/MWh",
+            cbar_label=f"kg/MWh",
             transpose=True,
         )
         add_watermark(ax)
+        ax.set_title(f"{ba}: Consumption-based carbon intensity", fontsize="large")
         f.tight_layout()
         if fig_folder is not None:
             f.savefig(free_folder / f"{ba}.pdf")
@@ -508,10 +509,11 @@ def heatmap_report(
             vmin=100,
             vmax=900,
             cmap="RdYlGn_r",
-            cbar_label=f"{ba} - kg/MWh",
+            cbar_label=f"kg/MWh",
             transpose=True,
         )
         add_watermark(ax)
+        ax.set_title(f"{ba}: Consumption-based carbon intensity", fontsize="large")
         f.tight_layout()
         if fig_folder is not None:
             f.savefig(fixed_folder / f"{ba}.pdf")
