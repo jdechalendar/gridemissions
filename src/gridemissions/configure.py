@@ -1,4 +1,4 @@
-import os
+import pathlib
 from os.path import expanduser
 import json
 import logging.config
