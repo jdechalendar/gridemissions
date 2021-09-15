@@ -12,7 +12,7 @@ CONFIG_FILE_PATH = CONF_DIR / "config.json"
 
 DEFAULT_LOGGING_CONF = """# Config file for logging
 [loggers]
-keys=root,scraper
+keys=root,scraper,gridemissions
 
 [handlers]
 keys=consoleHandler
@@ -28,6 +28,12 @@ handlers=consoleHandler
 level=INFO
 handlers=consoleHandler
 qualname=scraper
+propagate=0
+
+[logger_gridemissions]
+level=INFO
+handlers=consoleHandler
+qualname=gridemissions
 propagate=0
 
 [handler_consoleHandler]
