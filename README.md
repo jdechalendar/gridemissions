@@ -5,7 +5,7 @@ The tools in this repository power the visualization [here](https://energy.stanf
 
 ## References
 * "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
-* "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. In review. [ArXiv preprint](https://arxiv.org/abs/2103.05663).
+* "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. Applied Energy Dec 2021; DOI: 10.1016/j.apenergy.2021.117761 [ArXiv preprint](https://arxiv.org/abs/2103.05663).
 
 ## Demo notebooks
 For a quick introduction to the module, see the notebooks in the `notebooks/demo` folder. The following notebooks can also be loaded on Colab:
