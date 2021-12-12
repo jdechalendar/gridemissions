@@ -44,8 +44,8 @@ Two configuration files are needed for this project: one to hold environment var
 
 ### `config.json`
 Whenever you import the `gridemissions` module, the key-value pairs stored in `config.json` are loaded into a dictionary that then becomes available to you as `gridemissions.config`. Your `config.json` should contain:
-* `DATA_PATH`: path to local data store, by default `~/gridemissions/data`
-* `TMP_PATH`: for scratch data (e.g. when downloading data), by default `~/gridemissions/tmp`
+* `DATA_PATH`: path to local data store, by default `~/data/gridemissions`
+* `TMP_PATH`: for scratch data (e.g. when downloading data), by default `~/tmp/gridemissions`
 
 ### `logging.conf`
 This file is also read when you import the `gridemissions` module and configures different loggers. We use the built-in `logging` module from the standard Python library. You can edit this file to control logging, and/or re-configure loggers programmatically after loading the gridemissions module.
