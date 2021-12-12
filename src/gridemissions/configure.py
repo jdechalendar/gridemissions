@@ -51,10 +51,10 @@ try:
         config = json.load(f)
 except FileNotFoundError:
     print(f"Generating config file in {CONF_DIR} with default values")
-    default_data_dir = pathlib.Path(expanduser("~/gridemissions/data"))
-    default_tmp_dir = pathlib.Path(expanduser("~/gridemissions/tmp"))
-    default_data_dir.mkdir(exist_ok=True)
-    default_tmp_dir.mkdir(exist_ok=True)
+    default_data_dir = pathlib.Path(expanduser("~/data/gridemissions"))
+    default_tmp_dir = pathlib.Path(expanduser("~/tmp/gridemissions"))
+    default_data_dir.mkdir(exist_ok=True, parents=True)
+    default_tmp_dir.mkdir(exist_ok=True, parents=True)
     config = {
         "DATA_PATH": str(default_data_dir),
         "TMP_PATH": str(default_tmp_dir),

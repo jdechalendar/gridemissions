@@ -135,6 +135,35 @@ for ba in BAs:
         EIA_ALLOWED_SERIES_ID += [KEYS["E"]["ID"] % (ba, ba2)]
 
 
+def column_name_to_ba(column_name: str, key: str):
+    """
+    Extract ba name from a column
+
+    Parameters
+    ----------
+    column_name: str
+    key: str
+
+    Returns
+    -------
+    ba: str
+
+    Notes
+    -----
+    For ID data, there are two BAs. Convention is to return f"{ba1}-{ba2}"
+    """
+    parts = key.split("%s")  # key is e.g. "EBA.%s-ALL.D.H"
+    interchange = False
+    if len(parts) == 3:
+        assert parts[1] == "-"
+        interchange = True
+        parts = [parts[0], parts[2]]
+    assert len(parts) == 2
+    assert column_name.startswith(parts[0])
+    assert column_name.endswith(parts[1])
+    return column_name[len(parts[0]) : (len(column_name) - len(parts[1]))]
+
+
 class EIA_Scraper(object):
     """
     An interface with the EIA API.
