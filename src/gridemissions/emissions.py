@@ -6,6 +6,8 @@ from gridemissions.eia_api import SRC, KEYS
 from gridemissions.load import BaData
 
 
+# Default emissions factors - can also supply custom EFs to BaDataEmissionsCalc
+# CO2
 # UNK is 2017 average US power grid intensity according to Schivley 2018
 # unit is kg / MWh
 EMISSIONS_FACTORS = {
@@ -85,7 +87,7 @@ def consumption_emissions(F, P, ID):
 
 
 class BaDataEmissionsCalc(object):
-    def __init__(self, ba_data, poll="CO2"):
+    def __init__(self, ba_data, poll="CO2", EF=None):
         self.logger = logging.getLogger("clean")
         self.ba_data = ba_data
         self.df = ba_data.df.copy(deep=True)
@@ -93,7 +95,10 @@ class BaDataEmissionsCalc(object):
         self.poll = poll
         self.KEY_E = KEYS["E"]
         self.KEY_poll = KEYS[poll]
-        self.EF = EMISSIONS_FACTORS[poll]
+        if EF is None:
+            self.EF = EMISSIONS_FACTORS[poll]
+        else:
+            self.EF = EF
 
     def process(self):
         """
