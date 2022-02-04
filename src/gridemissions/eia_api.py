@@ -95,34 +95,30 @@ KEYS = {
         "NG": "EBA.%s-ALL.NG.H",
         "TI": "EBA.%s-ALL.TI.H",
         "ID": "EBA.%s-%s.ID.H",
-    },
-    "CO2": {
-        "D": "CO2_%s_D",
-        "NG": "CO2_%s_NG",
-        "TI": "CO2_%s_TI",
-        "ID": "CO2_%s-%s_ID",
-    },
-    "SO2": {
-        "D": "SO2_%s_D",
-        "NG": "SO2_%s_NG",
-        "TI": "SO2_%s_TI",
-        "ID": "SO2_%s-%s_ID",
-    },
-    "NOX": {
-        "D": "NOX_%s_D",
-        "NG": "NOX_%s_NG",
-        "TI": "NOX_%s_TI",
-        "ID": "NOX_%s-%s_ID",
-    },
-    "CO2i": {"D": "CO2i_%s_D", "NG": "CO2i_%s_NG"},
-    "SO2i": {"D": "SO2i_%s_D", "NG": "SO2i_%s_NG"},
-    "NOXi": {"D": "NOXi_%s_D", "NG": "NOXi_%s_NG"},
+    }
 }
-
 SRC = ["COL", "NG", "NUC", "OIL", "OTH", "SUN", "UNK", "WAT", "WND", "GEO", "BIO"]
-
 for src in SRC:
     KEYS["E"]["SRC_%s" % src] = "EBA.%s-ALL.NG." + src + ".H"
+
+def generic_key(poll):
+    return {
+        "D": f"{poll}_%s_D",
+        "NG": f"{poll}_%s_NG",
+        "TI": f"{poll}_%s_TI",
+        "ID": f"{poll}_%s-%s_ID",
+    }
+
+def generic_key_intensity(poll):
+    return {"D": f"{poll}i_%s_D", "NG": f"{poll}i_%s_NG"}
+
+for poll in ["CO2", "NOX", "SO2", "H2O", "CO2e", "NOx", "SOx"]:
+    KEYS[poll] = generic_key(poll)
+    KEYS[f"{poll}i"] = generic_key_intensity(poll)
+
+
+
+
 
 EIA_ALLOWED_SERIES_ID = []
 for ba in BAs:

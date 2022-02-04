@@ -11,7 +11,7 @@ import pandas as pd
 import logging
 import json
 import re
-from gridemissions import config
+from gridemissions import config, eia_api
 from gridemissions.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
 
 
@@ -90,8 +90,10 @@ class BaData(object):
         self.variable = variable
         self.regions = self._parse_data_cols()
         self.fileNm = fileNm
-        self.KEY = KEYS[variable]
-
+        if variable in KEYS:
+            self.KEY = KEYS[variable]
+        else:
+            self.KEY = eia_api.generic_key(variable)
     def get_cols(self, r=None, field="D"):
         """
         Retrieve column name(s) corresponding to region(s) and a field

@@ -2,6 +2,7 @@ import sys
 import logging
 import time
 import numpy as np
+from gridemissions import eia_api
 from gridemissions.eia_api import SRC, KEYS
 from gridemissions.load import BaData
 
@@ -94,7 +95,10 @@ class BaDataEmissionsCalc(object):
         self.regions = ba_data.regions
         self.poll = poll
         self.KEY_E = KEYS["E"]
-        self.KEY_poll = KEYS[poll]
+        if poll in KEYS:
+            self.KEY_poll = KEYS[poll]
+        else:
+            self.KEY_poll = eia_api.generic_key(poll)
         if EF is None:
             self.EF = EMISSIONS_FACTORS[poll]
         else:
