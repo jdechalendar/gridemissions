@@ -13,6 +13,27 @@ For a quick introduction to the module, see the notebooks in the `notebooks/demo
 * Consumption emissions.ipynb showcases our method to compute consumption-based emissions factors [TO COME]
 * Data reconciliation.ipynb showcases our automated data reconciliation framework [TO COME]
 
+## Data naming conventions
+In the dataset that is generated from this work, we use the following conventions for naming columns (see `eia_api.py`). Replace `%s` in the following dictionaries by the balancing acronyms listed [here](https://www.eia.gov/electricity/gridmonitor/about).
+* For electricity:
+```python
+"E": {
+      "D": "EBA.%s-ALL.D.H",  # Demand
+      "NG": "EBA.%s-ALL.NG.H",  # Generation
+      "TI": "EBA.%s-ALL.TI.H",  # Total Interchange
+      "ID": "EBA.%s-%s.ID.H",  # Interchange
+  }
+```
+* For carbon dioxide:
+```python
+"CO2": {
+    "D": "CO2_%s_D",  # Demand
+    "NG": "CO2_%s_NG",  # Generation
+    "TI": "CO2_%s_TI",  # Total Interchange
+    "ID": "CO2_%s-%s_ID",  # Interchange
+}
+```
+
 ## Installation
 Clone this repository on your machine using HTTPS:  
 ```
