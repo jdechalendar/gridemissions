@@ -71,6 +71,25 @@ Whenever you import the `gridemissions` module, the key-value pairs stored in `c
 ### `logging.conf`
 This file is also read when you import the `gridemissions` module and configures different loggers. We use the built-in `logging` module from the standard Python library. You can edit this file to control logging, and/or re-configure loggers programmatically after loading the gridemissions module.
 
+### Default Values
+
+Default values (such as configuration paths) can be set with environment variables.
+
+```bash
+export GRIDEMISSIONS_CONFIG_DIR_PATH="$HOME/.config/gridemissions_test"
+```
+
+#### Supported Environment Variables
+
+```text
+GRIDEMISSIONS_CONFIG_DIR_PATH:      the configuration directory (default: "$HOME/.config/gridemissions")
+GRIDEMISSIONS_LOG_CONFIG_FILE_PATH: the file used to store logging (default: "$HOME/.config/gridemissions/logging.conf")
+GRIDEMISSIONS_CONFIG_FILE_PATH:     the configuration file (default: "$HOME/.config/gridemissions/config.json")
+GRIDEMISSIONS_DEFAULT_LOGGING_CONF: the default logging configuration (default can be read within ./src/gridemissions/configure.py")
+GRIDEMISSIONS_DATA_DIR_PATH:        the data directory (default: "$HOME/data/gridemissions")
+GRIDEMISSIONS_TMP_DIR_PATH:         the temporary data directory (default: "$HOME/tmp/gridemissions")
+```
+
 ## Documentation
 Documentation uses [Sphinx](https://www.sphinx-doc.org/en/master/) and was generated in the `docs` folder. Open the index.html file in a browser to view the documentation. To re-generate the documentation you shoud be able to simply do
 ```

@@ -1,16 +1,48 @@
-import pathlib
-from os.path import expanduser
 import json
 import logging.config
+import os
+from pathlib import Path
+from typing import Union
 
 
-CONF_DIR = pathlib.Path(expanduser("~/.config/gridemissions"))
-CONF_DIR.mkdir(exist_ok=True)
+def get_environ_variable(expected_variable_name: str, is_path: bool = False) -> Union[Path, str, None]:
+    """
+    Get an environment variable.
 
-LOG_CONFIG_FILE_PATH = CONF_DIR / "logging.conf"
-CONFIG_FILE_PATH = CONF_DIR / "config.json"
+    Optionally retrieves the variable as a path.
+    Parameters
+    ----------
+    expected_variable_name: The expected environment variable name.
+    is_path: Whether to try and interpret the variable as a path.
 
-DEFAULT_LOGGING_CONF = """# Config file for logging
+    Returns
+    -------
+    value: Union[Path, str, None]
+        The value of the environment variable.
+    """
+    value = os.environ.get(expected_variable_name)
+
+    if value:
+        if is_path:
+            try:
+                return Path(value)
+            except:
+                return None
+
+    return value
+
+
+CONFIG_DIR_PATH = get_environ_variable("GRIDEMISSIONS_CONFIG_DIR_PATH", is_path=True) or Path.home().joinpath(
+    (".config/gridemissions"))
+CONFIG_DIR_PATH.mkdir(exist_ok=True, parents=True)
+
+LOG_CONFIG_FILE_PATH = get_environ_variable("GRIDEMISSIONS_LOG_CONFIG_FILE_PATH",
+                                            is_path=True) or CONFIG_DIR_PATH.joinpath(
+    "logging.conf")
+CONFIG_FILE_PATH = get_environ_variable("GRIDEMISSIONS_CONFIG_FILE_PATH", is_path=True) or CONFIG_DIR_PATH.joinpath(
+    "config.json")
+
+DEFAULT_LOGGING_CONF = get_environ_variable("GRIDEMISSIONS_DEFAULT_LOGGING_CONF") or """# Config file for logging
 [loggers]
 keys=root,scraper,gridemissions
 
@@ -50,14 +82,16 @@ try:
     with open(CONFIG_FILE_PATH, "r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    print(f"Generating config file in {CONF_DIR} with default values")
-    default_data_dir = pathlib.Path(expanduser("~/data/gridemissions"))
-    default_tmp_dir = pathlib.Path(expanduser("~/tmp/gridemissions"))
-    default_data_dir.mkdir(exist_ok=True, parents=True)
-    default_tmp_dir.mkdir(exist_ok=True, parents=True)
+    print(f"Generating config file in {CONFIG_DIR_PATH} with default values")
+    data_dir_path = get_environ_variable("GRIDEMISSIONS_DATA_DIR_PATH", is_path=True) or Path.home().joinpath(
+        "data/gridemissions")
+    tmp_dir_path = get_environ_variable("GRIDEMISSIONS_TMP_DIR_PATH", is_path=True) or Path.home().joinpath(
+        "tmp/gridemissions")
+    data_dir_path.mkdir(exist_ok=True, parents=True)
+    tmp_dir_path.mkdir(exist_ok=True, parents=True)
     config = {
-        "DATA_PATH": str(default_data_dir),
-        "TMP_PATH": str(default_tmp_dir),
+        "DATA_PATH": str(data_dir_path),
+        "TMP_PATH": str(tmp_dir_path),
     }
 
     # Store for later use
@@ -70,13 +104,13 @@ except FileNotFoundError:
 
 for k in config:
     if k.endswith("_PATH"):  # by convention, this is a directory
-        config[k] = pathlib.Path(config[k])
+        config[k] = Path(config[k])
 
 # Setup logging
 try:
     logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
 except KeyError:
-    print(f"Generating logging config file in {CONF_DIR} with default values")
+    print(f"Generating logging config file in {CONFIG_DIR_PATH} with default values")
     with open(LOG_CONFIG_FILE_PATH, "w") as f:
         f.write(DEFAULT_LOGGING_CONF)
     logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
