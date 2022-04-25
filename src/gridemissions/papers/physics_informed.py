@@ -15,7 +15,9 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
 
     # Plot 1: demand at different steps
     ax[0, 0].plot(ba_data_A.df.loc[:, d_col] * scale, "-o", ms=2, lw=0.7, label="raw")
-    ax[0, 0].plot(ba_data_C.df.loc[:, d_col] * scale, lw=0.7, ls="--", label="pre-processed")
+    ax[0, 0].plot(
+        ba_data_C.df.loc[:, d_col] * scale, lw=0.7, ls="--", label="pre-processed"
+    )
     ax[0, 0].plot(ba_data_D.df.loc[:, d_col] * scale, lw=0.7, label="reconciled")
     ax[0, 0].set_ylim(bottom=0)
 
@@ -109,8 +111,8 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
     for a in ax.flatten():
         a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%d"))
         a.set_ylabel("GW")
-        
-    ax[1, 1].set_yticks([0., 5, 10, 15])
+
+    ax[1, 1].set_yticks([0.0, 5, 10, 15])
     ax[1, 0].set_yticks([-2, -1, 0, 1])
     ax[2, 0].set_yticks([-2, -1, 0, 1])
 

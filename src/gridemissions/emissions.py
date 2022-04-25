@@ -117,7 +117,9 @@ class BaDataEmissionsCalc(object):
         cnt_na = self.df.isna().any().sum()
         if cnt_na > 0:
             self.logger.warning(f"Setting {cnt_na} NaNs to zero")
-            self.logger.debug(f"Dumping cols with NaNs: {self.df.columns[self.df.isna().any()]}")
+            self.logger.debug(
+                f"Dumping cols with NaNs: {self.df.columns[self.df.isna().any()]}"
+            )
         self._add_production_emissions()
         self._add_consumption_efs()
 

@@ -101,6 +101,7 @@ SRC = ["COL", "NG", "NUC", "OIL", "OTH", "SUN", "UNK", "WAT", "WND", "GEO", "BIO
 for src in SRC:
     KEYS["E"]["SRC_%s" % src] = "EBA.%s-ALL.NG." + src + ".H"
 
+
 def generic_key(poll):
     return {
         "D": f"{poll}_%s_D",
@@ -109,15 +110,14 @@ def generic_key(poll):
         "ID": f"{poll}_%s-%s_ID",
     }
 
+
 def generic_key_intensity(poll):
     return {"D": f"{poll}i_%s_D", "NG": f"{poll}i_%s_NG"}
+
 
 for poll in ["CO2", "NOX", "SO2", "H2O", "CO2e", "NOx", "SOx"]:
     KEYS[poll] = generic_key(poll)
     KEYS[f"{poll}i"] = generic_key_intensity(poll)
-
-
-
 
 
 EIA_ALLOWED_SERIES_ID = []

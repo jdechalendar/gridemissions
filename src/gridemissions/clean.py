@@ -17,8 +17,8 @@ import dask
 
 
 A = 1e4  # MWh
-GAMMA = 10  # MWh 
-EPSILON = 1 # MWh
+GAMMA = 10  # MWh
+EPSILON = 1  # MWh
 
 
 def na_stats(data, title, cols):
@@ -97,7 +97,7 @@ class BaDataBasicCleaner(BaDataCleaner):
         self.logger.info("Adding GEO and BIO columns for CISO")
         data.df.loc[:, "EBA.CISO-ALL.NG.GEO.H"] = 900.0
         data.df.loc[:, "EBA.CISO-ALL.NG.BIO.H"] = 600.0
-#         data.df.loc[:, "EBA.CISO-ALL.NG.H"] += 600.0 + 900.0
+        #         data.df.loc[:, "EBA.CISO-ALL.NG.H"] += 600.0 + 900.0
 
         # Add columns for the BAs that are outside of the US
         foreign_bas = list(
@@ -517,7 +517,7 @@ class BaDataPyoCleaner(BaDataCleaner):
 
         import pyomo.environ as pyo
         from pyomo.opt import SolverFactory
-        
+
         self.m = BaDataPyoCleaningModel().m
         self.opt = SolverFactory(solver)
         self.weights = weights
@@ -742,17 +742,17 @@ class BaDataCvxCleaner(BaDataCleaner):
 
             D = row[[KEYS["E"]["D"] % r for r in regions]].values
             D_W = [
-                el ** 0.5
+                el**0.5
                 for el in row[[KEYS["E"]["D"] % r + "_W" for r in regions]].values
             ]
             NG = row[[KEYS["E"]["NG"] % r for r in regions]].values
             NG_W = [
-                el ** 0.5
+                el**0.5
                 for el in row[[KEYS["E"]["NG"] % r + "_W" for r in regions]].values
             ]
             TI = row[[KEYS["E"]["TI"] % r for r in regions]].values
             TI_W = [
-                el ** 0.5
+                el**0.5
                 for el in row[[KEYS["E"]["TI"] % r + "_W" for r in regions]].values
             ]
 
@@ -862,7 +862,7 @@ class BaDataCvxCleaner(BaDataCleaner):
                                 for (s, r) in NG_SRC
                             }
                         ),
-                        pd.Series({"CleaningObjective": prob.value})
+                        pd.Series({"CleaningObjective": prob.value}),
                     ]
                 )
             else:
@@ -883,7 +883,7 @@ class BaDataCvxCleaner(BaDataCleaner):
                         pd.Series(
                             {KEYS["E"]["ID"] % k: ID[k] + delta_ID[k].value for k in ID}
                         ),
-                        pd.Series({"CleaningObjective": prob.value})
+                        pd.Series({"CleaningObjective": prob.value}),
                     ]
                 )
 
@@ -934,7 +934,14 @@ class BaDataCvxCleaner(BaDataCleaner):
         results = dask.compute(*results, scheduler="processes")
         df = pd.DataFrame(results, index=self.d.df.index)
 
-        self.r = df.loc[:, [c for c in df.columns if "Delta" not in c and "CleaningObjective" not in c]]
+        self.r = df.loc[
+            :,
+            [
+                c
+                for c in df.columns
+                if "Delta" not in c and "CleaningObjective" not in c
+            ],
+        ]
         self.CleaningObjective = df.CleaningObjective
         self.deltas = df.loc[:, [c for c in df.columns if "Delta" in c]]
 

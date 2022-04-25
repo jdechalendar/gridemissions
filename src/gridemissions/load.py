@@ -52,6 +52,7 @@ class BaData(object):
     regions : are in alphabetical order
     df : raw dataframe
     """
+
     def __init__(self, fileNm=None, df=None, variable="E", dataset="EBA", step=None):
         """
         Initialize the BaData object
@@ -65,7 +66,7 @@ class BaData(object):
         fileNm: str, default None
             fileNm from which to read the data
         df: pd.DataFrame, default None
-            data 
+            data
         dataset: str, default "EBA"
             base name for file in which data are stored. Parameter will be deprecated soon and
             should not be used.
@@ -94,6 +95,7 @@ class BaData(object):
             self.KEY = KEYS[variable]
         else:
             self.KEY = eia_api.generic_key(variable)
+
     def get_cols(self, r=None, field="D"):
         """
         Retrieve column name(s) corresponding to region(s) and a field
@@ -291,7 +293,6 @@ def convert_raw_eba(file_name, file_name_out=None):
     # separate id data from ts data
     ts_data = [d for d in data if len(d.keys()) == 10]
     # id_list = [d for d in data if len(d.keys()) == 5]
-
 
     def choose(el, ba_list):
         series_id = el["series_id"]

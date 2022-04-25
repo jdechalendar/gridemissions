@@ -60,8 +60,16 @@ def separate_imp_exp(data, ba):
     imp = 0.0
     exp = 0.0
     for ba2 in data.get_trade_partners(ba):
-        imp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: min(x, 0)).fillna(0.)
-        exp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: max(x, 0)).fillna(0.)
+        imp += (
+            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
+            .apply(lambda x: min(x, 0))
+            .fillna(0.0)
+        )
+        exp += (
+            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
+            .apply(lambda x: max(x, 0))
+            .fillna(0.0)
+        )
     return imp, exp
 
 
