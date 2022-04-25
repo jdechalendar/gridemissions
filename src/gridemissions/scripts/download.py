@@ -1,7 +1,11 @@
-from gridemissions import api
 import argparse
 import logging
 import pandas as pd
+
+import gridemissions
+from gridemissions import api
+
+from .utils import str2bool
 
 
 def main():
@@ -33,9 +37,15 @@ def main():
     argparser.add_argument("--field", default="D", choices=["D", "NG", "ID", "TI"])
     argparser.add_argument("--ba2", default=None, help='Second balancing area, if using field="TI "')
     argparser.add_argument("--file_name", default='default')
+    argparser.add_argument("--all", default=False, const=True, nargs="?", type=str2bool, help="Whether to download the full dataset")
 
     args = argparser.parse_args()
     logger.info(args)
+
+    if args.all:
+        logger.info(f"Downloading full dataset for {args.variable}")
+        download_full_dataset(args.variable)
+        return
 
     res = api.retrieve(
         variable=args.variable,
@@ -63,3 +73,14 @@ def main():
 
     with open(file_name, "w") as fw:
         fw.write(res)
+
+
+def download_full_dataset(variable: str):
+    """
+    """
+    if variable not in ["co2", "elec", "raw"]:
+        raise ValueError(f"Unsupported argument {variable}")
+
+    file_name = f"EBA_{variable}.csv.gz"
+    from urllib import request
+    request.urlretrieve(gridemissions.s3_url + file_name, file_name)
