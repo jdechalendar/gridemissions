@@ -20,7 +20,7 @@ def main():
     argparser.add_argument(
         "--variable",
         default="co2",
-        choices=["co2", "elec", "raw"],
+        choices=["co2", "elec", "raw", "co2i"],
         help="Variable to get data for",
     )
     argparser.add_argument("--ba", default="CISO", help='Balancing area')
@@ -44,6 +44,7 @@ def main():
         end=args.end,
         field=args.field,
         ba2=args.ba2,
+        return_type="text"
     )
 
     if args.file_name == "default":

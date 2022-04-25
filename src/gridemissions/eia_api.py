@@ -264,7 +264,7 @@ class EBA_data_scraper(EIA_Scraper):
             raise ValueError(
                 "You need to provide an EIA_API_KEY in your config.json file"
             )
-        self.BASE_URL = "http://api.eia.gov/series/?api_key=%s" % config["EIA_API_KEY"]
+        self.BASE_URL = "https://api.eia.gov/series/?api_key=%s" % config["EIA_API_KEY"]
 
     def scrape(self, series_id, start="20191001T08Z", end=None, split_calls=False):
         """
