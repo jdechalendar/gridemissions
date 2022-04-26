@@ -7,7 +7,7 @@ from gridemissions.viz.base import PAGE_WIDTH, ROW_HEIGHT, COLORS
 from gridemissions.eia_api import KEYS, SRC
 
 
-def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig=False):
+def figure1(ba, ba_data_A, ba_data_D, ba_data_C=None, scale=1e-3, save_fig=False):
 
     f, ax = plt.subplots(3, 2, figsize=(PAGE_WIDTH, ROW_HEIGHT * 3))
 
@@ -15,9 +15,10 @@ def figure1(ba, ba_data_A, ba_data_B, ba_data_C, ba_data_D, scale=1e-3, save_fig
 
     # Plot 1: demand at different steps
     ax[0, 0].plot(ba_data_A.df.loc[:, d_col] * scale, "-o", ms=2, lw=0.7, label="raw")
-    ax[0, 0].plot(
-        ba_data_C.df.loc[:, d_col] * scale, lw=0.7, ls="--", label="pre-processed"
-    )
+    if ba_data_C is not None:
+        ax[0, 0].plot(
+            ba_data_C.df.loc[:, d_col] * scale, lw=0.7, ls="--", label="pre-processed"
+        )
     ax[0, 0].plot(ba_data_D.df.loc[:, d_col] * scale, lw=0.7, label="reconciled")
     ax[0, 0].set_ylim(bottom=0)
 
