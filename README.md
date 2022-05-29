@@ -1,11 +1,19 @@
 # gridemissions: Tools for power sector emissions tracking
 <img src="https://user-images.githubusercontent.com/20404131/129465144-5b086d9b-6c46-462f-a036-3f1e4cd958eb.png" width="50%" align="right">
 
-The tools in this repository power the visualization [here](https://energy.stanford.edu/gridemissions), updated hourly. Data is made publicly available and hosted on an AWS S3 bucket.  
+The tools in this repository power the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions), updated hourly. Data is made publicly available and hosted on an AWS S3 bucket.
 
-## References
-* "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
-* "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. Applied Energy Dec 2021; DOI: 10.1016/j.apenergy.2021.117761 [ArXiv preprint](https://arxiv.org/abs/2103.05663).
+Two main operations are needed to make this visualization. This README file serves as technical documentation for the tools in this repository.
+
+### 1. Consumption-based emissions
+Electric grid data on production, consumption and exchanges, along with the emissions associated with electricity production, are used to consume the emissions embodied in electricity **consumption**.
+
+For more on this operation, see "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
+
+### 2. Physics-based data reconciliation
+Raw electric grid data typically have errors and inconsistencies, but we need "clean" data to compute consumption-based emissions. We use an optimization-based algorithm to reconcile the raw data while enforcing certain physical constraints, e.g. conservation of energy. We publish both the raw and reconciled electric data that we use.
+
+For more on this operation, see "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. Applied Energy Dec 2021; DOI: 10.1016/j.apenergy.2021.117761 [ArXiv preprint](https://arxiv.org/abs/2103.05663).
 
 ## Demo notebooks
 For a quick introduction to the module, see the notebooks in the `notebooks/demo` folder. The following notebooks can also be loaded on Colab:
@@ -18,7 +26,7 @@ In the dataset that is generated from this work, we use the following convention
 * For electricity:
 ```python
 "E": {
-      "D": "EBA.%s-ALL.D.H",  # Demand
+      "D": "EBA.%s-ALL.D.H",  # Demand (Consumption)
       "NG": "EBA.%s-ALL.NG.H",  # Generation
       "TI": "EBA.%s-ALL.TI.H",  # Total Interchange
       "ID": "EBA.%s-%s.ID.H",  # Interchange
@@ -27,7 +35,7 @@ In the dataset that is generated from this work, we use the following convention
 * For carbon dioxide:
 ```python
 "CO2": {
-    "D": "CO2_%s_D",  # Demand
+    "D": "CO2_%s_D",  # Demand (Consumption)
     "NG": "CO2_%s_NG",  # Generation
     "TI": "CO2_%s_TI",  # Total Interchange
     "ID": "CO2_%s-%s_ID",  # Interchange
