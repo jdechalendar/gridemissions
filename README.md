@@ -71,23 +71,17 @@ Open a Python interpreter and import the package to create the default configura
 Optionally, you can customize the configuration files. See the configuration section for details.
 
 ## Configuration
-Two configuration files are needed for this project: one to hold environment variables like data paths and passwords (`config.json`), and one to control logging (`logging.conf`). Defaults are created for you the first time you import the package, in the folder `~/.config/gridemissions`. `~` stands for your home directory. On Linux, this is what `$HOME` evaluates to, on Windows/OSX, this is the directory that contains your Documents, Desktop and Downloads folders.
+Some configuration is needed for this project, to hold environment variables like data paths, API keys and passwords. The recommended option is to use a configuration file (`config.json`). A default is created for you the first time you import the package, in the folder `~/.config/gridemissions`. `~` stands for your home directory. On Linux, this is what `$HOME` evaluates to, on Windows/OSX, this is the directory that contains your Documents, Desktop and Downloads folders.
 
-### `config.json`
-Whenever you import the `gridemissions` module, the key-value pairs stored in `config.json` are loaded into a dictionary that then becomes available to you as `gridemissions.config`. Your `config.json` should contain:
-* `DATA_PATH`: path to local data store, by default `~/data/gridemissions`
-* `TMP_PATH`: for scratch data (e.g. when downloading data), by default `~/tmp/gridemissions`
-
-### `logging.conf`
-This file is also read when you import the `gridemissions` module and configures different loggers. We use the built-in `logging` module from the standard Python library. You can edit this file to control logging, and/or re-configure loggers programmatically after loading the gridemissions module.
-
-### Default Values
-
-Default values (such as configuration paths) can be set with environment variables.
-
+Alternatively, configuration settings can be read from environment variables, e.g. with
 ```bash
 export GRIDEMISSIONS_CONFIG_DIR_PATH="$HOME/.config/gridemissions_test"
 ```
+
+### `config.json`
+Whenever you import the `gridemissions` module, the key-value pairs stored in `config.json` are loaded into a dictionary that then becomes available to you as the dictionary `gridemissions.config`. These can also be modified at runtime. At a minimum, your `config.json` should contain:
+* `DATA_PATH`: path to local data store, by default `~/data/gridemissions`
+* `TMP_PATH`: for scratch data (e.g. when downloading data), by default `~/tmp/gridemissions`
 
 #### Supported Environment Variables
 
