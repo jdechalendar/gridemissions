@@ -23,7 +23,7 @@ For a quick introduction to the module, see the notebooks in the `notebooks/demo
 
 ## Data naming conventions
 In the dataset that is generated from this work, we use the following conventions for naming columns (see `eia_api.py`). Replace `%s` in the following dictionaries by the balancing acronyms listed [here](https://www.eia.gov/electricity/gridmonitor/about).
-* For electricity:
+* For electricity, we follow the naming convention followed by the US EIA data source we are using:
 ```python
 "E": {
       "D": "EBA.%s-ALL.D.H",  # Demand (Consumption)
@@ -32,7 +32,8 @@ In the dataset that is generated from this work, we use the following convention
       "ID": "EBA.%s-%s.ID.H",  # Interchange
   }
 ```
-* For carbon dioxide:
+For example, `"EBA.CISO-ALL.D.H"` is the column for demand in the California ISO.
+* For all other variables, we use a different convention, that only uses underscores as separators. For example, for carbon dioxide:
 ```python
 "CO2": {
     "D": "CO2_%s_D",  # Demand (Consumption)
@@ -41,6 +42,7 @@ In the dataset that is generated from this work, we use the following convention
     "ID": "CO2_%s-%s_ID",  # Interchange
 }
 ```
+For example, `"CO2_CISO_D"` is the column for consumed emissions in the California ISO, `"CO2_CISO_NG"` is the column for produced emissions in the California ISO.
 
 ## Installation
 Clone this repository on your machine using HTTPS:  
