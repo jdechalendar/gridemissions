@@ -7,7 +7,7 @@ The tools in this repository power the visualization at [energy.stanford.edu/gri
 Two main operations are needed to create the datasets for the the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions).
 
 ### 1. Consumption-based emissions
-Electric grid data on production, consumption and exchanges, along with the emissions associated with electricity production, are used to compute the emissions embodied in electricity **consumption**.
+Electric grid data on production, consumption and exchanges, along with the emissions associated with electricity production, are used to compute the emissions embodied in electricity **consumption**. By default, we are using IPCC Life-Cycle Assessment emissions factors to compute the emissions associated with generating electricity from different sources, so the CO2 data we release are in units of CO2-eq. If you wish to use different emissions factors, or factors for other quantities (e.g. SO2, NOx, PM2.5, or H2O), you can use the tools in this package to generate corresponding consumption-based data. A tutorial on how to do this will be available soon.
 
 For more on this operation, see "Tracking emissions in the US electricity system", by Jacques A. de Chalendar, John Taggart and Sally M. Benson. Proceedings of the National Academy of Sciences Dec 2019, 116 (51) 25497-25502; DOI: 10.1073/pnas.1912950116
 
