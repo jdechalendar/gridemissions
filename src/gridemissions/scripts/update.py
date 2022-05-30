@@ -91,22 +91,23 @@ def main():
         logger.setLevel(logging.DEBUG)
         logging.getLogger("clean").setLevel(logging.DEBUG)
     if config["ENV"] == "vm":
-       # Store logs
-       log_path = join(config["DATA_PATH"], "Logs")
-       os.makedirs(log_path, exist_ok=True)
-       log_path = join(log_path, "log")
-       logger.info("Saving logs to: %s" % str(log_path))
-       fh = logging.handlers.TimedRotatingFileHandler(log_path, when="midnight")
-       if args.debug:
-           fh.setLevel(logging.DEBUG)
-       else:
-           fh.setLevel(logging.INFO)
-           fh.setFormatter(
-                   logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-           )
-           logger.addHandler(fh)
-           logging.getLogger("clean").addHandler(fh)
-
+        # Store logs
+        log_path = join(config["DATA_PATH"], "Logs")
+        os.makedirs(log_path, exist_ok=True)
+        log_path = join(log_path, "log")
+        logger.info("Saving logs to: %s" % str(log_path))
+        fh = logging.handlers.TimedRotatingFileHandler(log_path, when="midnight")
+        if args.debug:
+            fh.setLevel(logging.DEBUG)
+        else:
+            fh.setLevel(logging.INFO)
+            fh.setFormatter(
+                logging.Formatter(
+                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                )
+            )
+            logger.addHandler(fh)
+            logging.getLogger("clean").addHandler(fh)
 
     now = datetime.utcnow()
     if args.start == "now":
@@ -174,7 +175,10 @@ def main():
     thresh_date = (now - timedelta(hours=24 * 30)).isoformat()
     if args.update_d3map:
         update_d3map(
-            args.folder_new, join(args.folder_hist, "d3map"), file_name=file_name, thresh_date=thresh_date
+            args.folder_new,
+            join(args.folder_hist, "d3map"),
+            file_name=file_name,
+            thresh_date=thresh_date,
         )
 
     logger.debug("Writing last_update.txt")

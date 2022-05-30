@@ -60,8 +60,16 @@ def separate_imp_exp(data, ba):
     imp = 0.0
     exp = 0.0
     for ba2 in data.get_trade_partners(ba):
-        imp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: min(x, 0)).fillna(0.)
-        exp += data.df.loc[:, data.KEY["ID"] % (ba, ba2)].apply(lambda x: max(x, 0)).fillna(0.)
+        imp += (
+            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
+            .apply(lambda x: min(x, 0))
+            .fillna(0.0)
+        )
+        exp += (
+            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
+            .apply(lambda x: max(x, 0))
+            .fillna(0.0)
+        )
     return imp, exp
 
 
@@ -259,7 +267,7 @@ def myplot(ax, s, color=None, summarize=True, **kwargs):
 
 def cleaning_plot(
     elec,
-    ba,
+    region,
     after=None,
     save=False,
     fig_folder=None,
@@ -297,10 +305,9 @@ def cleaning_plot(
             f, ax1 = plt.subplots(1, 1, figsize=(PAGE_WIDTH, ROW_HEIGHT))
         else:
             f, ax1 = fax
-    df_plot = elec.df
-    D = df_plot.loc[:, elec.get_cols(r=ba, field="D")[0]] * scale
-    G = df_plot.loc[:, elec.get_cols(r=ba, field="NG")[0]] * scale
-    TI = df_plot.loc[:, elec.get_cols(r=ba, field="TI")[0]] * scale
+    D = elec.get_data(region=region, field="D") * scale
+    G = elec.get_data(region=region, field="NG") * scale
+    TI = elec.get_data(region, field="TI") * scale
     myplot(ax1, D, label="D", color=COLORS[0], summarize=summarize)
     myplot(ax1, G, label="G", alpha=0.8, color=COLORS[1], summarize=summarize)
     myplot(ax1, TI, label="TI", alpha=0.8, color=COLORS[2], summarize=summarize)
@@ -316,9 +323,9 @@ def cleaning_plot(
 
     if after is not None:
         df_plot = after.df
-        D = df_plot.loc[:, elec.get_cols(r=ba, field="D")[0]] * scale
-        G = df_plot.loc[:, elec.get_cols(r=ba, field="NG")[0]] * scale
-        TI = df_plot.loc[:, elec.get_cols(r=ba, field="TI")[0]] * scale
+        D = after.get_data(region=region, field="D") * scale
+        G = after.get_data(region=region, field="NG") * scale
+        TI = after.get_data(region=region, field="TI") * scale
         myplot(
             ax1, D, color=COLORS[0], ls="--", label="__nolegend__", summarize=summarize
         )
@@ -355,30 +362,30 @@ def cleaning_plot(
 
     if len(add_title) > 0:
         add_title = ": " + add_title
-    ax1.set_title(ba + add_title)
+    ax1.set_title(region + add_title)
     ax1.legend(loc=6)
     ax1.set_ylabel(f"Electricity ({unit})")
     axes = ax1
 
     if w_id:
-        partners = elec.get_trade_partners(ba)
-        for iba2, ba2 in enumerate(partners):
+        partners = elec.partners[region]
+        for ir2, region2 in enumerate(partners):
             myplot(
                 ax2,
-                elec.df.loc[:, elec.KEY["ID"] % (ba, ba2)] * scale,
-                label=ba2,
+                elec.get_data(region=region, region2=region2, field="ID") * scale,
+                label=region2,
                 alpha=0.7,
-                color=COLORS[iba2 % len(COLORS)],
+                color=COLORS[ir2 % len(COLORS)],
                 summarize=summarize,
             )
             if after is not None:
                 myplot(
                     ax2,
-                    after.df.loc[:, elec.KEY["ID"] % (ba, ba2)] * scale,
+                    after.get_data(region=region, region2=region2, field="ID") * scale,
                     label="__nolegend__",
                     ls="--",
                     alpha=0.7,
-                    color=COLORS[iba2 % len(COLORS)],
+                    color=COLORS[ir2 % len(COLORS)],
                     summarize=summarize,
                 )
         ncol = 1
@@ -391,12 +398,15 @@ def cleaning_plot(
         axes = (ax1, ax2)
 
         if w_src:
-            partners = elec.get_trade_partners(ba)
             for isrc, src in enumerate(SRC):
-                if elec.KEY[f"SRC_{src}"] % ba in elec.df.columns:
+                field = f"SRC_{src}"
+                if field not in elec.region_fields:
+                    continue
+                s = elec.get_data(region=region, field=field) * scale
+                if len(s) > 0:
                     myplot(
                         ax3,
-                        elec.df.loc[:, elec.KEY[f"SRC_{src}"] % ba] * scale,
+                        s,
                         label=src,
                         alpha=0.7,
                         color=COLORS[isrc % len(COLORS)],
@@ -405,7 +415,7 @@ def cleaning_plot(
                     if after is not None:
                         myplot(
                             ax3,
-                            after.df.loc[:, elec.KEY[f"SRC_{src}"] % ba] * scale,
+                            after.get_data(region=region, field=field) * scale,
                             ls="--",
                             alpha=0.7,
                             color=COLORS[isrc % len(COLORS)],
@@ -422,8 +432,6 @@ def cleaning_plot(
                 ax3.plot([], [], alpha=0.8, color="k", ls="--", label="after")
             axes = (ax1, ax2, ax3)
 
-    import matplotlib.dates as mdates
-
     if summarize:
         for a in list(axes):
             a.xaxis.set_major_formatter(mdates.DateFormatter("%b-%y"))
@@ -436,7 +444,7 @@ def cleaning_plot(
     f.tight_layout()
 
     if save and (fig_folder is not None):
-        f.savefig(join(fig_folder, "%s.pdf" % ba))
+        f.savefig(join(fig_folder, "%s.pdf" % region))
         plt.close(f)
     return (f, axes)
 

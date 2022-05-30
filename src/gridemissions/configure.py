@@ -4,8 +4,12 @@ import os
 from pathlib import Path
 from typing import Union
 
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-def get_environ_variable(expected_variable_name: str, is_path: bool = False) -> Union[Path, str, None]:
+
+def get_environ_variable(
+    expected_variable_name: str, is_path: bool = False
+) -> Union[Path, str, None]:
     """
     Get an environment variable.
 
@@ -32,61 +36,29 @@ def get_environ_variable(expected_variable_name: str, is_path: bool = False) -> 
     return value
 
 
-CONFIG_DIR_PATH = get_environ_variable("GRIDEMISSIONS_CONFIG_DIR_PATH", is_path=True) or Path.home().joinpath(
-    (".config/gridemissions"))
+CONFIG_DIR_PATH = get_environ_variable(
+    "GRIDEMISSIONS_CONFIG_DIR_PATH", is_path=True
+) or Path.home().joinpath((".config/gridemissions"))
 CONFIG_DIR_PATH.mkdir(exist_ok=True, parents=True)
 
-LOG_CONFIG_FILE_PATH = get_environ_variable("GRIDEMISSIONS_LOG_CONFIG_FILE_PATH",
-                                            is_path=True) or CONFIG_DIR_PATH.joinpath(
-    "logging.conf")
-CONFIG_FILE_PATH = get_environ_variable("GRIDEMISSIONS_CONFIG_FILE_PATH", is_path=True) or CONFIG_DIR_PATH.joinpath(
-    "config.json")
-
-DEFAULT_LOGGING_CONF = get_environ_variable("GRIDEMISSIONS_DEFAULT_LOGGING_CONF") or """# Config file for logging
-[loggers]
-keys=root,scraper,gridemissions
-
-[handlers]
-keys=consoleHandler
-
-[formatters]
-keys=simpleFormatter
-
-[logger_root]
-level=INFO
-handlers=consoleHandler
-
-[logger_scraper]
-level=INFO
-handlers=consoleHandler
-qualname=scraper
-propagate=0
-
-[logger_gridemissions]
-level=INFO
-handlers=consoleHandler
-qualname=gridemissions
-propagate=0
-
-[handler_consoleHandler]
-class=StreamHandler
-formatter=simpleFormatter
-args=(sys.stdout,)
-
-[formatter_simpleFormatter]
-format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
-datefmt=
-"""
+LOG_CONFIG_FILE_PATH = get_environ_variable(
+    "GRIDEMISSIONS_LOG_CONFIG_FILE_PATH", is_path=True
+) or CONFIG_DIR_PATH.joinpath("logging.conf")
+CONFIG_FILE_PATH = get_environ_variable(
+    "GRIDEMISSIONS_CONFIG_FILE_PATH", is_path=True
+) or CONFIG_DIR_PATH.joinpath("config.json")
 
 try:
     with open(CONFIG_FILE_PATH, "r") as f:
         config = json.load(f)
 except FileNotFoundError:
     print(f"Generating config file in {CONFIG_DIR_PATH} with default values")
-    data_dir_path = get_environ_variable("GRIDEMISSIONS_DATA_DIR_PATH", is_path=True) or Path.home().joinpath(
-        "data/gridemissions")
-    tmp_dir_path = get_environ_variable("GRIDEMISSIONS_TMP_DIR_PATH", is_path=True) or Path.home().joinpath(
-        "tmp/gridemissions")
+    data_dir_path = get_environ_variable(
+        "GRIDEMISSIONS_DATA_DIR_PATH", is_path=True
+    ) or Path.home().joinpath("data/gridemissions")
+    tmp_dir_path = get_environ_variable(
+        "GRIDEMISSIONS_TMP_DIR_PATH", is_path=True
+    ) or Path.home().joinpath("tmp/gridemissions")
     data_dir_path.mkdir(exist_ok=True, parents=True)
     tmp_dir_path.mkdir(exist_ok=True, parents=True)
     config = {
@@ -106,14 +78,28 @@ for k in config:
     if k.endswith("_PATH"):  # by convention, this is a directory
         config[k] = Path(config[k])
 
-# Setup logging
-try:
-    logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
-except KeyError:
-    print(f"Generating logging config file in {CONFIG_DIR_PATH} with default values")
-    with open(LOG_CONFIG_FILE_PATH, "w") as f:
-        f.write(DEFAULT_LOGGING_CONF)
-    logging.config.fileConfig(LOG_CONFIG_FILE_PATH)
-
 if "ENV" not in config:
-    config["ENV"] = ""
+    config["ENV"] = "PROD"
+
+config["API_URL"] = "http://localhost:5000"
+
+if config["ENV"] == "PROD":
+    config["API_URL"] = "https://api.gridemissions.com"
+config["S3_URL"] = "https://gridemissions.s3.us-east-2.amazonaws.com/"
+
+
+def configure_logging(level="WARNING"):
+    """
+    Should be called by the user to configure logging
+
+    Console logging is handled by the root logger's handler.
+    To set the log level of the console to `console_log_level`, use
+    ```
+    for h in logging.getLogger().handlers:
+        if isinstance(h, logging.StreamHandler):
+            h.setLevel(console_log_level)
+    ```
+    """
+    logging.basicConfig(format=LOG_FORMAT, level=level)
+    logger = logging.getLogger()
+    logger.setLevel(level)
