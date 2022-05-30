@@ -9,11 +9,10 @@ import gridemissions
 
 class TestEnvironmentVariables(unittest.TestCase):
     """Test the interaction between environment variables and the configuration."""
+
     test_dir_path = Path.home().joinpath(".config/gridemissions_test")
     # A map of test environment variables to their value.
-    test_env_variables = {
-        "GRIDEMISSIONS_CONFIG_DIR_PATH": str(test_dir_path)
-    }
+    test_env_variables = {"GRIDEMISSIONS_CONFIG_DIR_PATH": str(test_dir_path)}
     loaded_configure = gridemissions.configure
 
     @classmethod
