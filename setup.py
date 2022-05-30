@@ -6,11 +6,10 @@ setup(
     packages=find_packages("src"),
     version="0.1.0",
     python_requires=">=3.7",
-    install_requires=["requests", "pandas>=1.1.2"],
+    install_requires=["requests", "pandas>=1.1.2", "matplotlib>=3.4.2"],
     extras_require={
         "all": [
             "dask[complete]",
-            "matplotlib>=3.4.2",
             "joblib",
             "cmocean",
             "cvxpy",
