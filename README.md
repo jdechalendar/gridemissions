@@ -30,6 +30,7 @@ gridemissions_download -h
 # Download one of the datasets in bulk
 gridemissions_download --variable co2 --all
 ```
+Note that the data are downloaded to the `DATA_PATH` you configured during setup (see Installation notes below).
 
 You can also use the `api` module to retrieve data programmatically. This is what the `gridemissions_download` script uses under the hood.
 ```python
@@ -100,7 +101,7 @@ Alternatively, configuration settings can be read from environment variables, e.
 export GRIDEMISSIONS_CONFIG_DIR_PATH="$HOME/.config/gridemissions_test"
 ```
 
-#### `config.json`
+#### The config.json file
 Whenever you import the `gridemissions` module, the key-value pairs stored in `config.json` are loaded into a dictionary that then becomes available to you as the dictionary `gridemissions.config`. These can also be modified at runtime. At a minimum, your `config.json` should contain:
 * `DATA_PATH`: path to local data store, by default `~/data/gridemissions`
 * `TMP_PATH`: for scratch data (e.g. when downloading data), by default `~/tmp/gridemissions`
@@ -116,7 +117,7 @@ GRIDEMISSIONS_DATA_DIR_PATH:        the data directory (default: "$HOME/data/gri
 GRIDEMISSIONS_TMP_DIR_PATH:         the temporary data directory (default: "$HOME/tmp/gridemissions")
 ```
 
-## GraphData
+## `GraphData`
 *Important note: this class will progressively replace the `BaData` class, which will be deprecated.*
 
 Abstraction to represent timeseries data on a graph. This class is a light wrapper around a pd.DataFrame, with convenience functions for accessing data. In the underlying pd.DataFrame, the index represents time (UTC) and columns represent data for different fields on the graph.
@@ -127,10 +128,11 @@ The class supports holding data for one variable and multiple fields. Examples o
 
 The regions, variable, and fields are inferred from the underlying data columns.
 
-The `GraphData.check_*` functions can be used to check certain constraints are met for different fields. By convention, if one of the fields is missing, the check is True.
-
-### GraphData.get_cols
+### `GraphData.get_cols`
 Retrieve column name(s) corresponding to given region(s) and field(s)
 
-### GraphData.get_data
+### `GraphData.get_data`
 Convenience function to get the data from a call to `get_cols`
+
+### `GraphData.check_*`
+These functions can be used to check certain constraints are met for different fields. By convention, if one of the fields is missing, the check is `True`.
