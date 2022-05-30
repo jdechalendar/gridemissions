@@ -83,8 +83,8 @@ def main():
                     args.region or "",
                     args.region2 or "",
                     args.field or "",
-                    args.start,
-                    args.end,
+                    args.start or "",
+                    args.end or "",
                 ]
             )
             + ".csv"
