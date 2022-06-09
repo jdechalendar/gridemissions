@@ -95,34 +95,37 @@ KEYS = {
         "NG": "EBA.%s-ALL.NG.H",
         "TI": "EBA.%s-ALL.TI.H",
         "ID": "EBA.%s-%s.ID.H",
-    },
-    "CO2": {
-        "D": "CO2_%s_D",
-        "NG": "CO2_%s_NG",
-        "TI": "CO2_%s_TI",
-        "ID": "CO2_%s-%s_ID",
-    },
-    "SO2": {
-        "D": "SO2_%s_D",
-        "NG": "SO2_%s_NG",
-        "TI": "SO2_%s_TI",
-        "ID": "SO2_%s-%s_ID",
-    },
-    "NOX": {
-        "D": "NOX_%s_D",
-        "NG": "NOX_%s_NG",
-        "TI": "NOX_%s_TI",
-        "ID": "NOX_%s-%s_ID",
-    },
-    "CO2i": {"D": "CO2i_%s_D", "NG": "CO2i_%s_NG"},
-    "SO2i": {"D": "SO2i_%s_D", "NG": "SO2i_%s_NG"},
-    "NOXi": {"D": "NOXi_%s_D", "NG": "NOXi_%s_NG"},
+    }
 }
-
 SRC = ["COL", "NG", "NUC", "OIL", "OTH", "SUN", "UNK", "WAT", "WND", "GEO", "BIO"]
-
 for src in SRC:
-    KEYS["E"]["SRC_%s" % src] = "EBA.%s-ALL.NG." + src + ".H"
+    KEYS["E"][f"SRC_{src}"] = f"EBA.%s-ALL.NG.{src}.H"
+
+
+def generic_key(poll):
+    key = {
+        "D": f"{poll}_%s_D",
+        "NG": f"{poll}_%s_NG",
+    }
+    if poll.endswith("i"):
+        return key
+
+    key["TI"] = f"{poll}_%s_TI"
+    key["ID"] = f"{poll}_%s-%s_ID"
+    return key
+
+
+for poll in ["CO2", "NOX", "SO2", "H2O", "CO2e", "NOx", "SOx"]:
+    KEYS[poll] = generic_key(poll)
+    KEYS[f"{poll}i"] = generic_key(f"{poll}i")
+
+
+def get_key(variable):
+    if variable in KEYS:
+        return KEYS[variable]
+    else:
+        return generic_key(variable)
+
 
 EIA_ALLOWED_SERIES_ID = []
 for ba in BAs:
@@ -135,9 +138,9 @@ for ba in BAs:
         EIA_ALLOWED_SERIES_ID += [KEYS["E"]["ID"] % (ba, ba2)]
 
 
-def column_name_to_ba(column_name: str, key: str):
+def column_name_to_region(column_name: str, key: str):
     """
-    Extract ba name from a column
+    Extract region name from a column
 
     Parameters
     ----------
@@ -146,17 +149,15 @@ def column_name_to_ba(column_name: str, key: str):
 
     Returns
     -------
-    ba: str
+    region: str
 
     Notes
     -----
-    For ID data, there are two BAs. Convention is to return f"{ba1}-{ba2}"
+    For Interchange (ID) data, there are two regions. Convention is to return f"{r1}-{r2}"
     """
     parts = key.split("%s")  # key is e.g. "EBA.%s-ALL.D.H"
-    interchange = False
     if len(parts) == 3:
         assert parts[1] == "-"
-        interchange = True
         parts = [parts[0], parts[2]]
     assert len(parts) == 2
     assert column_name.startswith(parts[0])
@@ -346,3 +347,53 @@ def load_eia_columns():
     with open(join(dirname(__file__), "eia_columns.csv"), "r") as fr:
         eia_columns = fr.readline().strip()
     return eia_columns.split(",")
+
+
+def column_name_to_variable(column: str):
+    """
+    Extract variable name from column
+
+    Parameters
+    ----------
+    column: str
+
+    Returns
+    -------
+    variable: str
+    """
+    if column.startswith("EBA."):
+        return "E"
+    return column.split("_")[0]
+
+
+def parse_column(column: str) -> dict:
+    """
+    Extract variable, field, region, optionally region2 from column name
+    """
+    # Split column names on special characters: ".", "-", "_"
+    split = re.split(r"\.|-|_", column)
+    data = {"variable": split[0], "region": split[1]}
+    if data["variable"] == "EBA":
+        data["variable"] = "E"
+        # Need to do field and region2 for the EBA case
+        if len(split) == 6:  # Generation by source column - e.g. "EBA.MISO-ALL.NG.NG.H"
+            data["field"] = f"SRC_{split[-2]}"
+        else:  # e.g. EBA.MISO-ALL.D.H
+            data["field"] = split[-2]
+    else:
+        data["field"] = split[-1]
+
+    if data["field"] == "ID":
+        data["region2"] = split[2]
+
+    # Check we have parsed the column correctly
+    key = get_key(data["variable"])
+    if "region2" in data:
+        regenerated_column = key[data["field"]] % (data["region"], data["region2"])
+    else:
+        regenerated_column = key[data["field"]] % data["region"]
+
+    if column != regenerated_column:
+        raise ValueError(f"Error parsing {column}")
+
+    return data

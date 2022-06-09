@@ -2,10 +2,13 @@ import sys
 import logging
 import time
 import numpy as np
+from gridemissions import eia_api
 from gridemissions.eia_api import SRC, KEYS
 from gridemissions.load import BaData
 
 
+# Default emissions factors - can also supply custom EFs to BaDataEmissionsCalc
+# CO2
 # UNK is 2017 average US power grid intensity according to Schivley 2018
 # unit is kg / MWh
 EMISSIONS_FACTORS = {
@@ -85,15 +88,21 @@ def consumption_emissions(F, P, ID):
 
 
 class BaDataEmissionsCalc(object):
-    def __init__(self, ba_data, poll="CO2"):
+    def __init__(self, ba_data, poll="CO2", EF=None):
         self.logger = logging.getLogger("clean")
         self.ba_data = ba_data
         self.df = ba_data.df.copy(deep=True)
         self.regions = ba_data.regions
         self.poll = poll
         self.KEY_E = KEYS["E"]
-        self.KEY_poll = KEYS[poll]
-        self.EF = EMISSIONS_FACTORS[poll]
+        if poll in KEYS:
+            self.KEY_poll = KEYS[poll]
+        else:
+            self.KEY_poll = eia_api.generic_key(poll)
+        if EF is None:
+            self.EF = EMISSIONS_FACTORS[poll]
+        else:
+            self.EF = EF
 
     def process(self):
         """
@@ -108,7 +117,9 @@ class BaDataEmissionsCalc(object):
         cnt_na = self.df.isna().any().sum()
         if cnt_na > 0:
             self.logger.warning(f"Setting {cnt_na} NaNs to zero")
-            self.logger.debug(f"Dumping cols with NaNs: {self.df.columns[self.df.isna().any()]}")
+            self.logger.debug(
+                f"Dumping cols with NaNs: {self.df.columns[self.df.isna().any()]}"
+            )
         self._add_production_emissions()
         self._add_consumption_efs()
 

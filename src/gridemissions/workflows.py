@@ -71,14 +71,16 @@ def make_dataset(
 
     if len(data.df.loc[:THRESH_DATE, :]) > 0:
         logger.info(f"Optimization-based cleaning without src data: pre {THRESH_DATE}")
-        ba_data = BaData(df=data.df.loc[:THRESH_DATE, :]) 
+        ba_data = BaData(df=data.df.loc[:THRESH_DATE, :])
         if weights is not None:
             cleaner = BaDataCvxCleaner(ba_data, weights=weights.loc[:THRESH_DATE, :])
         else:
             cleaner = BaDataCvxCleaner(ba_data)
         cleaner.process(debug=False, with_ng_src=False)
         cleaner.r.df.to_csv(join(tmp_folder, "%s_opt_no_src.csv" % file_name))
-        cleaner.CleaningObjective.to_csv(join(tmp_folder, "%s_objective_no_src.csv" % file_name))
+        cleaner.CleaningObjective.to_csv(
+            join(tmp_folder, "%s_objective_no_src.csv" % file_name)
+        )
 
     # Only keep going if we have data post THRESH_DATE
     if len(data.df.loc[THRESH_DATE:, :]) == 0:
@@ -105,13 +107,12 @@ def make_dataset(
     co2_calc.poll_data.df.to_csv(join(tmp_folder, "%s_co2.csv" % file_name))
 
     logger.info(
-        "gridemissions.workflows.make_dataset took %.2f seconds" % (time.time() - start_time)
+        "gridemissions.workflows.make_dataset took %.2f seconds"
+        % (time.time() - start_time)
     )
 
 
-def update_dataset(
-    folder_hist, file_names, folder_new="tmp", folder_2weeks=None
-):
+def update_dataset(folder_hist, file_names, folder_new="tmp", folder_2weeks=None):
     """
     Update dataset in storage with new data.
 
@@ -125,7 +126,6 @@ def update_dataset(
         logger.info(f"Creating {folder_2weeks}")
     for file_name in file_names:
         _update_dataset(folder_hist, file_name, folder_new)
-
 
     if folder_2weeks is not None:
         shutil.rmtree(folder_2weeks)
@@ -202,7 +202,7 @@ def update_d3map(folder_in, folder_out, file_name, thresh_date="2000-01-01"):
     shutil.rmtree(folder_out)
     os.makedirs(folder_out, exist_ok=True)
 
-    for ts in poll.df.loc[thresh_date:,:].index:
+    for ts in poll.df.loc[thresh_date:, :].index:
         _ = create_graph(poll, elec, ts, folder_out=folder_out, save_data=True)
 
 

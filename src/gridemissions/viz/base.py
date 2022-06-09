@@ -127,13 +127,13 @@ def heatmap(
 ):
     """
         Plot a heatmap from time series data.
-        
+
         Usage for dataframe df with timestamps in column "date_time" and data
         to plot in column "col" (grouped by frequency 'freq':
             df_hmap = df.groupby(pd.Grouper(key='date_time', freq=freq, axis=1))\
                 .mean().fillna(method='pad',limit=fillna_limit)
             plotting.plotHeatmap(df_hmap, col)
-        
+
         Parameters
         ----------
         s: pd.Series or pd.DataFrame
