@@ -31,6 +31,12 @@ DF4 = pd.DataFrame(
     }
 )
 
+# Reminder that we do not allow pd.DataFrame(), but we do allow dataframes with no data
+# columns need to be supplied for the constructor to work
+def test_empty():
+    with pytest.raises(AttributeError):
+        ge.GraphData(pd.DataFrame())
+
 
 def test_parse_info(caplog):
     gdata = ge.GraphData(df=DF1)

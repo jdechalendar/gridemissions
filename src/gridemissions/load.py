@@ -50,8 +50,6 @@ class GraphData(object):
         self.logger = logging.getLogger(__name__)
         self.tol = PRECISION
         self.df = df
-        if self.df.empty:
-            raise ValueError("GraphData does not support empty dataframes")
         self._parse_info()
 
     def _parse_info(self) -> None:

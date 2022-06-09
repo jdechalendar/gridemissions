@@ -27,11 +27,10 @@ FAIL = [
 
 SUCCESS = [
     {
-        "retrieve_kwargs": {},
+        "retrieve_kwargs": {"dataset": "co2"},
         "http_params": {
             "dataset": "co2",
-            "start": "20200101T0000",
-            "end": "20200102T0000",
+            "past24": "yes",
         },
     },
     {
@@ -39,8 +38,7 @@ SUCCESS = [
         "http_params": {
             "dataset": "co2",
             "region": "CISO",
-            "start": "20200101T0000",
-            "end": "20200102T0000",
+            "past24": "yes",
             "field": "D",
         },
     },
@@ -54,9 +52,9 @@ SUCCESS = [
         },
         "http_params": {
             "dataset": "co2",
-            "region": ["CISO"],
-            "start": "20180701T0000",
-            "end": "20180702T0000",
+            "region": ["CISO", "MISO"],
+            "start": "20180701T0000Z",
+            "end": "20180702T0000Z",
             "field": "D",
         },
     },
@@ -77,7 +75,7 @@ def test_http_request(mock_request, test_kwargs):
     calls = mock_request.call_args_list
     assert len(calls) == 1
     http_args, http_params = calls[0]
-    assert http_args == (gridemissions.base_url + "/data",)
+    assert http_args == (gridemissions.config["API_URL"] + "/data",)
     assert http_params == {"params": test_kwargs["http_params"]}
 
 
