@@ -156,10 +156,8 @@ def column_name_to_region(column_name: str, key: str):
     For Interchange (ID) data, there are two regions. Convention is to return f"{r1}-{r2}"
     """
     parts = key.split("%s")  # key is e.g. "EBA.%s-ALL.D.H"
-    interchange = False
     if len(parts) == 3:
         assert parts[1] == "-"
-        interchange = True
         parts = [parts[0], parts[2]]
     assert len(parts) == 2
     assert column_name.startswith(parts[0])

@@ -75,17 +75,18 @@ def retrieve(dataset, start=None, end=None, return_type="dataframe", **kwargs):
         elec = retrieve(
             dataset="elec", start=start, end=end, return_type="dataframe", **kwargs
         )
+        key_E = eia_api.get_key("E")
+        key_CO2 = eia_api.get_key("CO2")
+        key_CO2i = eia_api.get_key("CO2i")
+        field = kwargs["field"]
         co2.columns = co2.columns.map(
-            lambda x: eia_api.column_name_to_region(
-                x, eia_api.KEYS["CO2"][kwargs["field"]]
-            )
+            lambda x: eia_api.column_name_to_region(x, key_CO2[field])
         )
         elec.columns = elec.columns.map(
-            lambda x: eia_api.column_name_to_region(
-                x, eia_api.KEYS["E"][kwargs["field"]]
-            )
+            lambda x: eia_api.column_name_to_region(x, key_E[field])
         )
         co2i = co2 / elec
+        co2i.columns = co2i.columns.map(lambda x: key_CO2i[field] % x)
 
         if return_type == "dataframe":
             return co2i
