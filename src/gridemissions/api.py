@@ -13,14 +13,14 @@ DATASET_TO_VARIABLE = {"raw": "E", "co2": "CO2", "elec": "E", "co2i": "CO2i"}
 logger = logging.getLogger(__name__)
 
 
-def retrieve(dataset="co2", start=None, end=None, return_type="dataframe", **kwargs):
+def retrieve(dataset, start=None, end=None, return_type="dataframe", **kwargs):
     """
     Retrieve data from the gridemissions API. Additional kwargs will be passed to
     GraphData.get_cols on the server side of the API.
 
     Parameters
     ----------
-    dataset : str in DATASET_TO_VARIABLE.keys()
+    dataset : str in DATASET_TO_VARIABLE.keys(). Currently, ["co2", "raw", "elec", "co2i"]
     start : str | datetime-like | None
         must be parseable by pd.to_datetime. Assumes UTC
     end : str | datetime-like | None
