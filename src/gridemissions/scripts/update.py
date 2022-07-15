@@ -7,12 +7,15 @@ import argparse
 import logging.config
 from datetime import datetime, timedelta
 
+import gridemissions
 from gridemissions import config
 from gridemissions.workflows import make_dataset, update_dataset, update_d3map
 from .utils import str2bool
+logger = logging.getLogger(__name__)
 
 
 def main():
+    gridemissions.configure_logging()
     # Parse command-line arguments
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
@@ -86,10 +89,8 @@ def main():
     args = argparser.parse_args()
 
     # Configure logging
-    logger = logging.getLogger("scraper")
     if args.debug:
-        logger.setLevel(logging.DEBUG)
-        logging.getLogger("clean").setLevel(logging.DEBUG)
+        gridemissions.configure_logging(logging.DEBUG)
     if config["ENV"] == "vm":
         # Store logs
         log_path = join(config["DATA_PATH"], "Logs")
@@ -124,20 +125,18 @@ def main():
     end = end.strftime("%Y%m%dT%HZ")
     start = start.strftime("%Y%m%dT%HZ")
 
-    logger.info(args)
-
     if args.folder_hist == "webapp":
-        args.folder_hist = join(config["DATA_PATH"], "analysis", "webapp")
+        args.folder_hist = config["DATA_PATH"] / "analysis" / "webapp"
     elif args.folder_hist == "local":
-        args.folder_hist = join(config["DATA_PATH"], "analysis", "local")
+        args.folder_hist = config["DATA_PATH"] / "analysis" / "local"
 
     if args.folder_new == config["TMP_PATH"]:
-        args.folder_new = join(config["TMP_PATH"], "emissions_app")
+        args.folder_new = config["TMP_PATH"] / "emissions_app"
 
-    os.makedirs(args.folder_new, exist_ok=True)
+    args.folder_new.mkdir(exist_ok=True)
 
     if args.extract2weeks:
-        folder_2weeks = join(config["DATA_PATH"], "analysis", "s3", "data2weeks")
+        folder_2weeks = config["DATA_PATH"] / "analysis" / "s3" / "data2weeks"
     else:
         folder_2weeks = None
 
@@ -153,6 +152,7 @@ def main():
         ]
     ]
 
+    logger.info(args)
     ###############################################################################
     if args.make:
         make_dataset(

@@ -171,7 +171,7 @@ class EIA_Scraper(object):
     """
 
     def __init__(self):
-        self.logger = logging.getLogger("root")
+        self.logger = logging.getLogger(__name__)
 
     def get(self, params):
         r = requests.get(self.BASE_URL + params)
@@ -320,6 +320,7 @@ class EBA_data_scraper(EIA_Scraper):
             # Missing rows: if columns were not all updated at the same time
             # Missing columns: if some queried columns don't exist
             if len(r["series"]) == 0:
+                self.logger.warning(f"No data was found for {series_id}")
                 return pd.DataFrame()
             else:
                 try:

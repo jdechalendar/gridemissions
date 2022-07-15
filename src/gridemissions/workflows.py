@@ -17,13 +17,14 @@ from gridemissions.viz.d3map import create_graph
 
 # Optimization-based cleaning is different pre and post July 2018
 THRESH_DATE = pd.to_datetime("20180701", utc=True)
+logger = logging.getLogger(__name__)
 
 
 def make_dataset(
-    start="20191110T08Z",
-    end="20191115T08Z",
+    start,
+    end,
     file_name="EBA",
-    tmp_folder="tmp",
+    tmp_folder=None,
     folder_hist=None,
     scrape=True,
 ):
@@ -36,8 +37,13 @@ def make_dataset(
     Uses historical data if available.
     """
     start_time = time.time()
-
-    logger = logging.getLogger("scraper")
+    if tmp_folder is None:
+        tmp_folder = config["TMP_PATH"]
+    
+    tmp_folder.mkdir(exist_ok=True)
+    file_name_raw = tmp_folder / f"{file_name}_raw.csv"
+    file_name_basic = tmp_folder / f"{file_name}_basic.csv"
+    
     eia_columns = load_eia_columns()
 
     if scrape:  # else: assume that the file exists
@@ -45,21 +51,23 @@ def make_dataset(
         logger.info("Scraping EIA data from %s to %s" % (start, end))
         scraper = EBA_data_scraper()
         df = scraper.scrape(eia_columns, start=start, end=end, split_calls=True)
-        os.makedirs(tmp_folder, exist_ok=True)
-        df.to_csv(join(tmp_folder, "%s_raw.csv" % file_name))
+        df.to_csv(file_name_raw)
 
     # Basic data cleaning
     logger.info("Basic data cleaning")
-    data = BaData(fileNm=join(tmp_folder, "%s_raw.csv" % file_name))
+    data = BaData(fileNm=file_name_raw)
+    
+    if len(data.df) == 0:
+        raise ValueError(f"Aborting make_dataset: no new data in {file_name_raw}")
     cleaner = BaDataBasicCleaner(data)
     cleaner.process()
-    cleaner.r.df.to_csv(join(tmp_folder, "%s_basic.csv" % file_name))
+    cleaner.r.df.to_csv(file_name_basic)
     data = cleaner.r
 
     weights = None
     if folder_hist is not None:  # Rolling-window-based data cleaning
         logger.info("Rolling window data cleaning")
-        data = BaData(fileNm=join(tmp_folder, "%s_basic.csv" % file_name))
+        data = BaData(fileNm=file_name_basic)
         cleaner = BaDataRollingCleaner(data)
         cleaner.process(file_name, folder_hist)
         cleaner.r.df.to_csv(join(tmp_folder, "%s_rolling.csv" % file_name))
