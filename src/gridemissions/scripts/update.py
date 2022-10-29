@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    gridemissions.configure_logging()
+    gridemissions.configure_logging(logging.INFO)
     # Parse command-line arguments
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
@@ -79,17 +79,18 @@ def main():
 
     file_name = "EBA"
     argparser.add_argument(
-        "--extract2weeks",
+        "--data_extract",
         default=True,
         nargs="?",
         const=True,
         type=str2bool,
-        help="whether to extract 2 weeks",
+        help="whether to extract last month",
     )
     args = argparser.parse_args()
 
     # Configure logging
     if args.debug:
+        print("Activating debug mode")
         gridemissions.configure_logging(logging.DEBUG)
     if config["ENV"] == "vm":
         # Store logs
@@ -135,10 +136,10 @@ def main():
 
     args.folder_new.mkdir(exist_ok=True)
 
-    if args.extract2weeks:
-        folder_2weeks = config["DATA_PATH"] / "analysis" / "s3" / "data2weeks"
+    if args.data_extract:
+        folder_extract = config["DATA_PATH"] / "analysis" / "webapp" / "data_extract"
     else:
-        folder_2weeks = None
+        folder_extract = None
 
     file_names = [
         el % args.file_name
@@ -164,15 +165,16 @@ def main():
             scrape=args.scrape,
         )
 
+    thresh_date = (pd.to_datetime(end) - timedelta(hours=24 * 30)).isoformat()
     if args.update:
         update_dataset(
             args.folder_hist,
             file_names,
             args.folder_new,
-            folder_2weeks=folder_2weeks,
+            folder_extract=folder_extract,
+            thresh_date_extract=thresh_date
         )
 
-    thresh_date = (now - timedelta(hours=24 * 30)).isoformat()
     if args.update_d3map:
         update_d3map(
             args.folder_new,
