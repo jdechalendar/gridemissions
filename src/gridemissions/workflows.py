@@ -120,7 +120,7 @@ def make_dataset(
     )
 
 
-def update_dataset(folder_hist, file_names, folder_new="tmp", folder_2weeks=None):
+def update_dataset(folder_hist, file_names, folder_new="tmp", folder_extract=None, thresh_date_extract=None):
     """
     Update dataset in storage with new data.
 
@@ -129,37 +129,36 @@ def update_dataset(folder_hist, file_names, folder_new="tmp", folder_2weeks=None
     """
     logger = logging.getLogger("scraper")
     os.makedirs(folder_hist, exist_ok=True)
-    if folder_2weeks is not None:
-        os.makedirs(folder_2weeks, exist_ok=True)
-        logger.info(f"Creating {folder_2weeks}")
     for file_name in file_names:
         _update_dataset(folder_hist, file_name, folder_new)
 
-    if folder_2weeks is not None:
-        shutil.rmtree(folder_2weeks)
-        os.makedirs(folder_2weeks, exist_ok=True)
+    if folder_extract is not None:
+        logger.info(f"Creating {folder_extract}")
+        os.makedirs(folder_extract, exist_ok=True)
+        shutil.rmtree(folder_extract)
+        os.makedirs(folder_extract, exist_ok=True)
         for file_name in file_names:
-            _extract_last2weeks(folder_hist, file_name, folder_2weeks)
+            _extract_data(folder_hist, file_name, folder_extract, thresh_date_extract)
 
     # Remove
     logger.warning("Removal of temporary folder not yet implemented")
 
 
-def _extract_last2weeks(folder_hist, file_name, folder_2weeks):
+def _extract_data(folder_hist, file_name, folder_extract, thresh_date_extract):
     """
-    Helper for `update_dataset` to save last 2 weeks
+    Helper for `update_dataset` to save data after a given date
     """
     logger = logging.getLogger("scraper")
     file_hist = join(folder_hist, file_name)
-    file_new = join(folder_2weeks, file_name)
+    file_new = join(folder_extract, file_name)
 
     def load_file(x):
         logger.info("Reading %s" % x)
         return pd.read_csv(x, index_col=0, parse_dates=True)
 
-    logger.debug("Saving 2 weeks for %s" % file_name)
+    logger.debug(f"Saving data from {thresh_date_extract} for {file_name}")
     df_hist = load_file(file_hist)
-    df_hist.iloc[-24 * 14 :].to_csv(file_new)
+    df_hist.loc[thresh_date_extract:].to_csv(file_new)
 
 
 def _update_dataset(folder_hist, file_name, folder_new="tmp"):

@@ -314,6 +314,8 @@ class EBA_data_scraper(EIA_Scraper):
             query = "&series_id=%s&start=%s&end=%s" % (";".join(series_id), start, end)
         r = self.get(query)
 
+        print(f"\rDownloading {series_id} from {start} to {end}", end="\r")
+
         if "series" in r.keys():
             # Warning: there could be some missing entries in both columns and
             # rows
