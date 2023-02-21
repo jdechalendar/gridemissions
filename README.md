@@ -6,9 +6,9 @@ The tools in this repository power the visualization at [energy.stanford.edu/gri
 # Contents
 * [How the datasets are created](https://github.com/jdechalendar/gridemissions#how-the-datasets-are-created)
 * [Retrieving data from the API](https://github.com/jdechalendar/gridemissions#Retrieving-data-from-the-API)
-* [FAQ](https://github.com/jdechalendar/gridemissions#Installation#FAQ)
+* [FAQ](https://github.com/jdechalendar/gridemissions#FAQ)
 * [Installation](https://github.com/jdechalendar/gridemissions#Installation)
-* [The `GraphData` class](https://github.com/jdechalendar/gridemissions#Installation#The-GraphData-class)
+* [The `GraphData` class](https://github.com/jdechalendar/gridemissions#The-GraphData-class)
 
 
 ## How the datasets are created
