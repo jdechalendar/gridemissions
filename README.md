@@ -3,6 +3,14 @@
 
 The tools in this repository power the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions), updated hourly. Associated datasets on electricity and emissions are made publicly available. In addition to tools to create the data, the `gridemissions` package provides a module to retrieve data from the API and methods to load and manipulate the data. This README file serves as technical documentation for the tools in this repository.
 
+# Contents
+* [How the datasets are created](https://github.com/jdechalendar/gridemissions#how-the-datasets-are-created)
+* [Retrieving data from the API](https://github.com/jdechalendar/gridemissions#Retrieving-data-from-the-API)
+* [FAQ](https://github.com/jdechalendar/gridemissions#Installation#FAQ)
+* [Installation](https://github.com/jdechalendar/gridemissions#Installation)
+* [The `GraphData` class](https://github.com/jdechalendar/gridemissions#Installation#The-GraphData-class)
+
+
 ## How the datasets are created
 Two main operations are needed to create the datasets for the the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions).
 
@@ -17,7 +25,7 @@ Raw electric grid data typically have errors and inconsistencies, but we need "c
 For more on this operation, see "Physics-informed data reconciliation framework for real-time electricity and emissions tracking", by Jacques A. de Chalendar and Sally M. Benson. Applied Energy Dec 2021; DOI: 10.1016/j.apenergy.2021.117761 [ArXiv preprint](https://arxiv.org/abs/2103.05663).
 
 ## Retrieving data from the API
-For a quick introduction to the package, see the notebooks in the `notebooks/demo` folder. The [API Demo.ipynb](https://colab.research.google.com/drive/1HYHqiA2iA-vVMuqFHrKtUUkdPLN5UJYS) notebook can also be loaded on Colab and shows how data can be retrieved from the API and then manipulated using the `GraphData` methods.
+For a quick introduction to the package, see the notebooks in the `notebooks/demo` folder. The [API Demo.ipynb](https://colab.research.google.com/drive/1HYHqiA2iA-vVMuqFHrKtUUkdPLN5UJYS) notebook can also be loaded on Colab and shows how data can be retrieved from the API and then manipulated using the `GraphData` methods. Note that only one month of historical data is available from the API. To retrieve earlier data, download datasets in bulk from [here](https://gridemissions.jdechalendar.su.domains/#/code)
 
 A download script is provided to quickly download data and can be used after installing the package (see below):
 ```bash
@@ -66,6 +74,13 @@ For example, `"EBA.CISO-ALL.D.H"` is the column for demand in the California ISO
 }
 ```
 For example, `"CO2_CISO_D"` is the column for consumed emissions in the California ISO, `"CO2_CISO_NG"` is the column for produced emissions in the California ISO.
+
+## FAQ
+### I tried to retrieve data from the API from 2018 without success
+The backend API only stores a month's worth of data (to save on AWS costs). You can download data in bulk instead from [here](https://gridemissions.jdechalendar.su.domains/#/code).
+
+### Where are the emissions factors coming?
+These are life-cycle emissions factors from the IPCC (Table A.II.4 on page 982). If you want, you can use other emissions factors. [This](https://github.com/jdechalendar/gridemissions/blob/main/src/gridemissions/emissions.py#L14-L28) is where they are being read in by the codebase. If you pass in custom emissions factors, you can then re-run the code to generate estimates using your favorite ones. It would also not be too difficult to modify this code to make the emissions factors depend on the balancing-area and time of year, although that would require a bit more work.
 
 ## Installation
 Clone this repository on your machine using HTTPS:
@@ -117,7 +132,7 @@ GRIDEMISSIONS_DATA_DIR_PATH:        the data directory (default: "$HOME/data/gri
 GRIDEMISSIONS_TMP_DIR_PATH:         the temporary data directory (default: "$HOME/tmp/gridemissions")
 ```
 
-## `GraphData`
+## The `GraphData` class
 *Important note: this class will progressively replace the `BaData` class, which will be deprecated.*
 
 Abstraction to represent timeseries data on a graph. This class is a light wrapper around a pd.DataFrame, with convenience functions for accessing data. In the underlying pd.DataFrame, the index represents time (UTC) and columns represent data for different fields on the graph.
