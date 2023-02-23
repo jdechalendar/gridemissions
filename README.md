@@ -80,7 +80,7 @@ For example, `"CO2_CISO_D"` is the column for consumed emissions in the Californ
 The backend API only stores a month's worth of data (to save on AWS costs). You can download data in bulk instead from [here](https://gridemissions.jdechalendar.su.domains/#/code).
 
 ### Where are the emissions factors coming?
-These are life-cycle emissions factors from the IPCC (Table A.II.4 on page 982). If you want, you can use other emissions factors. [This](https://github.com/jdechalendar/gridemissions/blob/main/src/gridemissions/emissions.py#L14-L28) is where they are being read in by the codebase. If you pass in custom emissions factors, you can then re-run the code to generate estimates using your favorite ones. It would also not be too difficult to modify this code to make the emissions factors depend on the balancing-area and time of year, although that would require a bit more work.
+These are life-cycle emissions factors from the [IPCC](https://www.ipcc.ch/report/renewable-energy-sources-and-climate-change-mitigation/) (Table A.II.4 on page 982 of the report at the link). If you want, you can use other emissions factors. [This](https://github.com/jdechalendar/gridemissions/blob/main/src/gridemissions/emissions.py#L14-L28) is where they are being read in by the codebase. If you pass in custom emissions factors, you can then re-run the code to generate estimates using your favorite ones. It would also not be too difficult to modify this code to make the emissions factors depend on the balancing-area and time of year, although that would require a bit more work.
 
 ## Installation
 Clone this repository on your machine using HTTPS:
