@@ -3,7 +3,9 @@ import pathlib
 DATA_PATH = pathlib.Path(__file__).parent.absolute() / "data"
 
 
-def get_path(filename):
+def get_path(filename=None):
+    if filename is None:
+        return DATA_PATH
     return DATA_PATH / filename
 
 

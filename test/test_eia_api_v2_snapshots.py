@@ -1,11 +1,17 @@
 import json
+import os
 import pytest
 import gridemissions as ge
 from gridemissions import eia_api_v2
 
-pytestmark = pytest.mark.skipif(
-    "EIA_API_KEY" not in ge.config, reason="CI platforms lack API key"
-)
+pytestmark = [
+    pytest.mark.skipif(
+        "EIA_API_KEY" not in ge.config, reason="CI platforms lack API key"
+    ),
+    pytest.mark.skipif(
+        bool(os.environ.get("SKIP_SLOW_TESTS")), reason="Deliberately skip slow tests"
+    ),
+]
 
 
 def test_compute_calls(snapshot):

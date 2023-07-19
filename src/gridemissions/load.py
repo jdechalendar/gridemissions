@@ -47,7 +47,7 @@ class GraphData(object):
     """
 
     def __init__(self, df: pd.DataFrame) -> None:
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger("gridemissions." + self.__class__.__name__)
         self.atol = ATOL
         self.rtol = RTOL
         self.df = df
@@ -233,6 +233,9 @@ class GraphData(object):
                 & self.check_positive(region)
                 & self.check_generation_by_source(region)
             )
+
+        if res:
+            self.logger.info("All checks passed!")
         return res
 
     def check_nans(self, region: str) -> None:
@@ -300,7 +303,7 @@ class GraphData(object):
             out = False
             self.logger.error(f"{region}: {cnt} TI != sum(ID)")
             d = self.get_data(region=region, field="TI")[failures]
-            self.logger.debug(f"Detail for{region}: TI != sum(ID)\n{d}")
+            self.logger.debug(f"Detail for {region}: TI != sum(ID)\n{d}")
         return out
 
     def check_antisymmetric(self, region: str) -> bool:
@@ -317,6 +320,7 @@ class GraphData(object):
             cnt = failures.sum()
             if cnt != 0:
                 self.logger.error(f"{region}-{region2}: {cnt} ID[i,j] != -ID[j,i]")
+                self.logger.debug(pd.concat([left, -right], axis=1))
                 out = False
         return out
 

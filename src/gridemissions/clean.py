@@ -7,7 +7,7 @@ import os
 import logging
 import time
 import re
-from gridemissions.load import BaData
+from gridemissions.load import BaData, GraphData
 from gridemissions.eia_api import SRC, KEYS
 import pandas as pd
 import numpy as np

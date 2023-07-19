@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
-import os
-from os.path import join
+import pathlib
 import pandas as pd
 import argparse
 import logging.config
 from datetime import datetime, timedelta
 
-import gridemissions
-from gridemissions import config
+import gridemissions as ge
+from gridemissions import eia_api_v2
 from gridemissions.workflows import make_dataset, update_dataset, update_d3map
 from .utils import str2bool
 
@@ -16,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    gridemissions.configure_logging(logging.INFO)
+    ge.configure_logging(logging.INFO)
     # Parse command-line arguments
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
@@ -62,7 +61,7 @@ def main():
     )
     argparser.add_argument(
         "--folder_new",
-        default=config["TMP_PATH"],
+        default=ge.config["TMP_PATH"],
         help="folder in which history is saved",
     )
     argparser.add_argument(
@@ -92,12 +91,12 @@ def main():
     # Configure logging
     if args.debug:
         print("Activating debug mode")
-        gridemissions.configure_logging(logging.DEBUG)
-    if config["ENV"] == "vm":
+        logging.getLogger("gridemissions").setLevel("DEBUG")
+    if ge.config["ENV"] == "vm":
         # Store logs
-        log_path = join(config["DATA_PATH"], "Logs")
-        os.makedirs(log_path, exist_ok=True)
-        log_path = join(log_path, "log")
+        log_path = ge.config["DATA_PATH"] / "Logs"
+        log_path.mkdir(exist_ok=True)
+        log_path = log_path / "log"
         logger.info("Saving logs to: %s" % str(log_path))
         fh = logging.handlers.TimedRotatingFileHandler(log_path, when="midnight")
         if args.debug:
@@ -124,21 +123,23 @@ def main():
 
     if end <= start:
         raise ValueError("end <= start")
-    end = end.strftime("%Y%m%dT%HZ")
-    start = start.strftime("%Y%m%dT%HZ")
+    end = end.strftime(eia_api_v2.EIA_DATETIME_FORMAT)
+    start = start.strftime(eia_api_v2.EIA_DATETIME_FORMAT)
 
     if args.folder_hist == "webapp":
-        args.folder_hist = config["DATA_PATH"] / "analysis" / "webapp"
+        args.folder_hist = ge.config["DATA_PATH"] / "analysis" / "webapp"
     elif args.folder_hist == "local":
-        args.folder_hist = config["DATA_PATH"] / "analysis" / "local"
+        args.folder_hist = ge.config["DATA_PATH"] / "analysis" / "local"
+    else:
+        args.folder_hist = pathlib.Path(args.folder_hist)
 
-    if args.folder_new == config["TMP_PATH"]:
-        args.folder_new = config["TMP_PATH"] / "emissions_app"
+    if args.folder_new == ge.config["TMP_PATH"]:
+        args.folder_new = ge.config["TMP_PATH"] / "emissions_app"
 
     args.folder_new.mkdir(exist_ok=True)
 
     if args.data_extract:
-        folder_extract = config["DATA_PATH"] / "analysis" / "webapp" / "data_extract"
+        folder_extract = ge.config["DATA_PATH"] / "analysis" / "webapp" / "data_extract"
     else:
         folder_extract = None
 
@@ -151,6 +152,7 @@ def main():
             "%s_opt.csv",
             "%s_elec.csv",
             "%s_co2.csv",
+            "%s_co2i.csv",
         ]
     ]
 
@@ -179,11 +181,11 @@ def main():
     if args.update_d3map:
         update_d3map(
             args.folder_new,
-            join(args.folder_hist, "d3map"),
+            args.folder_hist / "d3map",
             file_name=file_name,
             thresh_date=thresh_date,
         )
 
     logger.debug("Writing last_update.txt")
-    with open(join(args.folder_hist, "last_update.txt"), "w") as fw:
+    with open(args.folder_hist / "last_update.txt", "w") as fw:
         fw.write(datetime.utcnow().isoformat())
