@@ -13,26 +13,27 @@ DF2ter = pd.DataFrame(columns=["CO2_A_D", "SO2_B_D"])
 DF3 = pd.DataFrame(columns=["CO2_A_D", "CO2_B_D", "CO2_A-B_ID", "CO2_B-A_ID"])
 DF4 = pd.DataFrame(
     data={
-        "EBA.A-ALL.D.H": [1.0],
-        "EBA.A-ALL.NG.H": [10.0],
-        "EBA.A-ALL.TI.H": [0.0],
-        "EBA.A-ALL.NG.BIO.H": [1.0],
-        "EBA.B-ALL.D.H": [1.0],
-        "EBA.B-ALL.NG.H": [10.0],
-        "EBA.B-ALL.TI.H": [9.0],
-        "EBA.A-B.ID.H": [-1.0],
-        "EBA.B-A.ID.H": [1.0],
-        "EBA.C-D.ID.H": [0.0],
-        "EBA.D-C.ID.H": [1.0],
-        "EBA.C-ALL.TI.H": [0.0],
-        "EBA.C-ALL.D.H": [-1.0],
-        "EBA.C-ALL.NG.H": [-1.0],
-        "EBA.C-ALL.NG.COL.H": [-1.0],
+        "E_A_D": [1.0],
+        "E_A_NG": [10.0],
+        "E_A_TI": [0.0],
+        "E_A_BIO": [1.0],
+        "E_B_D": [1.0],
+        "E_B_NG": [10.0],
+        "E_B_TI": [9.0],
+        "E_A-B_ID": [-1.0],
+        "E_B-A_ID": [1.0],
+        "E_C-D_ID": [0.0],
+        "E_D-C_ID": [1.0],
+        "E_C_TI": [0.0],
+        "E_C_D": [-1.0],
+        "E_C_NG": [-1.0],
+        "E_C_COL": [-1.0],
     }
 )
 
+
 # Reminder that we do not allow pd.DataFrame(), but we do allow dataframes with no data
-# columns need to be supplied for the constructor to work
+# Columns need to be supplied for the constructor to work
 def test_empty():
     with pytest.raises(AttributeError):
         ge.GraphData(pd.DataFrame())
@@ -81,10 +82,10 @@ def test_parse_info3(caplog):
     ge.configure_logging("DEBUG")
     gdata = ge.GraphData(DF4)
     assert gdata.regions == ["A", "B", "C", "D"]
-    assert gdata.region_fields == ["D", "NG", "TI", "SRC_BIO", "SRC_COL"]
+    assert gdata.region_fields == ["D", "NG", "TI", "BIO", "COL"]
     assert gdata.variable == "E"
     assert gdata.link_fields == ["ID"]
-    assert gdata.fields == ["D", "NG", "TI", "SRC_BIO", "SRC_COL", "ID"]
+    assert gdata.fields == ["D", "NG", "TI", "BIO", "COL", "ID"]
     assert gdata.partners == {"A": ["B"], "B": ["A"], "C": ["D"], "D": ["C"]}
     assert (
         "Inconsistencies in trade reporting - DEBUG has missing links"
@@ -190,12 +191,12 @@ def test_check_positive(caplog):
     gdata.check_positive("C")
     assert "A: 1 <0 for D" not in caplog.text
     assert "C: 1 <0 for NG" in caplog.text
-    assert "C: 1 <0 for SRC_COL" in caplog.text
+    assert "C: 1 <0 for COL" in caplog.text
 
 
 def test_check_generation_by_source(caplog):
     gdata = ge.GraphData(df=DF4)
     gdata.check_generation_by_source("A")
     gdata.check_generation_by_source("C")
-    assert "A: 1 NG != sum(NG_SRC)" in caplog.text
-    assert "C: 1 NG != sum(NG_SRC)" not in caplog.text
+    assert "A: 1 NG != sum(Generation by fuel)" in caplog.text
+    assert "C: 1 NG != sum(Generation by fuel)" not in caplog.text
