@@ -1,10 +1,10 @@
+import pathlib
 import os
 import json
 import numpy as np
-from gridemissions import config
+import gridemissions as ge
 
-
-data_path = os.path.join(config["DATA_PATH"], "analysis", "d3map")
+DATA_PATH = pathlib.Path(__file__).parent.absolute() / "data"
 
 WECC_BAs = [
     "AVA",
@@ -71,14 +71,14 @@ titles = {
 
 
 def resetCoords():
-    xyCoordsPath = os.path.join(data_path, "xycoords.json")
+    xyCoordsPath = DATA_PATH / "xycoords.json"
     with open(xyCoordsPath, "r") as fr:
         xycoords = json.load(fr)
-    xyCoordsLabPath = os.path.join(data_path, "xycoords_lab.json")
+    xyCoordsLabPath = DATA_PATH / "xycoords_lab.json"
     with open(xyCoordsLabPath, "r") as fr:
         xycoords_lab = json.load(fr)
 
-    baseGraphPath = os.path.join(data_path, "graph.json")
+    baseGraphPath = DATA_PATH / "graph.json"
     with open(baseGraphPath, "r") as fr:
         graph = json.load(fr)
     newnodes = []
@@ -93,7 +93,7 @@ def resetCoords():
     graph["nodes"] = newnodes
     graph["labels"] = labels
 
-    graphPath_out = os.path.join(data_path, "graph2.json")
+    graphPath_out = DATA_PATH / "graph2.json"
     with open(graphPath_out, "w") as fw:
         json.dump(graph, fw)
 
@@ -106,7 +106,7 @@ def add_data_nodes(graph, field, data, key="nodes"):
 
 
 def load_base_graph():
-    file_name = os.path.join(data_path, "graph2.json")
+    file_name = DATA_PATH / "graph2.json"
     with open(file_name, "r") as fr:
         graph = json.load(fr)
 
@@ -121,19 +121,36 @@ def replace_with_none(data, condition):
 
 
 def create_graph(
-    poll,
-    elec,
+    poll: ge.GraphData,
+    elec: ge.GraphData,
     idx,
-    folder_out,
-    poll_scaling=1e-6,
-    elec_scaling=1e-3,
-    polli_scaling=1,
-    unit="ktons",
-    variable_name="CO2",
-    poll_name="CO2",
-    save_data=False,
-):
+    folder_out: pathlib.Path,
+    poll_scaling: float = 1.0e-6,
+    elec_scaling: float = 1.0e-3,
+    polli_scaling: float = 1.0,
+    unit: str = "ktons",
+    variable_name: str = "CO2",
+    poll_name: str = "CO2",
+    save_data: bool = False,
+) -> dict:
     """
+    Create graph data for plotting with D3.js
+
+    Parameters
+    ----------
+    poll: ge.GraphData
+    elec: ge.GraphData
+    idx: datetime-like
+        Assumed to be in UTC
+    folder_out: pathlib.Path
+    poll_scaling: float, default 1.0e-6
+    elec_scaling: float default 1.0e-3
+    polli_scaling: float, default 1.0
+    unit: str, default "ktons"
+    variable_name: str, default "CO2"
+    poll_name: str, default"CO2"
+    save_data: bool, default False
+
     Todo
     ----
     remove commented code
@@ -142,6 +159,7 @@ def create_graph(
     result...
 
     Default scaling values are set for hourly data
+
 
     Assumes elec data comes in MWh and poll data comes in kg
     """
@@ -255,7 +273,9 @@ def create_graph(
         "legLineTitle": legLineTitle,
         "unit": unit,
         "title": title,
-        "timestamp": idx.tz_convert("US/Mountain").strftime("%Y%m%dT%H MT"),
+        "timestamp": idx.tz_localize("UTC")
+        .tz_convert("US/Mountain")
+        .strftime("%Y%m%dT%H MT"),
     }
 
     if save_data:

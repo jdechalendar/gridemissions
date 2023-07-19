@@ -2,12 +2,17 @@ import sys
 import logging
 import time
 import numpy as np
-from gridemissions import eia_api
-from gridemissions.eia_api import SRC, KEYS
-from gridemissions.load import BaData
+import pandas as pd
+from gridemissions import eia_api_v2 as eia_api
+from gridemissions.eia_api_v2 import FUELS, KEYS
+from gridemissions.load import GraphData
+from packaging.version import Version
 
+assert Version(np.__version__) >= Version(
+    "1.15.1"
+), "consumption_emissions breaks for numpy versions < 1.15.1"
 
-# Default emissions factors - can also supply custom EFs to BaDataEmissionsCalc
+# Default emissions factors - can also supply custom EFs to EmissionsCalc
 # CO2
 # UNK is 2017 average US power grid intensity according to Schivley 2018
 # unit is kg / MWh
@@ -16,7 +21,7 @@ EMISSIONS_FACTORS = {
         "WAT": 4,
         "NUC": 16,
         "SUN": 46,
-        "NG": 469,
+        "GAS": 469,
         "WND": 12,
         "COL": 1000,
         "OIL": 840,
@@ -55,10 +60,6 @@ def consumption_emissions(F, P, ID):
     Note: np version must be high enough, otherwise np.linalg.cond fails
     on a matrix with only zeros.
     """
-    from distutils.version import LooseVersion
-
-    assert LooseVersion(np.__version__) >= LooseVersion("1.15.1")
-
     # Create and solve linear system
     Imp = (-ID).clip(min=0)  # trade matrix reports exports - we want imports
     I_tot = Imp.sum(axis=1)  # sum over columns
@@ -87,34 +88,28 @@ def consumption_emissions(F, P, ID):
     return X, len(perturbed)
 
 
-class BaDataEmissionsCalc(object):
-    def __init__(self, ba_data, poll="CO2", EF=None):
-        self.logger = logging.getLogger("clean")
+class EmissionsCalc(object):
+    def __init__(self, ba_data: GraphData, poll: str = "CO2", EF=None):
+        self.logger = logging.getLogger("gridemissions." + self.__class__.__name__)
         self.ba_data = ba_data
         self.df = ba_data.df.copy(deep=True)
         self.regions = ba_data.regions
         self.poll = poll
-        self.KEY_E = KEYS["E"]
-        if poll in KEYS:
-            self.KEY_poll = KEYS[poll]
-        else:
-            self.KEY_poll = eia_api.generic_key(poll)
-        if EF is None:
-            self.EF = EMISSIONS_FACTORS[poll]
-        else:
-            self.EF = EF
+        self.KEY_E = eia_api.get_key("E")
+        self.KEY_poll = eia_api.get_key(poll)
+        self.KEY_polli = eia_api.get_key(poll + "i")
+        self.EF = EF if EF else EMISSIONS_FACTORS[poll]
 
     def process(self):
         """
         Compute emissions production, consumption and flows.
 
         Compute (i) production emissions, and (ii) consumption-based emissions
-        factors
-        Then recreate a BaData object for emissions and check physical
+        factors. Then recreate a BaData object for emissions and check physical
         balances.
         """
-        self.logger.info("Running BaDataEmissionsCalc for %d rows" % len(self.df))
-        cnt_na = self.df.isna().any().sum()
+        self.logger.info(f"Running BaDataEmissionsCalc for {len(self.df)} rows")
+        cnt_na = np.sum(self.df.isna().values)
         if cnt_na > 0:
             self.logger.warning(f"Setting {cnt_na} NaNs to zero")
             self.logger.debug(
@@ -125,45 +120,56 @@ class BaDataEmissionsCalc(object):
 
         # Create columns for demand
         for ba in self.regions:
-            self.df.loc[:, "%s_%s_D" % (self.poll, ba)] = (
-                self.df.loc[:, "%si_%s_D" % (self.poll, ba)]
-                * self.df.loc[:, self.ba_data.get_cols(r=ba, field="D")[0]]
-            )
+            self.df.loc[:, self.KEY_poll["D"] % ba] = self.df.loc[
+                :, self.KEY_polli["D"] % ba
+            ] * self.ba_data.get_data(region=ba, field="D")
 
         # Create columns for pairwise trade
+        new_cols = {}
         for ba in self.regions:
-            for ba2 in self.ba_data.get_trade_partners(ba):
+            for ba2 in self.ba_data.partners[ba]:
                 imp = self.df.loc[:, self.KEY_E["ID"] % (ba, ba2)].apply(
                     lambda x: min(x, 0)
                 )
                 exp = self.df.loc[:, self.KEY_E["ID"] % (ba, ba2)].apply(
                     lambda x: max(x, 0)
                 )
-                self.df.loc[:, self.KEY_poll["ID"] % (ba, ba2)] = (
-                    imp * self.df.loc[:, "%si_%s_D" % (self.poll, ba2)]
-                    + exp * self.df.loc[:, "%si_%s_D" % (self.poll, ba)]
+                new_cols[self.KEY_poll["ID"] % (ba, ba2)] = (
+                    imp * self.df.loc[:, self.KEY_polli["D"] % ba2]
+                    + exp * self.df.loc[:, self.KEY_polli["D"] % ba]
                 )
+        self.df = pd.concat(
+            [self.df, pd.DataFrame(new_cols, index=self.df.index)], axis=1
+        )
 
+        new_cols = {}
         # Create columns for total trade
         for ba in self.regions:
-            self.df.loc[:, self.KEY_poll["TI"] % ba] = self.df.loc[
+            new_cols[self.KEY_poll["TI"] % ba] = self.df.loc[
                 :,
-                [
-                    self.KEY_poll["ID"] % (ba, ba2)
-                    for ba2 in self.ba_data.get_trade_partners(ba)
-                ],
+                [self.KEY_poll["ID"] % (ba, ba2) for ba2 in self.ba_data.partners[ba]],
             ].sum(axis=1)
+        self.df = pd.concat(
+            [self.df, pd.DataFrame(new_cols, index=self.df.index)], axis=1
+        )
 
         # Create BaData object for pollutant
-        self.poll_data = BaData(
+        self.poll_data = GraphData(
             df=self.df.loc[
                 :, [col for col in self.df.columns if "%s_" % self.poll in col]
-            ],
-            variable=self.poll,
+            ]
+        )
+
+        # Create BaData object for pollutant intensity
+        self.polli_data = GraphData(
+            df=self.df.loc[
+                :, [col for col in self.df.columns if "%si_" % self.poll in col]
+            ]
         )
 
         # Check balances
-        self.logger.warn("Consumption calcs - unimplemented balance check!")
+        self.logger.warning("Consumption calcs - unimplemented balance check!")
+        self.poll_data.check_all()
 
     def _add_production_emissions(self):
         """
@@ -172,10 +178,10 @@ class BaDataEmissionsCalc(object):
         Assumes elec data comes in MWh and EF data in kg/MWh.
         """
         for ba in self.regions:
-            gen_cols = [(src, self.KEY_E["SRC_%s" % src] % ba) for src in SRC]
-            gen_cols = [(src, col) for src, col in gen_cols if col in self.df.columns]
+            gen_cols = [(fuel, self.KEY_E[fuel] % ba) for fuel in FUELS]
+            gen_cols = [(fuel, col) for fuel, col in gen_cols if col in self.df.columns]
             self.df.loc[:, self.KEY_poll["NG"] % ba] = self.df.apply(
-                lambda x: sum(self.EF[src] * x[col] for src, col in gen_cols), axis=1
+                lambda x: sum(self.EF[fuel] * x[col] for fuel, col in gen_cols), axis=1
             )
 
     def _add_consumption_efs(self):
@@ -187,7 +193,7 @@ class BaDataEmissionsCalc(object):
         self.logger.info("Calculating consumption emissions...")
         start_time = time.time()
         newcols = self.df.columns.tolist() + [
-            "%si_%s_D" % (self.poll, ba) for ba in self.regions
+            self.KEY_polli["D"] % ba for ba in self.regions
         ]
 
         self.df = self.df.reindex(columns=newcols)
@@ -207,7 +213,7 @@ class BaDataEmissionsCalc(object):
                 if KEYS["E"]["ID"] % (ri, rj) in row.index:
                     ID[i][j] = row[KEYS["E"]["ID"] % (ri, rj)]
 
-        F = row[[("%s_%s_NG") % (self.poll, ba) for ba in self.regions]].values
+        F = row[[self.KEY_poll["NG"] % ba for ba in self.regions]].values
         X = [np.nan for ba in self.regions]
         try:
             X, pert = consumption_emissions(F, P, ID)
@@ -215,5 +221,5 @@ class BaDataEmissionsCalc(object):
             pass
         except ValueError:
             raise
-        row[[("%si_%s_D") % (self.poll, ba) for ba in self.regions]] = X
+        row[[self.KEY_polli["D"] % ba for ba in self.regions]] = X
         return row
