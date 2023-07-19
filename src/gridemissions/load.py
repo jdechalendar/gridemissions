@@ -16,7 +16,7 @@ import numpy as np
 import logging
 import json
 import re
-from gridemissions import config, eia_api
+from gridemissions import config, eia_api, eia_api_v2
 from gridemissions.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
 
 PRECISION = 1e-2  # When assessing constraints
@@ -68,7 +68,7 @@ class GraphData(object):
         - link data is supplied for (r1, r2) but not (r2, r1)
         """
         parsed_columns = pd.DataFrame(
-            data=list(self.df.columns.map(eia_api.parse_column))
+            data=list(self.df.columns.map(eia_api_v2.parse_column))
         )
         if "region2" not in parsed_columns.columns:
             parsed_columns["region2"] = np.nan
@@ -78,7 +78,7 @@ class GraphData(object):
             len(variables) == 1
         ), f"GraphData only support one variable! Got {variables}"
         self.variable = variables[0]
-        self.KEY = eia_api.get_key(self.variable)
+        self.KEY = eia_api_v2.get_key(self.variable)
         self.regions = list(
             parsed_columns[["region", "region2"]].stack().dropna().unique()
         )
@@ -96,7 +96,7 @@ class GraphData(object):
 
         # Check consistency of regions for each field
         for f in self.fields:
-            if f.startswith("SRC_"):  # Skip this for generation by source columns
+            if f in eia_api_v2.FUELS:  # Skip this for generation by source columns
                 continue
             mismatch = _compare_lists(
                 parsed_columns[parsed_columns.field == f].region.unique(), self.regions
@@ -294,9 +294,9 @@ class GraphData(object):
         """
         D > 0
         NG > 0
-        NG_SRC > 0
+        Generation by fuel > 0
         """
-        for field in ["D", "NG"] + [f"SRC_{src}" for src in eia_api.SRC]:
+        for field in ["D", "NG"] + eia_api_v2.FUELS:
             if not self.has_field([field], region):
                 continue
             ind_neg = self.get_data(region=region, field=field) < 0
@@ -306,10 +306,11 @@ class GraphData(object):
 
     def check_generation_by_source(self, region: str) -> None:
         """
-        NG == sum(NG_SRC)
+        NG == sum(Generation by fuel)
         """
-        src_cols = [f"SRC_{src}" for src in eia_api.SRC]
-        src_cols = [col for col in src_cols if self.has_field(col, region=region)]
+        src_cols = [
+            col for col in eia_api_v2.FUELS if self.has_field(col, region=region)
+        ]
         if not self.has_field(["NG"]) and len(src_cols) > 0:
             return
         res = self.get_data(region=region, field="NG") - self.get_data(
@@ -317,7 +318,7 @@ class GraphData(object):
         ).sum(axis=1)
         cnt = (res.abs() > self.tol).sum()
         if cnt != 0:
-            self.logger.error(f"{region}: {cnt} NG != sum(NG_SRC)")
+            self.logger.error(f"{region}: {cnt} NG != sum(Generation by fuel)")
 
 
 def read_csv(path: Union[str, "PathLike[str]"]) -> GraphData:
