@@ -101,14 +101,14 @@ def test_parse_info3(caplog):
 
 
 def test_parse_info4(caplog):
-    gdata = ge.GraphData(DF2bis)
+    ge.GraphData(DF2bis)
     assert "Regions for NG do not match overall regions!" in caplog.text
     assert "Regions for ID do not match overall regions!" in caplog.text
 
 
 def test_parse_info5():
     with pytest.raises(AssertionError):
-        gdata = ge.GraphData(DF2ter)
+        ge.GraphData(DF2ter)
 
 
 def test_get_cols():
@@ -130,7 +130,7 @@ def test_get_cols():
 
 
 def test_malformed_columns(caplog):
-    gdata = ge.GraphData(df=DF2)
+    ge.GraphData(df=DF2)
     assert "Regions for ID do not match overall regions!" in caplog.text
 
 
@@ -162,50 +162,50 @@ def test_has_fields():
 
 def test_check_nans1(caplog):
     gdata = ge.GraphData(DF1)
-    gdata.check_nans("A")
-    gdata.check_nans("B")
+    assert not gdata.check_nans("A")
+    assert gdata.check_nans("B")
     assert "A: 1 NaNs for D" in caplog.text
     assert "B: 1 NaNs for D" not in caplog.text
 
 
 def test_check_nans2():
     gdata = ge.GraphData(DF4)
-    gdata.check_nans("A")
+    assert gdata.check_nans("A")
 
 
 def test_check_nans3():
     gdata = ge.GraphData(DF5)
-    gdata.check_nans("A")
+    assert gdata.check_nans("A")
 
 
 def test_check_balance(caplog):
     gdata = ge.GraphData(DF4)
-    gdata.check_balance("A")
-    gdata.check_balance("B")
+    assert not gdata.check_balance("A")
+    assert gdata.check_balance("B")
     assert "A: 1 TI+D != NG" in caplog.text
     assert "B: 1 TI+D != NG" not in caplog.text
 
 
 def test_check_interchange(caplog):
     gdata = ge.GraphData(df=DF4)
-    gdata.check_interchange("A")
-    gdata.check_interchange("C")
+    assert not gdata.check_interchange("A")
+    assert gdata.check_interchange("C")
     assert "A: 1 TI != sum(ID)" in caplog.text
     assert "C: 1 TI != sum(ID)" not in caplog.text
 
 
 def test_check_antisymmetric(caplog):
     gdata = ge.GraphData(df=DF4)
-    gdata.check_antisymmetric("A")
-    gdata.check_antisymmetric("C")
+    assert gdata.check_antisymmetric("A")
+    assert not gdata.check_antisymmetric("C")
     assert "A-B: 1 ID[i,j] != -ID[j,i]" not in caplog.text
     assert "C-D: 1 ID[i,j] != -ID[j,i]" in caplog.text
 
 
 def test_check_positive(caplog):
     gdata = ge.GraphData(df=DF4)
-    gdata.check_positive("A")
-    gdata.check_positive("C")
+    assert gdata.check_positive("A")
+    assert not gdata.check_positive("C")
     assert "A: 1 <0 for D" not in caplog.text
     assert "C: 1 <0 for NG" in caplog.text
     assert "C: 1 <0 for COL" in caplog.text
@@ -213,7 +213,12 @@ def test_check_positive(caplog):
 
 def test_check_generation_by_source(caplog):
     gdata = ge.GraphData(df=DF4)
-    gdata.check_generation_by_source("A")
-    gdata.check_generation_by_source("C")
+    assert not gdata.check_generation_by_source("A")
+    assert gdata.check_generation_by_source("C")
     assert "A: 1 NG != sum(Generation by fuel)" in caplog.text
     assert "C: 1 NG != sum(Generation by fuel)" not in caplog.text
+
+
+def test_check_generation_by_source2(caplog):
+    assert ge.GraphData(df=DF1).check_generation_by_source("A")
+    assert ge.GraphData(df=DF2).check_generation_by_source("A")
