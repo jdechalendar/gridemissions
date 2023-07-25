@@ -31,6 +31,13 @@ DF4 = pd.DataFrame(
     }
 )
 
+DF5 = pd.DataFrame(
+    data={
+        "E_A-B_ID": [-1.0],
+        "E_A-C_ID": [0.0],
+    }
+)
+
 
 # Reminder that we do not allow pd.DataFrame(), but we do allow dataframes with no data
 # Columns need to be supplied for the constructor to work
@@ -159,6 +166,16 @@ def test_check_nans1(caplog):
     gdata.check_nans("B")
     assert "A: 1 NaNs for D" in caplog.text
     assert "B: 1 NaNs for D" not in caplog.text
+
+
+def test_check_nans2():
+    gdata = ge.GraphData(DF4)
+    gdata.check_nans("A")
+
+
+def test_check_nans3():
+    gdata = ge.GraphData(DF5)
+    gdata.check_nans("A")
 
 
 def test_check_balance(caplog):
