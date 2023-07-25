@@ -8,7 +8,6 @@ and perform some checks.
 """
 from typing import List, Union
 import itertools
-from functools import wraps
 from os.path import join
 from os import PathLike
 import pandas as pd
@@ -17,7 +16,7 @@ import logging
 import json
 import re
 from gridemissions import config, eia_api, eia_api_v2
-from gridemissions.eia_api import KEYS, BAs, EIA_ALLOWED_SERIES_ID
+from gridemissions.eia_api import KEYS, EIA_ALLOWED_SERIES_ID
 
 PRECISION = 1e-2  # When assessing constraints
 
@@ -73,6 +72,9 @@ class GraphData(object):
         if "region2" not in parsed_columns.columns:
             parsed_columns["region2"] = np.nan
 
+        # Store parsed columns as an attribute
+        self.parsed_columns = parsed_columns
+
         variables = parsed_columns.variable.unique()
         assert (
             len(variables) == 1
@@ -113,7 +115,7 @@ class GraphData(object):
                     mismatches.append(f"{region2}-{region}")
         if len(mismatches) > 0:
             self.logger.warning(
-                f"Inconsistencies in trade reporting - DEBUG has missing links"
+                "Inconsistencies in trade reporting - DEBUG has missing links"
             )
             self.logger.debug(",".join(mismatches))
 
@@ -208,8 +210,10 @@ class GraphData(object):
             return res.squeeze(axis=1)
         return res
 
-    def to_csv(self, path: Union[str, "PathLike[str]", None]) -> Union[str, None]:
-        return self.df.to_csv(path)
+    def to_csv(
+        self, path: Union[str, "PathLike[str]", None] = None, **kwargs
+    ) -> Union[str, None]:
+        return self.df.to_csv(path, **kwargs)
 
     def to_parquet(self, path: Union[str, "PathLike[str]", None]):
         pass
@@ -227,8 +231,10 @@ class GraphData(object):
     def check_nans(self, region: str) -> None:
         """"""
         for field in self.fields:
+            if not self.has_field(field, region):
+                continue
             ind_na = self.get_data(region=region, field=field).isna()
-            cnt_na = ind_na.sum()
+            cnt_na = np.sum(ind_na.values)
             if cnt_na != 0:
                 self.logger.error(f"{region}: {cnt_na} NaNs for {field}")
 
@@ -275,6 +281,10 @@ class GraphData(object):
         cnt = (res.abs() > self.tol).sum()
         if cnt != 0:
             self.logger.error(f"{region}: {cnt} TI != sum(ID)")
+
+            self.logger.debug(
+                f"Detail for{region}: TI != sum(ID)\n{res[res.abs() > self.tol]}"
+            )
 
     def check_antisymmetric(self, region: str) -> None:
         """
@@ -602,8 +612,8 @@ def convert_raw_eba(file_name, file_name_out=None):
 
     # convert json - each line is a dictionary
     data = []
-    for l in lines:
-        data += [json.loads(l)]
+    for ll in lines:
+        data += [json.loads(ll)]
 
     # separate id data from ts data
     ts_data = [d for d in data if len(d.keys()) == 10]
@@ -643,7 +653,7 @@ def convert_raw_eba(file_name, file_name_out=None):
         return raw
 
 
-def _compare_lists(l, r):
-    left = set(l)
-    right = set(r)
+def _compare_lists(ll, rr):
+    left = set(ll)
+    right = set(rr)
     return list(left - right) + list(right - left)
