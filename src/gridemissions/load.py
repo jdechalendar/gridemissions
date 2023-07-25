@@ -18,7 +18,8 @@ import re
 from gridemissions import config, eia_api, eia_api_v2
 from gridemissions.eia_api import KEYS, EIA_ALLOWED_SERIES_ID
 
-PRECISION = 1e-2  # When assessing constraints
+RTOL = 1e-05
+ATOL = 1e-08
 
 
 class GraphData(object):
@@ -47,7 +48,8 @@ class GraphData(object):
 
     def __init__(self, df: pd.DataFrame) -> None:
         self.logger = logging.getLogger(__name__)
-        self.tol = PRECISION
+        self.atol = ATOL
+        self.rtol = RTOL
         self.df = df
         self._parse_info()
 
@@ -218,18 +220,24 @@ class GraphData(object):
     def to_parquet(self, path: Union[str, "PathLike[str]", None]):
         pass
 
-    def check_all(self) -> None:
+    def check_all(self) -> bool:
         """"""
+        res = True
         for region in self.regions:
-            self.check_nans(region)
-            self.check_balance(region)
-            self.check_interchange(region)
-            self.check_antisymmetric(region)
-            self.check_positive(region)
-            self.check_generation_by_source(region)
+            res = (
+                res
+                & self.check_nans(region)
+                & self.check_balance(region)
+                & self.check_interchange(region)
+                & self.check_antisymmetric(region)
+                & self.check_positive(region)
+                & self.check_generation_by_source(region)
+            )
+        return res
 
     def check_nans(self, region: str) -> None:
         """"""
+        res = True
         for field in self.fields:
             if not self.has_field(field, region):
                 continue
@@ -237,6 +245,8 @@ class GraphData(object):
             cnt_na = np.sum(ind_na.values)
             if cnt_na != 0:
                 self.logger.error(f"{region}: {cnt_na} NaNs for {field}")
+                res = False
+        return res
 
     def has_field(self, field: Union[str, List[str]], region: str = None) -> bool:
         """"""
@@ -255,57 +265,68 @@ class GraphData(object):
                     return False
             return True
 
-    def check_balance(self, region: str) -> None:
+    def check_balance(self, region: str) -> bool:
         """
         TI+D == NG
         """
+        res = True
         if not self.has_field(["TI", "D", "NG"], region):
-            return
-        res1 = self.get_data(region=region, field="NG") - (
-            self.get_data(region=region, field="D")
-            + self.get_data(region=region, field="TI")
+            return res
+
+        left = self.get_data(region=region, field="D") + self.get_data(
+            region=region, field="TI"
         )
-        cnt = (res1.abs() > self.tol).sum()
+        right = self.get_data(region=region, field="NG")
+        failures = ~np.isclose(left, right, rtol=self.rtol, atol=self.atol)
+        cnt = failures.sum()
         if cnt != 0:
             self.logger.error(f"{region}: {cnt} TI+D != NG")
+            self.logger.debug(self.get_data(region, field=["TI", "D", "NG"])[failures])
+            res = False
+        return res
 
-    def check_interchange(self, region: str) -> None:
+    def check_interchange(self, region: str) -> bool:
         """
         TI == sum(ID)
         """
+        out = True
         if not self.has_field(["TI", "ID"], region):
-            return
-        res = self.get_data(region=region, field="TI") - self.get_data(
-            region=region, field="ID", squeeze=False
-        ).sum(axis=1)
-        cnt = (res.abs() > self.tol).sum()
+            return out
+        left = self.get_data(region=region, field="TI")
+        right = self.get_data(region=region, field="ID", squeeze=False).sum(axis=1)
+        failures = ~np.isclose(left, right, rtol=self.rtol, atol=self.atol)
+        cnt = failures.sum()
         if cnt != 0:
+            out = False
             self.logger.error(f"{region}: {cnt} TI != sum(ID)")
+            d = self.get_data(region=region, field="TI")[failures]
+            self.logger.debug(f"Detail for{region}: TI != sum(ID)\n{d}")
+        return out
 
-            self.logger.debug(
-                f"Detail for{region}: TI != sum(ID)\n{res[res.abs() > self.tol]}"
-            )
-
-    def check_antisymmetric(self, region: str) -> None:
+    def check_antisymmetric(self, region: str) -> bool:
         """
         ID[i,j] == -ID[j,i]
         """
+        out = True
         if not self.has_field(["ID"], region):
-            return
+            return out
         for region2 in self.partners[region]:
-            res = self.get_data(
-                region=region, region2=region2, field="ID"
-            ) + self.get_data(region=region2, region2=region, field="ID")
-            cnt = (res.abs() > self.tol).sum()
+            left = self.get_data(region=region, region2=region2, field="ID")
+            right = -self.get_data(region=region2, region2=region, field="ID")
+            failures = ~np.isclose(left, right, rtol=self.rtol, atol=self.atol)
+            cnt = failures.sum()
             if cnt != 0:
                 self.logger.error(f"{region}-{region2}: {cnt} ID[i,j] != -ID[j,i]")
+                out = False
+        return out
 
-    def check_positive(self, region: str) -> None:
+    def check_positive(self, region: str) -> bool:
         """
         D > 0
         NG > 0
         Generation by fuel > 0
         """
+        out = True
         for field in ["D", "NG"] + eia_api_v2.FUELS:
             if not self.has_field([field], region):
                 continue
@@ -313,22 +334,27 @@ class GraphData(object):
             cnt_neg = ind_neg.sum()
             if (len(ind_neg) > 0) and (cnt_neg != 0):
                 self.logger.error(f"{region}: {cnt_neg} <0 for {field}")
+                out = False
+        return out
 
     def check_generation_by_source(self, region: str) -> None:
         """
         NG == sum(Generation by fuel)
         """
+        out = True
         src_cols = [
             col for col in eia_api_v2.FUELS if self.has_field(col, region=region)
         ]
-        if not self.has_field(["NG"]) and len(src_cols) > 0:
-            return
-        res = self.get_data(region=region, field="NG") - self.get_data(
-            region=region, field=src_cols, squeeze=False
-        ).sum(axis=1)
-        cnt = (res.abs() > self.tol).sum()
+        if not (self.has_field(["NG"]) and len(src_cols) > 0):
+            return out
+        left = self.get_data(region=region, field="NG")
+        right = self.get_data(region=region, field=src_cols, squeeze=False).sum(axis=1)
+        failures = ~np.isclose(left, right, rtol=self.rtol, atol=self.atol)
+        cnt = failures.sum()
         if cnt != 0:
             self.logger.error(f"{region}: {cnt} NG != sum(Generation by fuel)")
+            out = False
+        return out
 
 
 def read_csv(path: Union[str, "PathLike[str]"]) -> GraphData:
