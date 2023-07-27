@@ -11,6 +11,7 @@ import gridemissions
 from gridemissions import config
 from gridemissions.workflows import make_dataset, update_dataset, update_d3map
 from .utils import str2bool
+
 logger = logging.getLogger(__name__)
 
 
@@ -172,7 +173,7 @@ def main():
             file_names,
             args.folder_new,
             folder_extract=folder_extract,
-            thresh_date_extract=thresh_date
+            thresh_date_extract=thresh_date,
         )
 
     if args.update_d3map:
