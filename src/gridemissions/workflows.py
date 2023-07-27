@@ -39,11 +39,11 @@ def make_dataset(
     start_time = time.time()
     if tmp_folder is None:
         tmp_folder = config["TMP_PATH"]
-    
+
     tmp_folder.mkdir(exist_ok=True)
     file_name_raw = tmp_folder / f"{file_name}_raw.csv"
     file_name_basic = tmp_folder / f"{file_name}_basic.csv"
-    
+
     eia_columns = load_eia_columns()
 
     if scrape:  # else: assume that the file exists
@@ -56,7 +56,7 @@ def make_dataset(
     # Basic data cleaning
     logger.info("Basic data cleaning")
     data = BaData(fileNm=file_name_raw)
-    
+
     if len(data.df) == 0:
         raise ValueError(f"Aborting make_dataset: no new data in {file_name_raw}")
     cleaner = BaDataBasicCleaner(data)
@@ -120,7 +120,13 @@ def make_dataset(
     )
 
 
-def update_dataset(folder_hist, file_names, folder_new="tmp", folder_extract=None, thresh_date_extract=None):
+def update_dataset(
+    folder_hist,
+    file_names,
+    folder_new="tmp",
+    folder_extract=None,
+    thresh_date_extract=None,
+):
     """
     Update dataset in storage with new data.
 

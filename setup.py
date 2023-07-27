@@ -8,13 +8,7 @@ setup(
     python_requires=">=3.7",
     install_requires=["requests", "pandas>=1.1.2", "matplotlib>=3.4.2"],
     extras_require={
-        "all": [
-            "dask[complete]",
-            "joblib",
-            "cmocean",
-            "cvxpy",
-            "seaborn",
-        ]
+        "all": ["dask[complete]", "joblib", "cmocean", "cvxpy", "seaborn", "syrupy"]
     },
     entry_points={
         "console_scripts": [

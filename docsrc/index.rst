@@ -14,5 +14,5 @@ API reference
 ~~~~~~~~~~~~~
 .. autosummary::
    :toctree: generated/
-   
+
    api.retrieve
