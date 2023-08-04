@@ -103,13 +103,12 @@ def main():
             fh.setLevel(logging.DEBUG)
         else:
             fh.setLevel(logging.INFO)
-            fh.setFormatter(
-                logging.Formatter(
-                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-                )
+        fh.setFormatter(
+            logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
             )
-            logger.addHandler(fh)
-            logging.getLogger("clean").addHandler(fh)
+        )
+        logging.getLogger("gridemissions").addHandler(fh)
 
     now = datetime.utcnow()
     if args.start == "now":
