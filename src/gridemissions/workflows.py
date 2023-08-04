@@ -62,7 +62,7 @@ def make_dataset(
         logger.info("Rolling window data cleaning")
         data = ge.read_csv(file_name_basic)
         cleaner = ge.RollingCleaner(data)
-        cleaner.process(file_name, folder_hist)
+        cleaner.process(folder_hist / f"{file_name}_basic.csv")
         cleaner.out.to_csv(tmp_folder / f"{file_name}_rolling.csv")
         data = cleaner.out
         weights = cleaner.weights
