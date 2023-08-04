@@ -2,6 +2,7 @@ import pathlib
 import os
 import json
 import numpy as np
+from typing import List
 import gridemissions as ge
 
 DATA_PATH = pathlib.Path(__file__).parent.absolute() / "data"
@@ -98,7 +99,7 @@ def resetCoords():
         json.dump(graph, fw)
 
 
-def add_data_nodes(graph, field, data, key="nodes"):
+def _add_data_nodes(graph, field, data, key="nodes"):
     for el in graph[key]:
         if el["shortNm"] in data:
             el[field] = data[el["shortNm"]]
@@ -113,11 +114,28 @@ def load_base_graph():
     return graph
 
 
-def replace_with_none(data, condition):
+def _replace_with_none(data, condition):
     for k in data:
         if condition(data[k]):
             data[k] = None
     return data
+
+
+def _prune(mylist: List[dict], fields: List[str]) -> dict:
+    """
+    Remove dictionaries from mylist if they are missing all fields as keys
+
+    Parameters
+    ----------
+    graph: dict
+    key: str
+    fields: list of str
+
+    Returns
+    -------
+    dict
+    """
+    return [el for el in mylist if np.any([k in el for k in fields])]
 
 
 def create_graph(
@@ -183,32 +201,21 @@ def create_graph(
     row_elec = dict(zip(elec.regions, row_elec))
     graph = load_base_graph()
 
-    # Add node demand data
-    #     for ba in elec.regions:
-    #         el = row_poll.pop(ba)
-    #         if el == 0.:
-    #             el = None
-    #         row_poll[ba] = el
+    row_poll = _replace_with_none(row_poll, lambda x: x == 0.0)
+    row_elec = _replace_with_none(row_elec, lambda x: x == 0.0)
 
-    row_poll = replace_with_none(row_poll, lambda x: x == 0.0)
-    row_elec = replace_with_none(row_elec, lambda x: x == 0.0)
-
-    graph = add_data_nodes(graph, "poll_D", row_poll)
-    graph = add_data_nodes(graph, "elec_D", row_elec)
+    graph = _add_data_nodes(graph, "poll_D", row_poll)
 
     # Todo: labels field can probably be removed if a coords_labels
     # field is added to the dicts in the nodes field
-    graph = add_data_nodes(graph, "poll_D", row_poll, "labels")
-    graph = add_data_nodes(graph, "elec_D", row_elec, "labels")
+    graph = _add_data_nodes(graph, "poll_D", row_poll, "labels")
 
-    # Add node intensity data
-    #     for ba in elec.regions:
-    #         el = data.pop(ba)
-    #         if np.isnan(el):
-    #             el = None
-    #         data[ba] = el
-    intensity_data = replace_with_none(intensity_data, lambda x: np.isnan(x))
-    graph = add_data_nodes(graph, "poll_Di", intensity_data)
+    intensity_data = _replace_with_none(intensity_data, lambda x: np.isnan(x))
+    graph = _add_data_nodes(graph, "poll_Di", intensity_data)
+
+    # Remove nodes and labels if they have no data
+    graph["nodes"] = _prune(graph["nodes"], ["poll_D", "poll_Di"])
+    graph["labels"] = _prune(graph["labels"], ["poll_D", "poll_Di"])
 
     # Add node interconnect label
     data = {}
@@ -219,7 +226,7 @@ def create_graph(
             data[ba] = "erco"
         else:
             data[ba] = "eic"
-    graph = add_data_nodes(graph, "interconnect", data)
+    graph = _add_data_nodes(graph, "interconnect", data)
 
     # Add data for the links
     node_list = [el["shortNm"] for el in graph["nodes"]]
