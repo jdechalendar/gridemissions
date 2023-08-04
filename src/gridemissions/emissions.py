@@ -105,10 +105,10 @@ class EmissionsCalc(object):
         Compute emissions production, consumption and flows.
 
         Compute (i) production emissions, and (ii) consumption-based emissions
-        factors. Then recreate a BaData object for emissions and check physical
+        factors. Then recreate a GraphData object for emissions and check physical
         balances.
         """
-        self.logger.info(f"Running BaDataEmissionsCalc for {len(self.df)} rows")
+        self.logger.info(f"Running EmissionsCalc for {len(self.df)} rows")
         cnt_na = np.sum(self.df.isna().values)
         if cnt_na > 0:
             self.logger.warning(f"Setting {cnt_na} NaNs to zero")
@@ -153,14 +153,14 @@ class EmissionsCalc(object):
             [self.df, pd.DataFrame(new_cols, index=self.df.index)], axis=1
         )
 
-        # Create BaData object for pollutant
+        # Create GraphData object for pollutant
         self.poll_data = GraphData(
             df=self.df.loc[
                 :, [col for col in self.df.columns if "%s_" % self.poll in col]
             ]
         )
 
-        # Create BaData object for pollutant intensity
+        # Create GraphData object for pollutant intensity
         self.polli_data = GraphData(
             df=self.df.loc[
                 :, [col for col in self.df.columns if "%si_" % self.poll in col]
