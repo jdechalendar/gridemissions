@@ -4,11 +4,11 @@ import re
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from IPython import display
 
 
 class BaDataGui(object):
     def __init__(self, data):
-
         # Avoid annoying warning
         from pandas.plotting import register_matplotlib_converters
 
@@ -30,7 +30,6 @@ class BaDataGui(object):
             raise NotImplementedError
 
     def make_viz(self):
-
         # Create controls
         # Initialize column type controller with demand
         fields = []
@@ -74,11 +73,11 @@ class BaDataGui(object):
 
     def _matches(self, field, col):
         n = len(re.findall("%s", self.KEY[field]))
-        return re.match(self.KEY[field] % tuple(["\w+"] * n), col)
+        return re.match(self.KEY[field] % tuple([r"\w+"] * n), col)
 
     def _find(self, field, col):
         n = len(re.findall("%s", self.KEY[field]))
-        res = re.findall(self.KEY[field] % tuple(["(\w+)"] * n), col)
+        res = re.findall(self.KEY[field] % tuple([r"(\w+)"] * n), col)
         if len(res) == 1:
             return res[0]
         else:

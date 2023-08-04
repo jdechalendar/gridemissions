@@ -4,12 +4,9 @@ import pathlib
 import json
 import argparse
 import logging
-import os
 from os.path import join
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-import cmocean
-import seaborn as sns
 from pandas.plotting import register_matplotlib_converters
 
 import gridemissions
@@ -34,8 +31,6 @@ def main():
     plt.rcParams["figure.dpi"] = 200
     plt.rcParams["figure.dpi"] = 200
     plt.rcParams["font.size"] = 10
-    cmap = cmocean.cm.cmap_d["phase"]
-    colors = sns.color_palette("colorblind")
 
     # Parse args
     argparser = argparse.ArgumentParser()
@@ -89,7 +84,7 @@ def main():
         _generate_contents_heatmap(fig_folder)
 
     elif args.report == "timeseries":
-        logger.info(f"Running report timeseries")
+        logger.info("Running report timeseries")
         fig_folder = pathlib.Path(FIG_PATH) / "timeseries_report"
         timeseries_report(co2, elec, fig_folder=fig_folder)
         _generate_contents_timeseries(fig_folder)

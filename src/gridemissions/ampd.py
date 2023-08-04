@@ -1,8 +1,6 @@
 """
 Tools to interact with the AMPD ftp at newftp.epa.gov
 """
-import sys
-import json
 import os
 from os.path import join
 import pandas as pd
@@ -97,8 +95,6 @@ class AMPD_download(object):
                     cnt_downloaded += 1
                 except TimeoutError:  # TODO add known errors here
                     return "timedout"
-                except:  # TODO add known errors here
-                    raise
             else:
                 self.logger.debug("Skipping %s ..." % row.fileNm)
         self.logger.info(
@@ -210,7 +206,6 @@ def extract_state(x):
 
 if __name__ == "__main__":
     from gridemissions import config
-    from os.path import join
 
     # Download data for 2019
     DATA_PATH = config["DATA_PATH"]

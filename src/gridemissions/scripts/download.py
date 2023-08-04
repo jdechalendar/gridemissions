@@ -1,11 +1,11 @@
-from typing import Union
-import pathlib
 import argparse
-import logging
-from urllib import request
 import gzip
+import logging
+import os
+import pathlib
+from urllib import request
 import shutil
-import pandas as pd
+from typing import Union
 
 import gridemissions
 from gridemissions import api
@@ -99,9 +99,7 @@ def main():
         fw.write(res)
 
 
-def download_full_dataset(
-    dataset: str, path_out: Union[str, "PathLike[str]", None] = None
-):
+def download_full_dataset(dataset: str, path_out: Union[str, os.PathLike, None] = None):
     """ """
     if dataset not in ["co2", "elec", "raw"]:
         raise ValueError(f"Unsupported argument {dataset}")

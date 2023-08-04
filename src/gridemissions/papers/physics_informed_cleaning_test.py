@@ -1,9 +1,7 @@
-from joblib import Parallel, delayed
 import random
 import logging
 import time
 
-import matplotlib.pyplot as plt
 from os.path import join, isdir
 import os
 import pandas as pd
@@ -34,7 +32,7 @@ def run_test(i="", level=0.2, debug=False):
     data_raw_copy.df.to_csv(join(tmp_folder, "EBA_raw.csv"))
 
     # Load historical data and restrict to 15 days before when we are testing
-    folder_hist = join(gridemissions.config["APEN_PATH"], f"si_test4", "hist")
+    folder_hist = join(gridemissions.config["APEN_PATH"], "si_test4", "hist")
     if ~isdir(folder_hist):
         file_name_basic = join(
             gridemissions.config["APEN_PATH"], "data", "EBA_basic.csv"

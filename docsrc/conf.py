@@ -12,6 +12,9 @@
 #
 import os
 import sys
+import inspect
+from os.path import relpath, dirname
+import gridemissions
 
 sys.path.insert(0, os.path.abspath("../src/gridemissions"))
 
@@ -57,10 +60,6 @@ html_theme = "alabaster"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-
-import inspect
-import sesibuildings
-from os.path import relpath, dirname
 
 # based on numpy doc/source/conf.py
 def linkcode_resolve(domain, info):
@@ -110,7 +109,7 @@ def linkcode_resolve(domain, info):
     else:
         linespec = ""
 
-    fn = relpath(fn, start=dirname(sesibuildings.__file__))
+    fn = relpath(fn, start=dirname(gridemissions.__file__))
 
     return (
         "https://github.com/jdechalendar/gridemissions/blob/master/src/gridemissions/%s%s"
