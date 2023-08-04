@@ -28,4 +28,4 @@ jobs:
         pip install pytest
         pip install .[all]
     - name: Test with pytest
-      run: pytest
+      run: pytest --snapshot-warn-unused
