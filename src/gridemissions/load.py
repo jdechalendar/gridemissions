@@ -15,6 +15,7 @@ import numpy as np
 import logging
 import json
 import re
+import warnings
 from gridemissions import config, eia_api, eia_api_v2
 from gridemissions.eia_api import KEYS, EIA_ALLOWED_SERIES_ID
 
@@ -429,6 +430,7 @@ class BaData(object):
             should not be used.
 
         """
+        warnings.warn("The BaData class should be replaced with the GraphData class")
         self.logger = logging.getLogger("load")
 
         if df is not None:

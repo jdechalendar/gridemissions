@@ -1,20 +1,17 @@
 """
 Tools to clean Balancing area data.
 A data cleaning step is performed by an object that subclasses
-the `BaDataCleaner` class.
+the `Cleaner` class.
 """
-import os
 import logging
 import time
 import re
-from gridemissions.load import BaData
-from gridemissions.eia_api import SRC, KEYS
+from gridemissions.load import GraphData
+from gridemissions import eia_api_v2 as eia
 import pandas as pd
 import numpy as np
 from collections import defaultdict
 import cvxpy as cp
-import pyomo.environ as pyo
-from pyomo.opt import SolverFactory
 import dask
 
 
@@ -41,76 +38,74 @@ def na_stats(data, title, cols):
     )
 
 
-class BaDataCleaner(object):
+class Cleaner:
     """
     Template class for data cleaning.
 
     This is mostly just a shell to show how cleaning classes should operate.
     """
 
-    def __init__(self, ba_data):
+    def __init__(self, data: GraphData):
         """
         Parameters
         ----------
-        ba_data : BaData object
+        ba_data : GraphData object
         """
-        self.d = ba_data
-        self.logger = logging.getLogger("clean")
+        self.d = data
+        self._LOGGER = logging.getLogger("gridemissions." + self.__class__.__name__)
 
     def process(self):
         pass
 
 
-class BaDataBasicCleaner(BaDataCleaner):
+class BasicCleaner(Cleaner):
     """
     Basic data cleaning class.
 
     We run this as the first step of the cleaning process.
+    - Add missing columns for demand
+    - Add missing columns for generation
+    - Add missing columns for total interchange
+    - Add missing columns for interchange data
+    - Filter very unrealistic values
     """
 
     def process(self):
-        self.logger.info("Running BaDataBasicCleaner")
+        self._LOGGER.info(f"Running BasicCleaner for {len(self.d.df)} rows")
         start = time.time()
         data = self.d
-        missing_D_cols = [col for col in data.NG_cols if col not in data.D_cols]
-        self.logger.info("Adding demand columns for %d bas" % len(missing_D_cols))
+        parsed_columns = data.parsed_columns.drop("variable", axis=1).set_index("field")
+        BAs_with_NG = parsed_columns.loc["NG"].region.unique()
+        if set(BAs_with_NG) != set(parsed_columns.loc["TI"].region):
+            raise ValueError(
+                "Unexpected: regions with generation do not match those with interchange"
+            )
+
+        # Create demand columns for BAs that have generation but not demand
+        missing_D_cols = [
+            col
+            for col in BAs_with_NG
+            if col not in parsed_columns.loc["D"].region.unique()
+        ]
+        self._LOGGER.info(f"Adding demand columns for {len(missing_D_cols)} bas")
         for ba in missing_D_cols:
+            # Add 1 MWh for demand
             data.df.loc[:, data.KEY["D"] % ba] = 1.0
-            data.df.loc[:, data.KEY["NG"] % ba] -= 1.0
-            data.df.loc[:, data.KEY["TI"] % ba] -= 1.0
-
-        # AVRN only exports to BPAT - this is missing for now
-        if "AVRN" not in data.ID_cols:
-            self.logger.info("Adding trade columns for AVRN")
-            ba = "AVRN"
-            ba2 = "BPAT"
-            data.df.loc[:, data.KEY["ID"] % (ba, ba2)] = (
-                data.df.loc[:, data.KEY["NG"] % ba] - 1.0
-            )
-            data.df.loc[:, data.KEY["ID"] % (ba2, ba)] = (
-                -data.df.loc[:, data.KEY["NG"] % ba] + 1.0
-            )
-
-        # Add columns for biomass and geothermal for CISO
-        # We are assuming constant generation for each of these sources
-        # based on historical data. Before updating this, need to
-        # contact the EIA API maintainers to understand why this isn't
-        # reported and where to find it
-        self.logger.info("Adding GEO and BIO columns for CISO")
-        data.df.loc[:, "EBA.CISO-ALL.NG.GEO.H"] = 900.0
-        data.df.loc[:, "EBA.CISO-ALL.NG.BIO.H"] = 600.0
-        #         data.df.loc[:, "EBA.CISO-ALL.NG.H"] += 600.0 + 900.0
+            data.df.loc[:, data.KEY["NG"] % ba] += 0.5
+            data.df.loc[:, data.KEY["TI"] % ba] -= 0.5
 
         # Add columns for the BAs that are outside of the US
-        foreign_bas = list(
-            set([col for col in data.ID_cols2 if col not in data.NG_cols])
-        )
-        self.logger.info(
+        foreign_bas = [
+            col
+            for col in parsed_columns.region2.dropna().unique()
+            if col not in BAs_with_NG
+        ]
+        self._LOGGER.info(
             "Adding demand, generation and TI columns for %d foreign bas"
             % len(foreign_bas)
         )
         for ba in foreign_bas:
-            trade_cols = [col for col in data.df.columns if "%s.ID.H" % ba in col]
+            trade_cols = [col for col in data.df.columns if f"{ba}_ID" in col]
             TI = -data.df.loc[:, trade_cols].sum(axis=1)
             data.df.loc[:, data.KEY["TI"] % ba] = TI
             exports = TI.apply(lambda x: max(x, 0))
@@ -119,10 +114,10 @@ class BaDataBasicCleaner(BaDataCleaner):
             data.df.loc[:, data.KEY["NG"] % ba] = exports
             if ba in ["BCHA", "HQT", "MHEB"]:
                 # Assume for these Canadian BAs generation is hydro
-                data.df.loc[:, data.KEY["SRC_WAT"] % ba] = exports
+                data.df.loc[:, data.KEY["WAT"] % ba] = exports
             else:
                 # And all others are OTH (other)
-                data.df.loc[:, data.KEY["SRC_OTH"] % ba] = exports
+                data.df.loc[:, data.KEY["OTH"] % ba] = exports
             for col in trade_cols:
                 ba2 = re.split(r"\.|-|_", col)[1]
                 data.df.loc[:, data.KEY["ID"] % (ba, ba2)] = -data.df.loc[:, col]
@@ -133,8 +128,11 @@ class BaDataBasicCleaner(BaDataCleaner):
             ba2 = re.split(r"\.|-|_", col)[2]
             othercol = data.KEY["ID"] % (ba2, ba)
             if othercol not in data.df.columns:
-                self.logger.info("Adding %s" % othercol)
+                self._LOGGER.info("Adding %s" % othercol)
                 data.df.loc[:, othercol] = -data.df.loc[:, col]
+
+        # Reinitialize object to reinitialize fields
+        data = GraphData(df=data.df)
 
         # Filter unrealistic values using self.reject_dict
         self._create_reject_dict()
@@ -158,33 +156,33 @@ class BaDataBasicCleaner(BaDataCleaner):
         # -1GW) are rejected
         for ba in data.regions:
             missing = True
-            for src in SRC:
-                col = data.KEY["SRC_%s" % src] % ba
+            for fuel in eia.FUELS:
+                col = data.KEY[fuel] % ba
                 if col in data.df.columns:
                     missing = False
                     s = data.df.loc[:, col]
-                    if src == "SUN":
+                    if fuel == "SUN":
                         self.reject_dict[col] = (-1e3, 200e3)
                     data.df.loc[:, col] = s.where(
                         (s >= self.reject_dict[col][0])
                         & (s <= self.reject_dict[col][1])
                     )
-                    if src == "SUN":
+                    if fuel == "SUN":
                         data.df.loc[:, col] = data.df.loc[:, col].apply(
                             lambda x: max(x, 0)
                         )
             if missing:
-                data.df.loc[:, data.KEY["SRC_OTH"] % ba] = data.df.loc[
+                data.df.loc[:, data.KEY["OTH"] % ba] = data.df.loc[
                     :, data.KEY["NG"] % ba
                 ]
 
         # Reinitialize fields
-        self.logger.info("Reinitializing fields")
-        data = BaData(df=data.df)
+        self._LOGGER.info("Reinitializing fields")
+        data = GraphData(df=data.df)
 
-        self.r = data
+        self.out = data
 
-        self.logger.info("Basic cleaning took %.2f seconds" % (time.time() - start))
+        self._LOGGER.info("Basic cleaning took %.2f seconds" % (time.time() - start))
 
     def _create_reject_dict(self):
         """
@@ -199,10 +197,10 @@ class BaDataBasicCleaner(BaDataCleaner):
             reject_dict[col] = (-100e3, 100e3)
         for col in self.d.get_cols(field="ID"):
             reject_dict[col] = (-100e3, 100e3)
-        reject_dict["EBA.AZPS-ALL.D.H"] = (1.0, 30e3)
-        reject_dict["EBA.BANC-ALL.D.H"] = (1.0, 6.5e3)
-        reject_dict["EBA.BANC-ALL.TI.H"] = (-5e3, 5e3)
-        reject_dict["EBA.CISO-ALL.NG.H"] = (5e3, 60e3)
+        reject_dict["E_AZPS_D"] = (1.0, 30e3)
+        reject_dict["E_BANC_D"] = (1.0, 6.5e3)
+        reject_dict["E_BANC_TI"] = (-5e3, 5e3)
+        reject_dict["E_CISO_NG"] = (5e3, 60e3)
         self.reject_dict = reject_dict
 
 
@@ -259,7 +257,7 @@ def rolling_window_filter(
     return df
 
 
-class BaDataRollingCleaner(BaDataCleaner):
+class RollingCleaner(Cleaner):
     """
     Rolling window cleaning.
 
@@ -268,17 +266,15 @@ class BaDataRollingCleaner(BaDataCleaner):
     that will be used for the cleaning - that is then dropped.
     """
 
-    def process(self, file_name="", folder_hist="", nruns=2):
+    def process(self, file_name_hist="", nruns=2):
         """
         Processor function for the cleaner object.
 
         Parameters
         ----------
-        file_name : str
+        file_name_hist : str
             Base name of the file from which to read historical data.
-            Data is read from "%s_basic.csv" % file_name
-        folder_hist : str
-            Folder from which to read historical data
+            Typically, this is old output from `BasicCleaner`
         nruns : int
             Number of times to apply the rolling window procedure
 
@@ -286,14 +282,14 @@ class BaDataRollingCleaner(BaDataCleaner):
         -----
         If we are not processing a large amount of data at a time, we may not
         have enough data to appropriately estimate the rolling mean and
-        standard deviation for the rolling window procedure. If values are
-        given for `file_name` and `folder_hist`, data will be read from a
+        standard deviation for the rolling window procedure. If a value is
+        given for `file_name_hist`, data will be read from a
         historical dataset to estimate the rolling mean and standard deviation.
         If there are very large outliers, they can 'mask' smaller outliers.
         Running the rolling window procedure a couple of times helps with this
         issue.
         """
-        self.logger.info("Running BaDataRollingCleaner (%d runs)" % nruns)
+        self._LOGGER.info("Running RollingCleaner (%d runs)" % nruns)
         start = time.time()
         data = self.d
 
@@ -302,11 +298,7 @@ class BaDataRollingCleaner(BaDataCleaner):
 
         try:
             # Load the data we already have in memory
-            df_hist = pd.read_csv(
-                os.path.join(folder_hist, "%s_basic.csv" % file_name),
-                index_col=0,
-                parse_dates=True,
-            )
+            df_hist = pd.read_csv(file_name_hist, index_col=0, parse_dates=True)
 
             # Only take the last 1,000 rows
             # Note that if df_hist has less than 1,000 rows,
@@ -315,11 +307,11 @@ class BaDataRollingCleaner(BaDataCleaner):
 
             # Overwrite with the new data
             old_rows = df_hist.index.difference(data.df.index)
-            df_hist = data.df.append(df_hist.loc[old_rows, :], sort=True)
+            df_hist = pd.concat([data.df, df_hist.loc[old_rows, :]])
             df_hist.sort_index(inplace=True)
 
         except FileNotFoundError:
-            self.logger.info("No history file")
+            self._LOGGER.info("No history file")
             df_hist = data.df
 
         # Apply rolling horizon threshold procedure
@@ -347,7 +339,7 @@ class BaDataRollingCleaner(BaDataCleaner):
                     axis=1,
                 ).mean(axis=1)
             if npasses == 4:
-                self.logger.debug("A lot of bad data for %s" % col)
+                self._LOGGER.debug("A lot of bad data for %s" % col)
                 df_hist.loc[:, col] = pd.concat(
                     [
                         df_hist.loc[:, col].groupby(df_hist.index.hour).ffill(),
@@ -366,352 +358,22 @@ class BaDataRollingCleaner(BaDataCleaner):
         )
 
         if df_hist.isna().sum().sum() > 0:
-            self.logger.warning("There are still some NaNs. Unexpected")
+            self._LOGGER.warning("There are still some NaNs. Unexpected")
 
         # Just keep the indices we are working on currently
-        data = BaData(df=df_hist.loc[idx_cleaning, :])
+        data = GraphData(df=df_hist.loc[idx_cleaning, :])
 
-        self.r = data
+        self.out = data
         self.weights = mean_.loc[idx_cleaning, :].applymap(
             lambda x: A / max(GAMMA, abs(x))
         )
 
-        self.logger.info(
+        self._LOGGER.info(
             "Rolling window cleaning took %.2f seconds" % (time.time() - start)
         )
 
 
-class BaDataPyoCleaningModel(object):
-    """
-    Create an AbstractModel() for the cleaning problem.
-
-    No data is passed into this model at this point, it is
-    simply written in algebraic form.
-    """
-
-    def __init__(self):
-        m = pyo.AbstractModel()
-
-        # Sets
-        m.regions = pyo.Set()
-        m.srcs = pyo.Set()
-        m.regions2 = pyo.Set(within=m.regions * m.regions)
-        m.regions_srcs = pyo.Set(within=m.regions * m.srcs)
-
-        # Parameters
-        m.D = pyo.Param(m.regions, within=pyo.Reals)
-        m.NG = pyo.Param(m.regions, within=pyo.Reals)
-        m.TI = pyo.Param(m.regions, within=pyo.Reals)
-        m.ID = pyo.Param(m.regions2, within=pyo.Reals)
-        m.NG_SRC = pyo.Param(m.regions_srcs, within=pyo.Reals)
-        m.D_W = pyo.Param(m.regions, default=1.0, within=pyo.Reals)
-        m.NG_W = pyo.Param(m.regions, default=1.0, within=pyo.Reals)
-        m.TI_W = pyo.Param(m.regions, default=1.0, within=pyo.Reals)
-        m.ID_W = pyo.Param(m.regions2, default=1.0, within=pyo.Reals)
-        m.NG_SRC_W = pyo.Param(m.regions_srcs, default=1.0, within=pyo.Reals)
-
-        # Variables
-        # delta_NG_aux are aux variable for the case where there
-        # are no SRC data. In that case, the NG_sum constraint would
-        # only have: m.NG + m.delta_NG = 0.
-        m.delta_D = pyo.Var(m.regions, within=pyo.Reals)
-        m.delta_NG = pyo.Var(m.regions, within=pyo.Reals)
-        m.delta_TI = pyo.Var(m.regions, within=pyo.Reals)
-        m.delta_ID = pyo.Var(m.regions2, within=pyo.Reals)
-        m.delta_NG_SRC = pyo.Var(m.regions_srcs, within=pyo.Reals)
-        #         m.delta_NG_aux = pyo.Var(m.regions, within=pyo.Reals)
-
-        # Constraints
-        m.D_positive = pyo.Constraint(m.regions, rule=self.D_positive)
-        m.NG_positive = pyo.Constraint(m.regions, rule=self.NG_positive)
-        m.NG_SRC_positive = pyo.Constraint(m.regions_srcs, rule=self.NG_SRC_positive)
-        m.energy_balance = pyo.Constraint(m.regions, rule=self.energy_balance)
-        m.antisymmetry = pyo.Constraint(m.regions2, rule=self.antisymmetry)
-        m.trade_sum = pyo.Constraint(m.regions, rule=self.trade_sum)
-        m.NG_sum = pyo.Constraint(m.regions, rule=self.NG_sum)
-
-        # Objective
-        m.total_penalty = pyo.Objective(rule=self.total_penalty, sense=pyo.minimize)
-
-        self.m = m
-
-    def D_positive(self, model, i):
-        return (model.D[i] + model.delta_D[i]) >= EPSILON
-
-    def NG_positive(self, model, i):
-        return (model.NG[i] + model.delta_NG[i]) >= EPSILON
-
-    def NG_SRC_positive(self, model, k, s):
-        return model.NG_SRC[k, s] + model.delta_NG_SRC[k, s] >= EPSILON
-
-    def energy_balance(self, model, i):
-        return (
-            model.D[i]
-            + model.delta_D[i]
-            + model.TI[i]
-            + model.delta_TI[i]
-            - model.NG[i]
-            - model.delta_NG[i]
-        ) == 0.0
-
-    def antisymmetry(self, model, i, j):
-        return (
-            model.ID[i, j]
-            + model.delta_ID[i, j]
-            + model.ID[j, i]
-            + model.delta_ID[j, i]
-            == 0.0
-        )
-
-    def trade_sum(self, model, i):
-        return (
-            model.TI[i]
-            + model.delta_TI[i]
-            - sum(
-                model.ID[k, l] + model.delta_ID[k, l]
-                for (k, l) in model.regions2
-                if k == i
-            )
-        ) == 0.0
-
-    def NG_sum(self, model, i):
-        return (
-            model.NG[i]
-            + model.delta_NG[i]  # + model.delta_NG_aux[i]
-            - sum(
-                model.NG_SRC[k, s] + model.delta_NG_SRC[k, s]
-                for (k, s) in model.regions_srcs
-                if k == i
-            )
-        ) == 0.0
-
-    def total_penalty(self, model):
-        return (
-            sum(
-                (
-                    model.D_W[i] * model.delta_D[i] ** 2
-                    + model.NG_W[i] * model.delta_NG[i] ** 2
-                    #                      + model.delta_NG_aux[i]**2
-                    + model.TI_W[i] * model.delta_TI[i] ** 2
-                )
-                for i in model.regions
-            )
-            + sum(
-                model.ID_W[i, j] * model.delta_ID[i, j] ** 2
-                for (i, j) in model.regions2
-            )
-            + sum(
-                model.NG_SRC_W[i, s] * model.delta_NG_SRC[i, s] ** 2
-                for (i, s) in model.regions_srcs
-            )
-        )
-
-
-class BaDataPyoCleaner(BaDataCleaner):
-    """
-    Optimization-based cleaning class.
-
-    Uses pyomo to build the model and Gurobi as the default solver.
-    """
-
-    def __init__(self, ba_data, weights=None, solver="gurobi"):
-        super().__init__(ba_data)
-
-        self.m = BaDataPyoCleaningModel().m
-        self.opt = SolverFactory(solver)
-        self.weights = weights
-        if weights is not None:
-            self.d.df = pd.concat(
-                [self.d.df, weights.rename(lambda x: x + "_W", axis=1)], axis=1
-            )
-
-    def process(self, debug=False):
-        start = time.time()
-        self.logger.info("Running BaDataPyoCleaner for %d rows" % len(self.d.df))
-        self.d.df = self.d.df.fillna(0)
-        if not debug:
-            self.r = self.d.df.apply(self._process, axis=1)
-        else:
-            r_list = []
-            delta_list = []
-            for idx, row in self.d.df.iterrows():
-                _, r, deltas = self._process(row, debug=True)
-                r_list.append(r)
-                delta_list.append(deltas)
-            self.r = pd.concat(r_list, axis=1).transpose()
-            self.deltas = pd.concat(delta_list, axis=1).transpose()
-            self.deltas.index = self.d.df.index
-
-        self.r.index = self.d.df.index
-
-        # Make sure the cleaning step performed as expected
-        self.r = BaData(df=self.r)
-        self.logger.info("Checking BAs...")
-        for ba in self.r.regions:
-            self.r.checkBA(ba)
-        self.logger.info("Execution took %.2f seconds" % (time.time() - start))
-
-    def _process(self, row, debug=False):
-        if row.isna().sum() > 0:
-            raise ValueError("Cannot call this method on data with NaNs")
-        i = self._create_instance(row)
-        self.opt.solve(i)
-
-        r = pd.concat(
-            [
-                pd.Series(
-                    {
-                        self.d.KEY["NG"] % k: (i.NG[k] + pyo.value(i.delta_NG[k]))
-                        for k in i.regions
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["D"] % k: (i.D[k] + pyo.value(i.delta_D[k]))
-                        for k in i.regions
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["TI"] % k: (i.TI[k] + pyo.value(i.delta_TI[k]))
-                        for k in i.regions
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["ID"]
-                        % (k1, k2): (i.ID[k1, k2] + pyo.value(i.delta_ID[k1, k2]))
-                        for (k1, k2) in i.regions2
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["SRC_%s" % s]
-                        % k: (i.NG_SRC[k, s] + pyo.value(i.delta_NG_SRC[k, s]))
-                        for (k, s) in i.regions_srcs
-                    }
-                ),
-            ]
-        )
-
-        deltas = pd.concat(
-            [
-                pd.Series(
-                    {
-                        self.d.KEY["NG"] % k: (pyo.value(i.delta_NG[k]))
-                        for k in i.regions
-                    }
-                ),
-                pd.Series(
-                    {self.d.KEY["D"] % k: (pyo.value(i.delta_D[k])) for k in i.regions}
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["TI"] % k: (pyo.value(i.delta_TI[k]))
-                        for k in i.regions
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["ID"] % (k1, k2): (pyo.value(i.delta_ID[k1, k2]))
-                        for (k1, k2) in i.regions2
-                    }
-                ),
-                pd.Series(
-                    {
-                        self.d.KEY["SRC_%s" % s] % k: (pyo.value(i.delta_NG_SRC[k, s]))
-                        for (k, s) in i.regions_srcs
-                    }
-                ),
-            ]
-        )
-
-        if not debug:
-            return r
-
-        return i, r, deltas
-
-    def _create_instance(self, row):
-        def append_W(x):
-            return [c + "_W" for c in x]
-
-        NG_SRC_data = self._get_ng_src(row)
-        NG_SRC_data_W = self._get_ng_src(row, weights=True)
-        opt_data = {
-            None: {
-                "regions": {None: self.d.regions},
-                "srcs": {None: SRC},
-                "regions2": {
-                    None: list(
-                        set(
-                            [
-                                (re.split(r"\.|-|_", el)[1], re.split(r"\.|-|_", el)[2])
-                                for el in self.d.df.columns
-                                if "ID" in re.split(r"\.|-|_", el)
-                            ]
-                        )
-                    )
-                },
-                "regions_srcs": {None: list(NG_SRC_data.keys())},
-                "D": self._reduce_cols(row.loc[self.d.get_cols(field="D")].to_dict()),
-                "NG": self._reduce_cols(row.loc[self.d.get_cols(field="NG")].to_dict()),
-                "TI": self._reduce_cols(row.loc[self.d.get_cols(field="TI")].to_dict()),
-                "ID": self._reduce_cols(
-                    row.loc[self.d.get_cols(field="ID")].to_dict(), nfields=2
-                ),
-                "NG_SRC": NG_SRC_data,
-            }
-        }
-
-        if self.weights is not None:
-            opt_data[None]["D_W"] = self._reduce_cols(
-                row.loc[append_W(self.d.get_cols(field="D"))].to_dict()
-            )
-            opt_data[None]["NG_W"] = self._reduce_cols(
-                row.loc[append_W(self.d.get_cols(field="NG"))].to_dict()
-            )
-            opt_data[None]["TI_W"] = self._reduce_cols(
-                row.loc[append_W(self.d.get_cols(field="TI"))].to_dict()
-            )
-            opt_data[None]["ID_W"] = self._reduce_cols(
-                row.loc[append_W(self.d.get_cols(field="ID"))].to_dict(), nfields=2
-            )
-            opt_data[None]["NG_SRC_W"] = NG_SRC_data_W
-
-        instance = self.m.create_instance(opt_data)
-        return instance
-
-    def _reduce_cols(self, mydict, nfields=1):
-        """
-        Helper function to simplify the names in a dictionary
-        """
-        newdict = {}
-        for k in mydict:
-            if nfields == 1:
-                newk = re.split(r"\.|-|_", k)[1]
-            elif nfields == 2:
-                newk = (re.split(r"\.|-|_", k)[1], re.split(r"\.|-|_", k)[2])
-            else:
-                raise ValueError("Unexpected argument")
-            newdict[newk] = mydict[k]
-        return newdict
-
-    def _get_ng_src(self, r, weights=False):
-        """
-        Helper function to get the NG_SRC data.
-        """
-        mydict = {}
-        for ba in self.d.regions:
-            for src in SRC:
-                col = self.d.KEY["SRC_%s" % src] % ba
-                if weights:
-                    col += "_W"
-                if col in self.d.df.columns:
-                    mydict[(ba, src)] = r[col]
-        return mydict
-
-
-class BaDataCvxCleaner(BaDataCleaner):
+class CvxCleaner(Cleaner):
     """
     Optimization-based cleaning class.
 
@@ -727,8 +389,9 @@ class BaDataCvxCleaner(BaDataCleaner):
             )
 
     def process(self, debug=False, with_ng_src=True):
+        key = eia.KEYS["E"]
         start = time.time()
-        self.logger.info("Running BaDataCvxCleaner for %d rows" % len(self.d.df))
+        self._LOGGER.info("Running CvxCleaner for %d rows" % len(self.d.df))
         self.d.df = self.d.df.fillna(0)
 
         results = []
@@ -739,20 +402,17 @@ class BaDataCvxCleaner(BaDataCleaner):
 
             n_regions = len(regions)
 
-            D = row[[KEYS["E"]["D"] % r for r in regions]].values
+            D = row[[key["D"] % r for r in regions]].values
             D_W = [
-                el**0.5
-                for el in row[[KEYS["E"]["D"] % r + "_W" for r in regions]].values
+                el**0.5 for el in row[[key["D"] % r + "_W" for r in regions]].values
             ]
-            NG = row[[KEYS["E"]["NG"] % r for r in regions]].values
+            NG = row[[key["NG"] % r for r in regions]].values
             NG_W = [
-                el**0.5
-                for el in row[[KEYS["E"]["NG"] % r + "_W" for r in regions]].values
+                el**0.5 for el in row[[key["NG"] % r + "_W" for r in regions]].values
             ]
-            TI = row[[KEYS["E"]["TI"] % r for r in regions]].values
+            TI = row[[key["TI"] % r for r in regions]].values
             TI_W = [
-                el**0.5
-                for el in row[[KEYS["E"]["TI"] % r + "_W" for r in regions]].values
+                el**0.5 for el in row[[key["TI"] % r + "_W" for r in regions]].values
             ]
 
             delta_D = cp.Variable(n_regions, name="delta_D")
@@ -769,9 +429,9 @@ class BaDataCvxCleaner(BaDataCleaner):
             ID_W = {}
             for i, ri in enumerate(regions):
                 for j, rj in enumerate(regions):
-                    if KEYS["E"]["ID"] % (ri, rj) in row.index:
-                        ID[(ri, rj)] = row[KEYS["E"]["ID"] % (ri, rj)]
-                        ID_W[(ri, rj)] = row[KEYS["E"]["ID"] % (ri, rj) + "_W"]
+                    if key["ID"] % (ri, rj) in row.index:
+                        ID[(ri, rj)] = row[key["ID"] % (ri, rj)]
+                        ID_W[(ri, rj)] = row[key["ID"] % (ri, rj) + "_W"]
             delta_ID = {k: cp.Variable(name=f"{k}") for k in ID}
             constraints = [
                 D + delta_D >= 1.0,
@@ -783,11 +443,11 @@ class BaDataCvxCleaner(BaDataCleaner):
                 NG_SRC = {}
                 NG_SRC_W = {}
 
-                for i, src in enumerate(SRC):
+                for i, src in enumerate(eia.FUELS):
                     for j, r in enumerate(regions):
-                        if KEYS["E"][f"SRC_{src}"] % r in row.index:
-                            NG_SRC[(src, r)] = row[KEYS["E"][f"SRC_{src}"] % r]
-                            NG_SRC_W[(src, r)] = row[KEYS["E"][f"SRC_{src}"] % r + "_W"]
+                        if key[src] % r in row.index:
+                            NG_SRC[(src, r)] = row[key[src] % r]
+                            NG_SRC_W[(src, r)] = row[key[src] % r + "_W"]
                 delta_NG_SRC = {k: cp.Variable(name=f"{k}") for k in NG_SRC}
 
                 for k in NG_SRC:
@@ -813,7 +473,7 @@ class BaDataCvxCleaner(BaDataCleaner):
                         - cp.sum(
                             [
                                 NG_SRC[(src, ri)] + delta_NG_SRC[(src, ri)]
-                                for src in SRC
+                                for src in eia.FUELS
                                 if (src, ri) in NG_SRC
                             ]
                         )
@@ -841,23 +501,22 @@ class BaDataCvxCleaner(BaDataCleaner):
                     [
                         pd.Series(
                             NG + delta_NG.value,
-                            index=[KEYS["E"]["NG"] % r for r in regions],
+                            index=[key["NG"] % r for r in regions],
                         ),
                         pd.Series(
                             D + delta_D.value,
-                            index=[KEYS["E"]["D"] % r for r in regions],
+                            index=[key["D"] % r for r in regions],
                         ),
                         pd.Series(
                             TI + delta_TI.value,
-                            index=[KEYS["E"]["TI"] % r for r in regions],
+                            index=[key["TI"] % r for r in regions],
                         ),
                         pd.Series(
-                            {KEYS["E"]["ID"] % k: ID[k] + delta_ID[k].value for k in ID}
+                            {key["ID"] % k: ID[k] + delta_ID[k].value for k in ID}
                         ),
                         pd.Series(
                             {
-                                KEYS["E"][f"SRC_{s}"] % r: NG_SRC[(s, r)]
-                                + delta_NG_SRC[(s, r)].value
+                                key[s] % r: NG_SRC[(s, r)] + delta_NG_SRC[(s, r)].value
                                 for (s, r) in NG_SRC
                             }
                         ),
@@ -869,18 +528,18 @@ class BaDataCvxCleaner(BaDataCleaner):
                     [
                         pd.Series(
                             NG + delta_NG.value,
-                            index=[KEYS["E"]["NG"] % r for r in regions],
+                            index=[key["NG"] % r for r in regions],
                         ),
                         pd.Series(
                             D + delta_D.value,
-                            index=[KEYS["E"]["D"] % r for r in regions],
+                            index=[key["D"] % r for r in regions],
                         ),
                         pd.Series(
                             TI + delta_TI.value,
-                            index=[KEYS["E"]["TI"] % r for r in regions],
+                            index=[key["TI"] % r for r in regions],
                         ),
                         pd.Series(
-                            {KEYS["E"]["ID"] % k: ID[k] + delta_ID[k].value for k in ID}
+                            {key["ID"] % k: ID[k] + delta_ID[k].value for k in ID}
                         ),
                         pd.Series({"CleaningObjective": prob.value}),
                     ]
@@ -893,18 +552,16 @@ class BaDataCvxCleaner(BaDataCleaner):
                 deltas = pd.concat(
                     [
                         pd.Series(
-                            delta_NG.value, index=[KEYS["E"]["NG"] % r for r in regions]
+                            delta_NG.value, index=[key["NG"] % r for r in regions]
                         ),
+                        pd.Series(delta_D.value, index=[key["D"] % r for r in regions]),
                         pd.Series(
-                            delta_D.value, index=[KEYS["E"]["D"] % r for r in regions]
+                            delta_TI.value, index=[key["TI"] % r for r in regions]
                         ),
-                        pd.Series(
-                            delta_TI.value, index=[KEYS["E"]["TI"] % r for r in regions]
-                        ),
-                        pd.Series({KEYS["E"]["ID"] % k: delta_ID[k].value for k in ID}),
+                        pd.Series({key["ID"] % k: delta_ID[k].value for k in ID}),
                         pd.Series(
                             {
-                                KEYS["E"][f"SRC_{s}"] % r: delta_NG_SRC[(s, r)].value
+                                key[s] % r: delta_NG_SRC[(s, r)].value
                                 for (s, r) in NG_SRC
                             }
                         ),
@@ -914,15 +571,13 @@ class BaDataCvxCleaner(BaDataCleaner):
                 deltas = pd.concat(
                     [
                         pd.Series(
-                            delta_NG.value, index=[KEYS["E"]["NG"] % r for r in regions]
+                            delta_NG.value, index=[key["NG"] % r for r in regions]
                         ),
+                        pd.Series(delta_D.value, index=[key["D"] % r for r in regions]),
                         pd.Series(
-                            delta_D.value, index=[KEYS["E"]["D"] % r for r in regions]
+                            delta_TI.value, index=[key["TI"] % r for r in regions]
                         ),
-                        pd.Series(
-                            delta_TI.value, index=[KEYS["E"]["TI"] % r for r in regions]
-                        ),
-                        pd.Series({KEYS["E"]["ID"] % k: delta_ID[k].value for k in ID}),
+                        pd.Series({key["ID"] % k: delta_ID[k].value for k in ID}),
                     ]
                 )
             return pd.concat([r, deltas.rename(lambda x: x + "_Delta")])
@@ -933,7 +588,7 @@ class BaDataCvxCleaner(BaDataCleaner):
         results = dask.compute(*results, scheduler="processes")
         df = pd.DataFrame(results, index=self.d.df.index)
 
-        self.r = df.loc[
+        self.out = df.loc[
             :,
             [
                 c
@@ -945,8 +600,7 @@ class BaDataCvxCleaner(BaDataCleaner):
         self.deltas = df.loc[:, [c for c in df.columns if "Delta" in c]]
 
         # Make sure the cleaning step performed as expected
-        self.r = BaData(df=self.r)
-        self.logger.info("Checking BAs...")
-        for ba in self.r.regions:
-            self.r.checkBA(ba)
-        self.logger.info("Execution took %.2f seconds" % (time.time() - start))
+        self.out = GraphData(df=self.out)
+        self._LOGGER.info("Checking BAs...")
+        self.out.check_all()
+        self._LOGGER.info("Execution took %.2f seconds" % (time.time() - start))

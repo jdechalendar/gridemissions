@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 import gridemissions as ge
-from gridemissions.clean_v2 import BasicCleaner, RollingCleaner, CvxCleaner
+from gridemissions.clean import BasicCleaner, RollingCleaner, CvxCleaner
 from gridemissions.emissions import EmissionsCalc
 from .eia_samples import get_path
 from gridemissions.viz.d3map import create_graph

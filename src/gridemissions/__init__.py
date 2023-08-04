@@ -3,7 +3,7 @@ from .load import GraphData, read_csv
 from .emissions import EmissionsCalc
 
 try:
-    from .clean_v2 import BasicCleaner, RollingCleaner, CvxCleaner
+    from .clean import BasicCleaner, RollingCleaner, CvxCleaner
 
     has_optional_dependencies = True
 
