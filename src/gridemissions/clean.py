@@ -7,12 +7,14 @@ import os
 import logging
 import time
 import re
-from gridemissions.load import BaData, GraphData
+from gridemissions.load import BaData
 from gridemissions.eia_api import SRC, KEYS
 import pandas as pd
 import numpy as np
 from collections import defaultdict
 import cvxpy as cp
+import pyomo.environ as pyo
+from pyomo.opt import SolverFactory
 import dask
 
 
@@ -514,9 +516,6 @@ class BaDataPyoCleaner(BaDataCleaner):
 
     def __init__(self, ba_data, weights=None, solver="gurobi"):
         super().__init__(ba_data)
-
-        import pyomo.environ as pyo
-        from pyomo.opt import SolverFactory
 
         self.m = BaDataPyoCleaningModel().m
         self.opt = SolverFactory(solver)

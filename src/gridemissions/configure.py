@@ -28,10 +28,7 @@ def get_environ_variable(
 
     if value:
         if is_path:
-            try:
-                return Path(value)
-            except:
-                return None
+            return Path(value)
 
     return value
 

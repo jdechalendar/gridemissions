@@ -70,7 +70,6 @@ def set_plots(
         plt.rcParams.update(
             {
                 "figure.figsize": [PAGE_WIDTH, ROW_HEIGHT],
-                "grid.color": "k",
                 "axes.grid": True,
                 # 'grid.linestyle': ':',
                 "grid.linewidth": 0.2,
@@ -179,16 +178,28 @@ def heatmap(
         vmax = s.max()
     if transpose:
         xlabel = "" if remove_day_label else "day"
-        xtickformatter = lambda el: el.strftime("%b-%y")
+
+        def xtickformatter(el):
+            return el.strftime("%b-%y")
+
         ylabel = "Hour of day"
-        ytickformatter = lambda el: el.hour
+
+        def ytickformatter(el):
+            return el.hour
+
         cbar_orientation = "horizontal"
 
     else:
         xlabel = "Hour of day"
-        xtickformatter = lambda el: el.hour
+
+        def xtickformatter(el):
+            return el.hour
+
         ylabel = "" if remove_day_label else "day"
-        ytickformatter = lambda el: el.strftime("%m-%y")
+
+        def ytickformatter(el):
+            return el.strftime("%m-%y")
+
         cbar_orientation = "vertical"
 
     df_heatmap = pd.DataFrame(
@@ -226,7 +237,7 @@ def heatmap(
     ax.set_ylabel(ylabel)
 
     if with_cbar:
-        cb = f.colorbar(
+        f.colorbar(
             mappable,
             ax=cbar_ax,
             label=cbar_label,

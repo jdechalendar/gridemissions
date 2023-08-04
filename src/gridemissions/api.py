@@ -62,12 +62,10 @@ def retrieve(dataset, start=None, end=None, return_type="dataframe", **kwargs):
     """
     _check_arg_in_list(dataset, DATASET_TO_VARIABLE.keys())
     _check_arg_in_list(return_type, ["dataframe", "text"])
-    variable = DATASET_TO_VARIABLE[dataset]
 
     if dataset == "co2i":
         if ("field" not in kwargs) or (kwargs["field"] not in ["D", "NG"]):
-
-            raise ValueError(f"Dataset is co2i, field should be D or NG")
+            raise ValueError("Dataset is co2i, field should be D or NG")
 
         co2 = retrieve(
             dataset="co2", start=start, end=end, return_type="dataframe", **kwargs
@@ -107,7 +105,7 @@ def retrieve(dataset, start=None, end=None, return_type="dataframe", **kwargs):
 
     try:
         response = requests.get(url, params=params)
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         logger.error(f"ConnectionError when connecting to {url}")
         if return_type == "dataframe":
             return pd.DataFrame()

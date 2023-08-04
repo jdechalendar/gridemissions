@@ -1,10 +1,7 @@
-import logging
 from os.path import join
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-import json
 import matplotlib.image as image
 import matplotlib.dates as mdates
 
@@ -56,7 +53,6 @@ HEATMAP_BAS = [
 
 
 def separate_imp_exp(data, ba):
-
     imp = 0.0
     exp = 0.0
     for ba2 in data.get_trade_partners(ba):
@@ -74,7 +70,6 @@ def separate_imp_exp(data, ba):
 
 
 def annual_plot_hourly(elec, co2, ba, save=False, fig_folder=None):
-
     scaling_elec = 1e-3
     scaling_co2 = 1e-6
 
@@ -159,7 +154,6 @@ def summ_stats(s, ax, color, label, q_up=0.9, q_down=0.1):
 
 
 def annual_plot_weekly(elec, co2, ba, save=False, fig_folder=None):
-
     scaling_elec = 1e-3
     scaling_co2 = 1e-6
 
@@ -279,7 +273,6 @@ def cleaning_plot(
     summarize=True,
     fax=None,
 ):
-
     scale = float(scale)
     if scale == 1.0:
         unit = "MWh"
@@ -322,7 +315,6 @@ def cleaning_plot(
         )
 
     if after is not None:
-        df_plot = after.df
         D = after.get_data(region=region, field="D") * scale
         G = after.get_data(region=region, field="NG") * scale
         TI = after.get_data(region=region, field="TI") * scale
@@ -466,7 +458,6 @@ def heatmap_report(
         offset to shift the time stamps (assumes data is provided in UTC)
         default is Mountain time
     """
-    logger = logging.getLogger("gridemissions")
     start = pd.to_datetime(f"{year}0101T0000Z")
     end = pd.to_datetime(f"{int(year)+1}0101T0000Z")
     co2i = pd.DataFrame(
@@ -494,7 +485,7 @@ def heatmap_report(
             co2i[ba],
             fax=(f, ax),
             cmap="RdYlGn_r",
-            cbar_label=f"kg/MWh",
+            cbar_label="kg/MWh",
             transpose=True,
         )
         add_watermark(ax)
@@ -517,7 +508,7 @@ def heatmap_report(
             vmin=100,
             vmax=900,
             cmap="RdYlGn_r",
-            cbar_label=f"kg/MWh",
+            cbar_label="kg/MWh",
             transpose=True,
         )
         add_watermark(ax)
@@ -691,7 +682,6 @@ def _plot_carbon_intensity(ba, co2, elec, fax=None, **kwargs):
     impE, expE = separate_imp_exp(elec, ba)
 
     co2i_imp = impC / impE
-    co2i_exp = expC / expE
     myplot(ax, pd.Series(co2iD, index=co2.df.index), label="Demand", color=COLORS[0])
     myplot(
         ax, pd.Series(co2iG, index=co2.df.index), label="Generation", color=COLORS[1]

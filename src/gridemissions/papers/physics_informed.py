@@ -8,7 +8,6 @@ from gridemissions.eia_api import KEYS, SRC
 
 
 def figure1(ba, ba_data_A, ba_data_D, ba_data_C=None, scale=1e-3, save_fig=False):
-
     f, ax = plt.subplots(3, 2, figsize=(PAGE_WIDTH, ROW_HEIGHT * 3))
 
     d_col = ba_data_A.get_cols(ba, "D")[0]
@@ -223,7 +222,6 @@ def figure2(ba_list, n, delta_quantiles, median_raw, raw):
 def figure3(regions, deltas_abs, median_raw, raw):
     f, ax = plt.subplots(1, 1, figsize=(1.2 * PAGE_WIDTH, 1.2 * PAGE_WIDTH))
     vals = []
-    boxes = []
     bgcolor = "#eeeeee"
 
     def myformat(n):
@@ -277,7 +275,10 @@ def figure3(regions, deltas_abs, median_raw, raw):
                 )
 
     x, y, s, s2, fc, fc2 = tuple(zip(*vals))
-    rescale = lambda x: np.interp(x, [min(s), max(s2)], [1, 300])
+
+    def rescale(x):
+        return np.interp(x, [min(s), max(s2)], [1, 300])
+
     ax.scatter(
         x,
         y,
@@ -307,9 +308,7 @@ def figure3(regions, deltas_abs, median_raw, raw):
         x=[-1, -1, -1], y=[-1, -1, -1], s=rescale(np.array([1, 10, 100]))
     )
     handles, labels = dummy.legend_elements(prop="sizes", alpha=0.6)
-    legend2 = ax.legend(
-        handles, ["1%", "10%", "100%"], loc=9, bbox_to_anchor=(0.5, 0), ncol=3
-    )
+    ax.legend(handles, ["1%", "10%", "100%"], loc=9, bbox_to_anchor=(0.5, 0), ncol=3)
     plt.subplots_adjust(left=0.065, bottom=0.045, right=0.99, top=0.94, wspace=0.25)
     return f, ax
 
@@ -317,7 +316,6 @@ def figure3(regions, deltas_abs, median_raw, raw):
 def figure4(regions, nr, deltas_abs, median_raw, raw):
     f, ax = plt.subplots(1, 3, figsize=(1.5 * PAGE_WIDTH, 2 * ROW_HEIGHT))
     vals = []
-    boxes = []
     bgcolor = "#eeeeee"
 
     def myformat(n):
@@ -360,7 +358,9 @@ def figure4(regions, nr, deltas_abs, median_raw, raw):
                 vals.append([ibax, ibay, s, s2])
 
     x_vals, y_vals, s_vals, s2_vals = tuple(zip(*vals))
-    rescale = lambda x: np.interp(x, [min(s_vals), max(s2_vals)], [1, 300])
+
+    def rescale(x):
+        return np.interp(x, [min(s_vals), max(s2_vals)], [1, 300])
 
     for x, y, s, s2 in vals:
         ax[y // nr].add_patch(
@@ -412,9 +412,7 @@ def figure4(regions, nr, deltas_abs, median_raw, raw):
         x=[-1, -1, -1], y=[-1, -1, -1], s=rescale(np.array([1, 10, 100]))
     )
     handles, labels = dummy.legend_elements(prop="sizes", alpha=0.6)
-    legend2 = ax[1].legend(
-        handles, ["1%", "10%", "100%"], loc=9, bbox_to_anchor=(0.5, 0), ncol=3
-    )
+    ax[1].legend(handles, ["1%", "10%", "100%"], loc=9, bbox_to_anchor=(0.5, 0), ncol=3)
     # f.tight_layout()
     plt.subplots_adjust(left=0.05, bottom=0.07, right=0.99, top=0.92, wspace=0.25)
     return f, ax
