@@ -4,6 +4,7 @@ import json
 import numpy as np
 from typing import List
 import gridemissions as ge
+from gridemissions import eia_api_v2
 
 DATA_PATH = pathlib.Path(__file__).parent.absolute() / "data"
 
@@ -68,6 +69,14 @@ titles = {
     "CO2": "CARBON",
     "SO2": "SULFUR DIOXIDE",
     "NOX": "NITROGEN OXIDES",
+}
+
+DEFAULT_META_DATA = {
+    "legColorTitle": "Consumption-based carbon intensity (kg/MWh)",
+    "legCircleTitle": "Carbon consumption",
+    "legLineTitle": "Carbon trade",
+    "unit": "ktons",
+    "title": "CARBON",
 }
 
 
@@ -293,4 +302,63 @@ def create_graph(
         with open(file_name, "w") as fw:
             json.dump(graph, fw)
 
+    return graph
+
+
+def create_graph2(
+    gdf: ge.GraphData,
+    idx,
+    circle_size: str,
+    circle_color: str,
+    link_size: str,
+    link_color: str,
+    metadata: dict = None,
+) -> dict:
+    """
+
+    Parameters
+    ----------
+    size: ge.GraphData
+    color: ge.GraphData
+    field_size: str
+    field_color: str
+
+    Notes
+    -----
+    For links: we only consider the oriented connection with a positive flow
+
+    Dev
+    ---
+    Should be able to reproduce the same result as the previous function with the right entry data
+    """
+    assert circle_size in gdf.region_fields
+    assert circle_color in gdf.region_fields
+    assert link_size in gdf.link_fields
+    assert link_color in gdf.link_fields
+
+    graph = load_base_graph()
+
+    row = gdf.get_data(field=circle_size).loc[idx]
+    row.columns = row.columns.map(lambda x: eia_api_v2.parse_column(x)["region"])
+    row = _replace_with_none(row.to_dict(), lambda x: x == 0.0)
+    graph = _add_data_nodes(graph, circle_size, row)
+
+    # Metadata
+    metadata = metadata or DEFAULT_META_DATA
+    metadata.update(
+        {
+            "colorModeAuto": False,
+            "fieldRadius": circle_size,
+            "fieldLineWidth": link_size,
+            "fieldCircle": circle_color,
+            "fieldLineColor": link_color,
+            "timestamp": idx.tz_localize("UTC")
+            .tz_convert("US/Mountain")
+            .strftime("%Y%m%dT%H MT"),
+        }
+    )
+    for k in DEFAULT_META_DATA:
+        if k not in metadata:
+            metadata[k] = DEFAULT_META_DATA[k]
+    graph["meta"] = metadata
     return graph
