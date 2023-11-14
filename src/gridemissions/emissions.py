@@ -168,7 +168,6 @@ class EmissionsCalc(object):
         )
 
         # Check balances
-        self.logger.warning("Consumption calcs - unimplemented balance check!")
         self.poll_data.check_all()
 
     def _add_production_emissions(self):
@@ -182,6 +181,17 @@ class EmissionsCalc(object):
             gen_cols = [(fuel, col) for fuel, col in gen_cols if col in self.df.columns]
             self.df.loc[:, self.KEY_poll["NG"] % ba] = self.df.apply(
                 lambda x: sum(self.EF[fuel] * x[col] for fuel, col in gen_cols), axis=1
+            )
+
+    def _add_production_efs(self):
+        newcols = self.df.columns.tolist() + [
+            self.KEY_polli["NG"] % ba for ba in self.regions
+        ]
+
+        self.df = self.df.reindex(columns=newcols)
+        for ba in self.regions:
+            self.df.loc[:, self.KEY_polli["NG"] % ba] = self.df.apply(
+                lambda x: x[self.KEY_poll["NG"] % ba] / x[self.KEY_E["NG"] % ba], axis=1
             )
 
     def _add_consumption_efs(self):
