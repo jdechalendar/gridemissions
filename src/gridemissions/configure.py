@@ -2,6 +2,7 @@ import json
 import logging.config
 import os
 from pathlib import Path
+import sys
 from typing import Union
 
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -100,3 +101,14 @@ def configure_logging(level="WARNING"):
     logging.basicConfig(format=LOG_FORMAT, level=level)
     logger = logging.getLogger()
     logger.setLevel(level)
+
+
+if __name__ == "__main__":
+    try:
+        ret_val = config.get(sys.argv[1]) or ""
+    except (KeyboardInterrupt, SystemExit):
+        raise
+    except:
+        ret_val = ""
+
+    sys.stdout.write("%s\n" % ret_val)

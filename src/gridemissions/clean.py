@@ -364,9 +364,7 @@ class RollingCleaner(Cleaner):
         data = GraphData(df=df_hist.loc[idx_cleaning, :])
 
         self.out = data
-        self.weights = mean_.loc[idx_cleaning, :].applymap(
-            lambda x: A / max(GAMMA, abs(x))
-        )
+        self.weights = mean_.loc[idx_cleaning, :].applymap(lambda x: A / max(GAMMA, abs(x)))
 
         self._LOGGER.info(
             "Rolling window cleaning took %.2f seconds" % (time.time() - start)

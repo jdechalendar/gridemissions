@@ -7,6 +7,8 @@ import matplotlib.dates as mdates
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
 from gridemissions.eia_api import SRC
+from gridemissions import eia_api_v2
+from gridemissions.load import GraphData
 
 HEATMAP_BAS = [
     "MISO",
@@ -52,45 +54,39 @@ HEATMAP_BAS = [
 ]
 
 
-def separate_imp_exp(data, ba):
+def separate_imp_exp(data: GraphData, ba: str):
     imp = 0.0
     exp = 0.0
-    for ba2 in data.get_trade_partners(ba):
-        imp += (
-            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
-            .apply(lambda x: min(x, 0))
-            .fillna(0.0)
-        )
-        exp += (
-            data.df.loc[:, data.KEY["ID"] % (ba, ba2)]
-            .apply(lambda x: max(x, 0))
-            .fillna(0.0)
-        )
+    for col in data.get_cols(ba, field="ID"):
+        imp += data.df.loc[:, col].apply(lambda x: min(x, 0)).fillna(0.0)
+        exp += data.df.loc[:, col].apply(lambda x: max(x, 0)).fillna(0.0)
     return imp, exp
 
 
-def annual_plot_hourly(elec, co2, ba, save=False, fig_folder=None):
+def annual_plot_hourly(
+    elec: GraphData, co2: GraphData, ba: str, save=False, fig_folder=None
+):
     scaling_elec = 1e-3
     scaling_co2 = 1e-6
 
     f, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(10, 12.5))
     for ax, data, scale in zip((ax1, ax2), [elec, co2], [scaling_elec, scaling_co2]):
         df_plot = data.df
-        ax.plot(df_plot.loc[:, data.get_cols(r=ba, field="D")] * scale, label="D")
+        ax.plot(data.get_data(region=ba, field="D") * scale, label="D")
         ax.plot(
-            df_plot.loc[:, data.get_cols(r=ba, field="NG")] * scale,
+            data.get_data(region=ba, field="NG") * scale,
             label="G",
             alpha=0.8,
         )
 
     # CO2i plot
     co2iD = (
-        co2.df.loc[:, co2.get_cols(r=ba, field="D")].values.flatten()
-        / elec.df.loc[:, elec.get_cols(r=ba, field="D")].values.flatten()
+        co2.get_data(region=ba, field="D").values.flatten()
+        / elec.get_data(region=ba, field="D").values.flatten()
     )
     co2iG = (
-        co2.df.loc[:, co2.get_cols(r=ba, field="NG")].values.flatten()
-        / elec.df.loc[:, elec.get_cols(r=ba, field="NG")].values.flatten()
+        co2.get_data(region=ba, field="NG").values.flatten()
+        / elec.get_data(region=ba, field="NG").values.flatten()
     )
     co2iD[co2iD > 2000] = np.nan
     co2iG[co2iG > 2000] = np.nan
@@ -112,12 +108,10 @@ def annual_plot_hourly(elec, co2, ba, save=False, fig_folder=None):
     ax3.set_ylim(bottom=0.0)
 
     for ax, data, scale in zip((ax4, ax5), [elec, co2], [scaling_elec, scaling_co2]):
-        partners = data.get_trade_partners(ba)
         df_plot = data.df
-        for ba2 in partners:
-            ax.plot(
-                df_plot.loc[:, data.KEY["ID"] % (ba, ba2)] * scale, label=ba2, alpha=0.7
-            )
+        for col in data.get_cols(ba, field="ID"):
+            ba2 = (eia_api_v2.parse_column(col)["region2"],)
+            ax.plot(df_plot.loc[:, col] * scale, label=ba2, alpha=0.7)
 
     f.autofmt_xdate()
     ax1.set_title(ba)
@@ -153,24 +147,23 @@ def summ_stats(s, ax, color, label, q_up=0.9, q_down=0.1):
     )
 
 
-def annual_plot_weekly(elec, co2, ba, save=False, fig_folder=None):
+def annual_plot_weekly(
+    elec: GraphData, co2: GraphData, ba: str, save=False, fig_folder=None
+):
     scaling_elec = 1e-3
     scaling_co2 = 1e-6
-
-    df_co2 = co2.df
-    df_elec = elec.df
 
     f, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(10, 12.5))
 
     for ifield, field in enumerate(["D", "NG"]):
         summ_stats(
-            df_elec.loc[:, elec.get_cols(r=ba, field=field)] * scaling_elec,
+            elec.get_data(region=ba, field=field) * scaling_elec,
             ax1,
             COLORS[ifield],
             field,
         )
         summ_stats(
-            df_co2.loc[:, co2.get_cols(r=ba, field=field)] * scaling_co2,
+            co2.get_data(region=ba, field=field) * scaling_co2,
             ax2,
             COLORS[ifield],
             field,
@@ -178,49 +171,48 @@ def annual_plot_weekly(elec, co2, ba, save=False, fig_folder=None):
 
     # CO2i plot
     co2iD = (
-        df_co2.loc[:, co2.get_cols(r=ba, field="D")].values.flatten()
-        / df_elec.loc[:, elec.get_cols(r=ba, field="D")].values.flatten()
+        co2.get_data(region=ba, field="D").values.flatten()
+        / elec.get_data(region=ba, field="D").values.flatten()
     )
     co2iG = (
-        df_co2.loc[:, co2.get_cols(r=ba, field="NG")].values.flatten()
-        / df_elec.loc[:, elec.get_cols(r=ba, field="NG")].values.flatten()
+        co2.get_data(region=ba, field="NG").values.flatten()
+        / elec.get_data(region=ba, field="NG").values.flatten()
     )
 
     co2iD[co2iD > 2000] = np.nan
     co2iG[co2iG > 2000] = np.nan
 
-    summ_stats(pd.DataFrame(co2iD, index=df_co2.index), ax3, COLORS[0], "D")
-    summ_stats(pd.DataFrame(co2iG, index=df_co2.index), ax3, COLORS[1], "G")
+    summ_stats(pd.DataFrame(co2iD, index=co2.df.index), ax3, COLORS[0], "D")
+    summ_stats(pd.DataFrame(co2iG, index=co2.df.index), ax3, COLORS[1], "G")
 
     impC, expC = separate_imp_exp(co2, ba)
     impE, expE = separate_imp_exp(elec, ba)
 
     co2i_imp = impC / impE
 
-    summ_stats(pd.DataFrame(co2i_imp, index=df_co2.index), ax3, COLORS[2], "Imp")
+    summ_stats(pd.DataFrame(co2i_imp, index=co2.df.index), ax3, COLORS[2], "Imp")
     summ_stats(
-        pd.DataFrame(impE * scaling_elec, index=df_elec.index), ax1, COLORS[2], "Imp"
+        pd.DataFrame(impE * scaling_elec, index=elec.df.index), ax1, COLORS[2], "Imp"
     )
     summ_stats(
-        pd.DataFrame(expE * scaling_elec, index=df_elec.index), ax1, COLORS[3], "Exp"
+        pd.DataFrame(expE * scaling_elec, index=elec.df.index), ax1, COLORS[3], "Exp"
     )
     summ_stats(
-        pd.DataFrame(impC * scaling_co2, index=df_co2.index), ax2, COLORS[2], "Imp"
+        pd.DataFrame(impC * scaling_co2, index=co2.df.index), ax2, COLORS[2], "Imp"
     )
     summ_stats(
-        pd.DataFrame(expC * scaling_co2, index=df_co2.index), ax2, COLORS[3], "Exp"
+        pd.DataFrame(expC * scaling_co2, index=co2.df.index), ax2, COLORS[3], "Exp"
     )
 
     ax3.set_ylim(bottom=0.0)
 
     for ax, data, scaling in zip((ax4, ax5), [elec, co2], [scaling_elec, scaling_co2]):
-        partners = data.get_trade_partners(ba)
-        for iba, ba2 in enumerate(partners):
+        for icol, col in enumerate(data.get_cols(ba, field="ID")):
             summ_stats(
-                data.df.loc[:, [data.KEY["ID"] % (ba, ba2)]] * scaling,
+                data.df.loc[:, col] * scaling,
                 ax,
                 COLORS[iba % len(COLORS)],
-                label=ba2,
+                label=eia_api_v2.parse_column(col)["region2"],
             )
 
     ax1.set_title(ba)
@@ -621,12 +613,13 @@ def timeseries_report_plot(func):
 
 
 @timeseries_report_plot
-def _plot_electricity_carbon(ba, ba_data, fax=None, scale=1e-3, **kwargs):
+def _plot_electricity_carbon(
+    ba: str, ba_data: GraphData, fax=None, scale=1e-3, **kwargs
+):
     f, ax = fax
-    df_plot = ba_data.df
-    D = df_plot.loc[:, ba_data.get_cols(r=ba, field="D")[0]] * scale
-    G = df_plot.loc[:, ba_data.get_cols(r=ba, field="NG")[0]] * scale
-    TI = df_plot.loc[:, ba_data.get_cols(r=ba, field="TI")[0]] * scale
+    D = ba_data.get_data(region=ba, field="D") * scale
+    G = ba_data.get_data(region=ba, field="NG") * scale
+    TI = ba_data.get_data(region=ba, field="TI") * scale
     myplot(ax, D, label="Demand", color=COLORS[0])
     myplot(ax, G, label="Generation", alpha=0.8, color=COLORS[1])
     myplot(ax, TI, label="Total Interchange", alpha=0.8, color=COLORS[2])
@@ -635,45 +628,49 @@ def _plot_electricity_carbon(ba, ba_data, fax=None, scale=1e-3, **kwargs):
 
 
 @timeseries_report_plot
-def _plot_trade(ba, ba_data, fax=None, scale=1e-3, **kwargs):
+def _plot_trade(ba: str, ba_data: GraphData, fax=None, scale=1e-3, **kwargs):
     f, ax = fax
-    partners = ba_data.get_trade_partners(ba)
-    for iba2, ba2 in enumerate(partners):
+    for icol, col in enumerate(ba_data.get_cols(ba, field="ID")):
         myplot(
             ax,
-            ba_data.df.loc[:, ba_data.KEY["ID"] % (ba, ba2)] * scale,
-            label=ba2,
+            ba_data.df.loc[:, col] * scale,
+            label=eia_api_v2.parse_column(col)["region2"],
             alpha=0.7,
-            color=COLORS[iba2 % len(COLORS)],
+            color=COLORS[icol % len(COLORS)],
         )
     return f, ax
 
 
 @timeseries_report_plot
-def _plot_generation_by_source(ba, elec, fax=None, scale=1e-3, **kwargs):
+def _plot_generation_by_source(
+    ba: str, elec: GraphData, fax=None, scale=1e-3, **kwargs
+):
     f, ax = fax
-    for isrc, src in enumerate(SRC):
-        if elec.KEY[f"SRC_{src}"] % ba in elec.df.columns:
-            myplot(
-                ax,
-                elec.df.loc[:, elec.KEY[f"SRC_{src}"] % ba] * scale,
-                label=src,
-                alpha=0.7,
-                color=COLORS[isrc % len(COLORS)],
-            )
+    for ifuel, fuel in enumerate(eia_api_v2.FUELS):
+        if not elec.has_field([fuel], ba):
+            continue
+        myplot(
+            ax,
+            elec.get_data(region=ba, field=fuel) * scale,
+            label=fuel,
+            alpha=0.7,
+            color=COLORS[ifuel % len(COLORS)],
+        )
     return f, ax
 
 
 @timeseries_report_plot
-def _plot_carbon_intensity(ba, co2, elec, fax=None, **kwargs):
+def _plot_carbon_intensity(
+    ba: str, co2: GraphData, elec: GraphData, fax=None, **kwargs
+):
     f, ax = fax
     co2iD = (
-        co2.df.loc[:, co2.get_cols(r=ba, field="D")].values.flatten()
-        / elec.df.loc[:, elec.get_cols(r=ba, field="D")].values.flatten()
+        co2.get_data(region=ba, field="D").values.flatten()
+        / elec.get_data(region=ba, field="D").values.flatten()
     )
     co2iG = (
-        co2.df.loc[:, co2.get_cols(r=ba, field="NG")].values.flatten()
-        / elec.df.loc[:, elec.get_cols(r=ba, field="NG")].values.flatten()
+        co2.get_data(region=ba, field="NG").values.flatten()
+        / elec.get_data(region=ba, field="NG").values.flatten()
     )
     co2iD[co2iD > 2000] = np.nan
     co2iG[co2iG > 2000] = np.nan
@@ -695,8 +692,9 @@ def _plot_carbon_intensity(ba, co2, elec, fax=None, **kwargs):
     return f, ax
 
 
-def timeseries_report(co2, elec, fig_folder=None):
-    for ba in HEATMAP_BAS:
+def timeseries_report(co2, elec, fig_folder=None, regions=None):
+    regions = HEATMAP_BAS if regions is None else regions
+    for ba in regions:
         _plot_electricity_carbon(
             ba,
             elec,

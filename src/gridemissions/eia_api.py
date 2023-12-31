@@ -1,5 +1,7 @@
 """
 Tools to interact with the EIA API at https://www.eia.gov/opendata/
+
+This was the EIA's v1 API - now deprecated in favor of v2. See eia_api_v2.py
 """
 
 import logging

@@ -1,3 +1,6 @@
+"""
+Tools to interact with version 2 of the EIA API at https://www.eia.gov/opendata/
+"""
 from typing import List
 import logging
 import requests
