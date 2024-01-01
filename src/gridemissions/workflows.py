@@ -18,20 +18,33 @@ logger = logging.getLogger(__name__)
 
 
 def make_dataset(
-    start,
-    end,
+    start=None,
+    end=None,
     file_name="EBA",
     tmp_folder=None,
     folder_hist=None,
     scrape=True,
 ):
     """
-    Make dataset between two dates
+    Make gridemissions dataset
 
-    Pull fresh data from the EIA API between `start` and `end`, then run the
-    data through the cleaning workflow before computing consumption emissions.
+    Parameters
+    ----------
+    start: datetime-like, optional
+    end: datetime-like, optional
+    file_name: str, default "EBA"
+    tmp_folder: pathlib.Path, optional
+        Folder where the dataset is made
+    folder_hist: pathlib.Path, optional
+        Historical data to use for `ge.RollingCleaner`
+    scrape: bool, default `True`
 
-    Uses historical data if available.
+    Notes
+    -----
+    If `scrape`, pull fresh data from the EIA API between `start` and `end`. Otherwise,
+    assume the starting file already exists and is called f"{file_name}_raw.csv".
+
+    Run the data through the cleaning workflow before computing consumption emissions.
     """
     start_time = time.time()
     tmp_folder = tmp_folder or ge.config["TMP_PATH"]
@@ -70,6 +83,8 @@ def make_dataset(
     else:
         logger.warning("No rolling window data cleaning!")
 
+    # Note: The following test throws an error if data.df.index is not monotonic
+    # See: https://pandas.pydata.org/pandas-docs/stable/user_guide/advanced.html#non-monotonic-indexes-require-exact-matches
     if len(data.df.loc[:THRESH_DATE, :]) > 0:
         logger.info(f"Optimization-based cleaning without fuel data: pre {THRESH_DATE}")
         ba_data = ge.GraphData(df=data.df.loc[:THRESH_DATE, :])
