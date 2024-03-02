@@ -4,7 +4,7 @@ setup(
     name="gridemissions",
     package_dir={"": "src"},
     packages=find_packages("src"),
-    version="0.1.1",
+    version="0.1.2",
     python_requires=">=3.7",
     install_requires=["requests", "pandas>=2.0", "matplotlib>=3.4.2"],
     extras_require={
@@ -26,4 +26,6 @@ setup(
             "ampd=gridemissions.scripts.ampd:main",
         ],
     },
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
 )
