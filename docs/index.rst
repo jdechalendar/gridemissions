@@ -10,6 +10,14 @@ Documentation for the gridemissions project
    :maxdepth: 2
    :caption: Contents:
 
+Configuration
+~~~~~~~~~~~~~
+To come.
+
+Workflows
+~~~~~~~~~~~~~
+To come
+
 API reference
 ~~~~~~~~~~~~~
 .. autosummary::

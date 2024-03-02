@@ -1,9 +1,9 @@
 # gridemissions: Tools for power sector emissions tracking
 <img src="https://user-images.githubusercontent.com/20404131/129465144-5b086d9b-6c46-462f-a036-3f1e4cd958eb.png" width="50%" align="right">
 
-The tools in this repository power the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions), updated hourly. Associated datasets on electricity and emissions are made publicly available. In addition to tools to create the data, the `gridemissions` package provides a module to retrieve data from the API and methods to load and manipulate the data. This README file serves as technical documentation for the tools in this repository.
+The tools in this repository power the visualization at [energy.stanford.edu/gridemissions](https://energy.stanford.edu/gridemissions), updated hourly. Associated datasets on electricity and emissions are made publicly available. In addition to tools to create the data, the `gridemissions` package provides a module to retrieve data from the API and methods to load and manipulate the data. This README file serves as technical documentation for the tools in this repository. Further documentation generated using Sphinx can be found [here](https://docs.gridemissions.jdechalendar.su.domains/) (WIP).
 
-# Contents
+## README Contents
 * [How the datasets are created](https://github.com/jdechalendar/gridemissions#how-the-datasets-are-created)
 * [Retrieving data from the API](https://github.com/jdechalendar/gridemissions#Retrieving-data-from-the-API)
 * [FAQ](https://github.com/jdechalendar/gridemissions#FAQ)
