@@ -71,6 +71,9 @@ class BasicCleaner(Cleaner):
     """
 
     def process(self):
+        """
+        Run the cleaning job
+        """
         self._LOGGER.info(f"Running BasicCleaner for {len(self.d.df)} rows")
         start = time.time()
         data = self.d
@@ -364,7 +367,9 @@ class RollingCleaner(Cleaner):
         data = GraphData(df=df_hist.loc[idx_cleaning, :])
 
         self.out = data
-        self.weights = mean_.loc[idx_cleaning, :].applymap(lambda x: A / max(GAMMA, abs(x)))
+        self.weights = mean_.loc[idx_cleaning, :].applymap(
+            lambda x: A / max(GAMMA, abs(x))
+        )
 
         self._LOGGER.info(
             "Rolling window cleaning took %.2f seconds" % (time.time() - start)
@@ -387,6 +392,15 @@ class CvxCleaner(Cleaner):
             )
 
     def process(self, debug=False, with_ng_src=True):
+        """
+        Run the cleaning job
+
+        Parameters
+        ----------
+        debug: bool, default False
+        with_ng_src: bool, default True
+            whether to consider generation by source
+        """
         key = eia.KEYS["E"]
         start = time.time()
         self._LOGGER.info("Running CvxCleaner for %d rows" % len(self.d.df))
