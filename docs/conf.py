@@ -16,12 +16,10 @@ import inspect
 from os.path import relpath, dirname
 import gridemissions
 
-sys.path.insert(0, os.path.abspath("../src/gridemissions"))
-
 
 # -- Project information -----------------------------------------------------
 
-project = "Grid emissions"
+project = "gridemissions"
 copyright = "2020, Jacques de Chalendar"
 author = "Jacques de Chalendar"
 
@@ -52,13 +50,13 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "alabaster"
+html_theme = "pydata_sphinx_theme"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = []
 
 
 # based on numpy doc/source/conf.py
