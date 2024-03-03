@@ -1,26 +1,20 @@
-.. Grid emissions documentation master file, created by
-   sphinx-quickstart on Sat Sep 19 15:20:32 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. gridemissions documentation master file
 
-Documentation for the gridemissions project
+Documentation for the gridemissions package
 ===========================================
 
+Introduction
+~~~~~~~~~~~~~
+The tools in this package power the visualization at `energy.stanford.edu/gridemissions`_, updated hourly. Associated datasets on electricity and emissions are made publicly available. In addition to tools to create the data, the gridemissions package provides a module to retrieve data from the API and methods to load and manipulate the data.
+
+Documentation contents
+~~~~~~~~~~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-Configuration
-~~~~~~~~~~~~~
-To come.
+   config
+   operations
+   api
 
-Workflows
-~~~~~~~~~~~~~
-To come
 
-API reference
-~~~~~~~~~~~~~
-.. autosummary::
-   :toctree: generated/
-
-   api.retrieve
+.. _energy.stanford.edu/gridemissions: https://energy.stanford.edu/gridemissions
