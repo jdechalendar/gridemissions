@@ -264,6 +264,9 @@ class EIASession:
                     "No response for this query! Increase log level for more info"
                 )
             rows += r["response"]["data"]
+
+            # total should be an int...
+            r["response"]["total"] = int(r["response"]["total"])
             if (total != r["response"]["total"]) and (total != INF):
                 raise ValueError(
                     "# of rows responsive to the request changed between two subsequent calls!"
