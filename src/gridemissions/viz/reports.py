@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as image
 import matplotlib.dates as mdates
+import pathlib
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
 from gridemissions.eia_api import SRC
@@ -115,11 +116,11 @@ def annual_plot_hourly(
 
     f.autofmt_xdate()
     ax1.set_title(ba)
-    ax1.set_ylabel("Electricity (GWh)")
-    ax2.set_ylabel("Carbon (ktons)")
+    ax1.set_ylabel("Electricity (GW)")
+    ax2.set_ylabel("Carbon (kton/hr)")
     ax3.set_ylabel("Carbon intensity (kg/MWh)")
-    ax4.set_ylabel("Electricity trade (MWh)")
-    ax5.set_ylabel("Carbon trade (ktons)")
+    ax4.set_ylabel("Electricity trade (MW)")
+    ax5.set_ylabel("Carbon trade (kton/hr)")
 
     for ax in [ax1, ax2, ax3, ax4, ax5]:
         ax.legend(loc=7)
@@ -132,14 +133,14 @@ def annual_plot_hourly(
 
 
 def summ_stats(s, ax, color, label, q_up=0.9, q_down=0.1):
-    s1 = s.groupby(s.index.weekofyear).mean()
-    s1_up = s.groupby(s.index.weekofyear).quantile(q_up)
-    s1_down = s.groupby(s.index.weekofyear).quantile(q_down)
+    s1 = s.groupby(s.index.isocalendar().week).mean()
+    s1_up = s.groupby(s.index.isocalendar().week).quantile(q_up)
+    s1_down = s.groupby(s.index.isocalendar().week).quantile(q_down)
     ax.plot(s1, label=label, color=color)
     ax.plot(s1_up, color=color, ls="--", lw=0.5)
     ax.plot(s1_down, color=color, ls="--", lw=0.5)
     ax.fill_between(
-        s1_up.index,
+        s1_up.index.astype(int),
         s1_down.values.flatten(),
         s1_up.values.flatten(),
         color=color,
@@ -211,16 +212,16 @@ def annual_plot_weekly(
             summ_stats(
                 data.df.loc[:, col] * scaling,
                 ax,
-                COLORS[iba % len(COLORS)],
+                COLORS[icol % len(COLORS)],
                 label=eia_api_v2.parse_column(col)["region2"],
             )
 
     ax1.set_title(ba)
-    ax1.set_ylabel("Electricity (GWh)")
-    ax2.set_ylabel("Carbon (ktons)")
+    ax1.set_ylabel("Electricity (GW)")
+    ax2.set_ylabel("Carbon (kton/hr)")
     ax3.set_ylabel("Carbon intensity (kg/MWh)")
-    ax4.set_ylabel("Electricity trade (MWh)")
-    ax5.set_ylabel("Carbon trade (ktons)")
+    ax4.set_ylabel("Electricity trade (MW)")
+    ax5.set_ylabel("Carbon trade (kton/hr)")
 
     for ax in [ax1, ax2, ax3, ax4, ax5]:
         ax.legend(loc=7)
@@ -434,24 +435,31 @@ def cleaning_plot(
 
 
 def heatmap_report(
-    co2, elec, year=2021, which="individual", fig_folder=None, tz_offset=6
+    co2: GraphData,
+    elec: GraphData,
+    year: int = 2021,
+    which: str = "individual",
+    fig_folder: pathlib.Path = None,
+    tz_offset: int = 6,
 ):
     """
+    Create heatmap report
 
     Parameters
     ----------
-    co2: BaData
+    co2 : GraphData
         carbon data
-    elec: BaData
+    elec : GraphData
         electricity data
-    which: str in ["individual", "group"]
-    fig_folder: str, default None
-    tz_offset: int, default 6
+    year : int
+    which : str in ["individual", "group"]
+    fig_folder : pathlib.Path, default None
+    tz_offset : int, default 6
         offset to shift the time stamps (assumes data is provided in UTC)
         default is Mountain time
     """
-    start = pd.to_datetime(f"{year}0101T0000Z")
-    end = pd.to_datetime(f"{int(year)+1}0101T0000Z")
+    start = pd.to_datetime(f"{year}0101T0000")
+    end = pd.to_datetime(f"{int(year)+1}0101T0000")
     co2i = pd.DataFrame(
         {
             ba: (
@@ -466,10 +474,11 @@ def heatmap_report(
     # Change timezone
     co2i.index -= pd.Timedelta(f"{tz_offset}h")
 
-    free_folder = fig_folder / f"{year}" / "free_scale"
-    fixed_folder = fig_folder / f"{year}" / "fixed_scale"
-    free_folder.mkdir(parents=True, exist_ok=True)
-    fixed_folder.mkdir(parents=True, exist_ok=True)
+    if fig_folder is not None:
+        free_folder = fig_folder / f"{year}" / "free_scale"
+        fixed_folder = fig_folder / f"{year}" / "fixed_scale"
+        free_folder.mkdir(parents=True, exist_ok=True)
+        fixed_folder.mkdir(parents=True, exist_ok=True)
 
     for ba in HEATMAP_BAS:
         f, ax = plt.subplots(figsize=(PAGE_WIDTH, 1.5 * ROW_HEIGHT))
@@ -551,7 +560,7 @@ def heatmap_report(
         cmap="RdYlGn_r",
         cbar_label="kg/MWh",
         with_cbar=True,
-        cbar_ax=[ax[-4:]],
+        cbar_ax=ax[-4:],
     )
     for a in ax:
         a.set_yticks([])
@@ -700,7 +709,7 @@ def timeseries_report(co2, elec, fig_folder=None, regions=None):
             elec,
             fig_folder=fig_folder,
             scale=1e-3,
-            unit="GWh",
+            unit="GW",
             add_title="Electricity",
         )
         _plot_electricity_carbon(
@@ -711,7 +720,7 @@ def timeseries_report(co2, elec, fig_folder=None, regions=None):
             elec,
             fig_folder=fig_folder,
             scale=1e-3,
-            unit="GWh",
+            unit="GW",
             add_title="Electricity trade",
         )
         _plot_trade(
@@ -719,7 +728,7 @@ def timeseries_report(co2, elec, fig_folder=None, regions=None):
             co2,
             fig_folder=fig_folder,
             scale=1e-6,
-            unit="kton",
+            unit="kton/hr",
             add_title="Carbon trade",
         )
         _plot_carbon_intensity(
@@ -735,6 +744,6 @@ def timeseries_report(co2, elec, fig_folder=None, regions=None):
             elec,
             fig_folder=fig_folder,
             scale=1e-3,
-            unit="GWh",
+            unit="GW",
             add_title="Generation by source",
         )
