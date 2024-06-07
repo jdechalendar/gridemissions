@@ -7,22 +7,25 @@ import logging
 from os.path import join
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+import pandas as pd
 from pandas.plotting import register_matplotlib_converters
 
-import gridemissions
+import gridemissions as ge
 from gridemissions.viz.reports import (
     annual_plot_hourly,
     annual_plot_weekly,
     heatmap_report,
     timeseries_report,
 )
-from gridemissions.load import BaData
 
 
 def main():
+    """
+    Create reports from bulk datasets
+    """
     # Setup plotting
     register_matplotlib_converters()
-    plt.style.use("seaborn-paper")
+    plt.style.use("seaborn-v0_8-paper")
     plt.rcParams["figure.figsize"] = [6.99, 2.5]
     plt.rcParams["grid.color"] = "k"
     plt.rcParams["axes.grid"] = True
@@ -35,20 +38,35 @@ def main():
     # Parse args
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--report", default="1", help="Which report to make")
-    argparser.add_argument(
-        "--year", default="2021", help="""Which year, for report "heatmap" """
-    )
     args = argparser.parse_args()
 
     # Configure logging
     logger = logging.getLogger("gridemissions")
-    FIG_PATH = gridemissions.config["FIG_PATH"]
+    FIG_PATH = ge.config["FIG_PATH"]
+
     # Load data
-    file_name = join(
-        gridemissions.config["DATA_PATH"], "analysis", "webapp", "EBA_%s.csv"
+    folder = ge.config["DATA_PATH"] / "EIA_Grid_Monitor" / "processed"
+    elec_files = [f for f in folder.iterdir() if f.name.endswith("elec.csv")]
+    co2_files = [f for f in folder.iterdir() if f.name.endswith("co2.csv")]
+
+    elec = ge.GraphData(
+        pd.concat(
+            [pd.read_csv(path, index_col=0, parse_dates=True) for path in elec_files],
+            axis=0,
+        )
     )
-    co2 = BaData(fileNm=file_name % "co2", variable="CO2")
-    elec = BaData(fileNm=file_name % "elec", variable="E")
+    co2 = ge.GraphData(
+        pd.concat(
+            [pd.read_csv(path, index_col=0, parse_dates=True) for path in co2_files],
+            axis=0,
+        )
+    )
+    co2.df.sort_index(inplace=True)
+    elec.df.sort_index(inplace=True)
+
+    # Note: we need to drop duplicate indices here because there seems to be duplicates at the beginning/end of the files
+    elec.df = elec.df[~elec.df.index.duplicated(keep="last")]
+    co2.df = co2.df[~co2.df.index.duplicated(keep="last")]
 
     # Do work
     if args.report == "1":
@@ -78,9 +96,10 @@ def main():
             )
 
     elif args.report == "heatmap":
-        logger.info(f"Running report heatmap for year {args.year}")
         fig_folder = pathlib.Path(FIG_PATH) / "heatmap_report"
-        heatmap_report(co2, elec, year=args.year, fig_folder=fig_folder)
+        for year in co2.df.index.year.unique():
+            logger.info(f"Running report heatmap for year {year}")
+            heatmap_report(co2, elec, year=year, fig_folder=fig_folder)
         _generate_contents_heatmap(fig_folder)
 
     elif args.report == "timeseries":
