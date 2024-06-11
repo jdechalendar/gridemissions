@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from gridemissions.viz.base import PAGE_WIDTH, ROW_HEIGHT, COLORS
-from gridemissions.eia_api import KEYS, SRC
+from gridemissions.eia_api import SRC
 
 
 def figure1(ba, ba_data_A, ba_data_D, ba_data_C=None, scale=1e-3, save_fig=False):
@@ -255,7 +255,7 @@ def figure3(regions, deltas_abs, median_raw, raw):
             if ibax % 2 == 0:
                 ax.axhspan(ibax - 0.5, ibax + 0.5, color=bgcolor)
 
-            col_ID = KEYS["E"]["ID"] % (bay, bax)
+            col_ID = raw.KEY["ID"] % (bay, bax)
             if col_ID in raw.df.columns:
                 s = deltas_abs.loc[0.1, col_ID] / denom * 100
                 s2 = deltas_abs.loc[0.9, col_ID] / denom * 100
@@ -351,7 +351,7 @@ def figure4(regions, nr, deltas_abs, median_raw, raw):
             if ibax % 2 == 0:
                 ax[ibay // nr].axvspan(ibax - 0.5, ibax + 0.5, color=bgcolor)
 
-            col_SRC = KEYS["E"]["SRC_%s" % src] % bay
+            col_SRC = raw.KEY[src] % bay
             if col_SRC in raw.df.columns:
                 s = deltas_abs.loc[0.1, col_SRC] / denom * 100
                 s2 = deltas_abs.loc[0.9, col_SRC] / denom * 100
