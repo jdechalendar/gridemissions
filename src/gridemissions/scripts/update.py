@@ -54,8 +54,8 @@ def main():
         type=str2bool,
         help="Update d3 map",
     )
-    argparser.add_argument("--start", default="now", help="start date (%Y-%m-%d)")
-    argparser.add_argument("--end", default="now", help="end date (%Y-%m-%d)")
+    argparser.add_argument("--start", default="now", help="start date (%%Y-%%m-%%d)")
+    argparser.add_argument("--end", default="now", help="end date (%%Y-%%m-%%d)")
     argparser.add_argument(
         "--folder_hist", default="webapp", help="folder in which history is saved"
     )
@@ -104,9 +104,7 @@ def main():
         else:
             fh.setLevel(logging.INFO)
         fh.setFormatter(
-            logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
+            logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         )
         logging.getLogger("gridemissions").addHandler(fh)
 
