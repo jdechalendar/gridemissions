@@ -19,10 +19,13 @@ from gridemissions.viz.reports import (
 )
 
 
+logger = logging.getLogger(__name__)
+
 def main():
     """
     Create reports from bulk datasets
     """
+    ge.configure_logging("INFO")
     # Setup plotting
     register_matplotlib_converters()
     plt.style.use("seaborn-v0_8-paper")
@@ -41,32 +44,12 @@ def main():
     args = argparser.parse_args()
 
     # Configure logging
-    logger = logging.getLogger("gridemissions")
     FIG_PATH = ge.config["FIG_PATH"]
 
     # Load data
-    folder = ge.config["DATA_PATH"] / "EIA_Grid_Monitor" / "processed"
-    elec_files = [f for f in folder.iterdir() if f.name.endswith("elec.csv")]
-    co2_files = [f for f in folder.iterdir() if f.name.endswith("co2.csv")]
-
-    elec = ge.GraphData(
-        pd.concat(
-            [pd.read_csv(path, index_col=0, parse_dates=True) for path in elec_files],
-            axis=0,
-        )
-    )
-    co2 = ge.GraphData(
-        pd.concat(
-            [pd.read_csv(path, index_col=0, parse_dates=True) for path in co2_files],
-            axis=0,
-        )
-    )
-    co2.df.sort_index(inplace=True)
-    elec.df.sort_index(inplace=True)
-
-    # Note: we need to drop duplicate indices here because there seems to be duplicates at the beginning/end of the files
-    elec.df = elec.df[~elec.df.index.duplicated(keep="last")]
-    co2.df = co2.df[~co2.df.index.duplicated(keep="last")]
+    logger.info("Loading bulk dataset...")
+    elec = ge.load_bulk("elec")
+    co2 = ge.load_bulk("co2")
 
     # Do work
     if args.report == "1":
