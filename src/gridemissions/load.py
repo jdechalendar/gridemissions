@@ -689,3 +689,21 @@ def _compare_lists(ll, rr):
     left = set(ll)
     right = set(rr)
     return list(left - right) + list(right - left)
+
+
+def load_bulk(which: str = "elec") -> GraphData:
+    """ """
+    if which not in ["elec", "co2", "co2i", "raw", "basic", "rolling", "opt"]:
+        raise ValueError(f"Unexpected value for which: {which}")
+    folder = config["DATA_PATH"] / "EIA_Grid_Monitor" / "processed"
+    files = [f for f in folder.iterdir() if f.name.endswith(f"{which}.csv")]
+    gd = GraphData(
+        pd.concat(
+            [pd.read_csv(path, index_col=0, parse_dates=True) for path in files],
+            axis=0,
+        )
+    )
+    gd.df.sort_index(inplace=True)
+    gd.df = gd.df[~gd.df.index.duplicated(keep="last")]
+
+    return gd
