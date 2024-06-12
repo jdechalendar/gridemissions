@@ -7,7 +7,6 @@ import matplotlib.dates as mdates
 import pathlib
 
 from .base import PAGE_WIDTH, ROW_HEIGHT, COLORS, heatmap, add_watermark
-from gridemissions.eia_api import SRC
 from gridemissions import eia_api_v2
 from gridemissions.load import GraphData
 
@@ -253,9 +252,9 @@ def myplot(ax, s, color=None, summarize=True, **kwargs):
 
 
 def cleaning_plot(
-    elec,
-    region,
-    after=None,
+    elec: GraphData,
+    region: str,
+    other: GraphData = None,
     save=False,
     fig_folder=None,
     w_id=False,
@@ -307,10 +306,10 @@ def cleaning_plot(
             summarize=summarize,
         )
 
-    if after is not None:
-        D = after.get_data(region=region, field="D") * scale
-        G = after.get_data(region=region, field="NG") * scale
-        TI = after.get_data(region=region, field="TI") * scale
+    if other is not None:
+        D = other.get_data(region=region, field="D") * scale
+        G = other.get_data(region=region, field="NG") * scale
+        TI = other.get_data(region=region, field="TI") * scale
         myplot(
             ax1, D, color=COLORS[0], ls="--", label="__nolegend__", summarize=summarize
         )
@@ -350,7 +349,7 @@ def cleaning_plot(
     ax1.set_title(region + add_title)
     ax1.legend(loc=6)
     ax1.set_ylabel(f"Electricity ({unit})")
-    axes = ax1
+    axes = [ax1]
 
     if w_id:
         partners = elec.partners[region]
@@ -363,10 +362,10 @@ def cleaning_plot(
                 color=COLORS[ir2 % len(COLORS)],
                 summarize=summarize,
             )
-            if after is not None:
+            if other is not None:
                 myplot(
                     ax2,
-                    after.get_data(region=region, region2=region2, field="ID") * scale,
+                    other.get_data(region=region, region2=region2, field="ID") * scale,
                     label="__nolegend__",
                     ls="--",
                     alpha=0.7,
@@ -383,27 +382,26 @@ def cleaning_plot(
         axes = (ax1, ax2)
 
         if w_src:
-            for isrc, src in enumerate(SRC):
-                field = f"SRC_{src}"
-                if field not in elec.region_fields:
+            for ifuel, fuel in enumerate(eia_api_v2.FUELS):
+                if not elec.has_field([fuel], region):
                     continue
-                s = elec.get_data(region=region, field=field) * scale
+                s = elec.get_data(region=region, field=fuel) * scale
                 if len(s) > 0:
                     myplot(
                         ax3,
                         s,
-                        label=src,
+                        label=fuel,
                         alpha=0.7,
-                        color=COLORS[isrc % len(COLORS)],
+                        color=COLORS[ifuel % len(COLORS)],
                         summarize=summarize,
                     )
-                    if after is not None:
+                    if other is not None:
                         myplot(
                             ax3,
-                            after.get_data(region=region, field=field) * scale,
+                            other.get_data(region=region, field=fuel) * scale,
                             ls="--",
                             alpha=0.7,
-                            color=COLORS[isrc % len(COLORS)],
+                            color=COLORS[ifuel % len(COLORS)],
                             label="__nolegend__",
                             summarize=summarize,
                         )
@@ -412,7 +410,7 @@ def cleaning_plot(
                 ncol = 2
             ax3.legend(loc=6, ncol=ncol)
             ax3.set_ylabel(f"Generation by source ({unit})")
-            if after is not None:
+            if other is not None:
                 ax2.plot([], [], alpha=0.8, color="k", ls="--", label="after")
                 ax3.plot([], [], alpha=0.8, color="k", ls="--", label="after")
             axes = (ax1, ax2, ax3)

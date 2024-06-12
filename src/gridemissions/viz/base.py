@@ -161,7 +161,7 @@ def heatmap(
             padding between colorbar and figure
         remove_day_label: bool, default True
     """
-    if type(s) == pd.DataFrame:
+    if isinstance(s, pd.DataFrame):
         if len(s.columns) != 1:
             raise ValueError(f"Expecting 1 column but got: {len(s.columns)}")
         s = s[s.columns[0]]
