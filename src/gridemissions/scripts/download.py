@@ -1,16 +1,14 @@
 import argparse
-import gzip
 import logging
-import os
-import pathlib
+import tarfile
 from urllib import request
-import shutil
-from typing import Union
 
-import gridemissions
+import gridemissions as ge
 from gridemissions import api
 
 from .utils import str2bool
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -20,7 +18,6 @@ def main():
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s:%(message)s"
     )
-    logger = logging.getLogger(__name__)
 
     # Parse command line options
     # Optionally pass in a path name
@@ -49,20 +46,19 @@ def main():
     )
     argparser.add_argument("--file_name", default=None)
     argparser.add_argument(
-        "--all",
+        "--bulk",
         default=False,
         const=True,
         nargs="?",
         type=str2bool,
-        help="Whether to download the full dataset",
+        help="Whether to download the bulk dataset",
     )
 
     args = argparser.parse_args()
     logger.info(args)
 
-    if args.all:
-        logger.info(f"Downloading full dataset: {args.dataset}")
-        download_full_dataset(args.dataset, args.file_name)
+    if args.bulk:
+        download_bulk_dataset()
         return
 
     res = api.retrieve(
@@ -76,7 +72,7 @@ def main():
     )
 
     if args.file_name is None:
-        file_name = gridemissions.config["DATA_PATH"] / (
+        file_name = ge.config["DATA_PATH"] / (
             "_".join(
                 [
                     args.dataset,
@@ -99,25 +95,14 @@ def main():
         fw.write(res)
 
 
-def download_full_dataset(dataset: str, path_out: Union[str, os.PathLike, None] = None):
-    """ """
-    if dataset not in ["co2", "elec", "raw"]:
-        raise ValueError(f"Unsupported argument {dataset}")
+def download_bulk_dataset():
+    path = ge.config["DATA_PATH"] / "EIA_Grid_Monitor" / "processed.tar.gz"
+    path.parent.mkdir(exist_ok=True, parents=True)
 
-    fname = f"EBA_{dataset}.csv.gz"
-    if path_out is None:
-        path_out = gridemissions.config["DATA_PATH"] / fname
-    else:
-        path_out = pathlib.Path(path_out)
-
-    if not path_out.name.endswith(".csv.gz"):
-        raise ValueError(f"path_out should end in .csv.gz but got {path_out}")
-    path_out_csv = path_out.parent / path_out.stem
-
-    print(f"Downloading to {path_out}...")
-    request.urlretrieve(gridemissions.config["S3_URL"] + fname, path_out)
-
-    print(f"Decompressing to {path_out_csv}...")
-    with gzip.open(path_out, "rb") as f_in:
-        with open(path_out_csv, "wb") as f_out:
-            shutil.copyfileobj(f_in, f_out)
+    logger.info(f"Downloading bulk dataset to {path}...")
+    request.urlretrieve(
+        "https://gridemissions.s3.us-east-2.amazonaws.com/processed.tar.gz", path
+    )
+    logger.info("Extracting...")
+    with tarfile.open(path, "r:gz") as tar:
+        tar.extractall(path=path.parent)
