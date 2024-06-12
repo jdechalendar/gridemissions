@@ -1,6 +1,5 @@
 import logging
 import pandas as pd
-import pathlib
 
 import gridemissions as ge
 from gridemissions.eia_bulk_grid_monitor import (
@@ -43,13 +42,8 @@ if __name__ == "__main__":
         df.to_csv(folder_out / f"{filename_out}_raw.csv")
 
         # Run the rest of the gridemissions workflow on this new file
-        # Note: this passes a dummy string to `folder_hist` as a workaround to run
-        # `ge.RollingCleaner` but without historical data. It would be better to modify
-        # `make_dataset` to do this by default but this will affect other workflows so
-        # it needs to be better tested first
         make_dataset(
-            file_name=filename_out,
-            tmp_folder=folder_out,
+            base_name=filename_out,
+            folder_out=folder_out,
             scrape=False,
-            folder_hist=pathlib.Path("NOFOLDER"),
         )

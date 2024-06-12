@@ -18,40 +18,46 @@ logger = logging.getLogger(__name__)
 
 
 def make_dataset(
+    folder_out: pathlib.Path,
     start=None,
     end=None,
-    file_name="EBA",
-    tmp_folder=None,
-    folder_hist=None,
-    scrape=True,
+    base_name: str = "data",
+    folder_hist: pathlib.Path = pathlib.Path("NOFOLDER"),
+    scrape: bool = True,
 ):
     """
     Make gridemissions dataset
 
     Parameters
     ----------
+    folder_out: pathlib.Path
+        folder where the dataset is made
     start: datetime-like, optional
+        used when scraping new data
     end: datetime-like, optional
-    file_name: str, default "EBA"
-    tmp_folder: pathlib.Path, optional
-        Folder where the dataset is made
+        used when scraping new data
+    base_name: str, default "data"
+        starting name for data files
     folder_hist: pathlib.Path, optional
-        Historical data to use for `ge.RollingCleaner`
+        Historical data to use for `ge.RollingCleaner`.
+        Looks for a file called `folder_hist / f"{base_name}_basic.csv"`
+        Pass `None` to disable rolling window cleaning
     scrape: bool, default `True`
 
     Notes
     -----
-    If `scrape`, pull fresh data from the EIA API between `start` and `end`. Otherwise,
-    assume the starting file already exists and is called f"{file_name}_raw.csv".
+    If `scrape`, pull fresh data from the EIA API between `start` and `end`.
+    Otherwise, assume the starting file already exists and is called
+    f"{base_name}_raw.csv".
 
-    Run the data through the cleaning workflow before computing consumption emissions.
+    Rolling-window cleaning can be disabled, but note that we currently use the
+    weights from rolling window cleaning in the reconciliation step.
     """
     start_time = time.time()
-    tmp_folder = tmp_folder or ge.config["TMP_PATH"]
 
-    tmp_folder.mkdir(exist_ok=True)
-    file_name_raw = tmp_folder / f"{file_name}_raw.csv"
-    file_name_basic = tmp_folder / f"{file_name}_basic.csv"
+    folder_out.mkdir(exist_ok=True)
+    file_name_raw = folder_out / f"{base_name}_raw.csv"
+    file_name_basic = folder_out / f"{base_name}_basic.csv"
 
     if scrape:  # else: assume that the file exists
         # Scrape EIA data
@@ -75,11 +81,11 @@ def make_dataset(
         logger.info("Rolling window data cleaning")
         data = ge.read_csv(file_name_basic)
         cleaner = ge.RollingCleaner(data)
-        cleaner.process(folder_hist / f"{file_name}_basic.csv")
-        cleaner.out.to_csv(tmp_folder / f"{file_name}_rolling.csv")
+        cleaner.process(folder_hist / f"{base_name}_basic.csv")
+        cleaner.out.to_csv(folder_out / f"{base_name}_rolling.csv")
         data = cleaner.out
         weights = cleaner.weights
-        weights.to_csv(tmp_folder / f"{file_name}_weights.csv")
+        weights.to_csv(folder_out / f"{base_name}_weights.csv")
     else:
         logger.warning("No rolling window data cleaning!")
 
@@ -93,10 +99,11 @@ def make_dataset(
         else:
             cleaner = ge.CvxCleaner(ba_data)
         cleaner.process(debug=False, with_ng_src=False)
-        cleaner.out.to_csv(tmp_folder / f"{file_name}_opt_no_src.csv")
+        cleaner.out.to_csv(folder_out / f"{base_name}_opt_no_src.csv")
         cleaner.CleaningObjective.to_csv(
-            tmp_folder / f"{file_name}_objective_no_src.csv"
+            folder_out / f"{base_name}_objective_no_src.csv"
         )
+        cleaner.deltas.to_csv(folder_out / f"{base_name}_deltas_no_src.csv")
 
     # Only keep going if we have data post THRESH_DATE
     if len(data.df.loc[THRESH_DATE:, :]) == 0:
@@ -109,90 +116,62 @@ def make_dataset(
     else:
         cleaner = ge.CvxCleaner(data)
     cleaner.process(debug=False)
-    cleaner.out.to_csv(tmp_folder / f"{file_name}_opt.csv")
-    cleaner.CleaningObjective.to_csv(tmp_folder / f"{file_name}_objective.csv")
+    cleaner.out.to_csv(folder_out / f"{base_name}_opt.csv")
+    cleaner.CleaningObjective.to_csv(folder_out / f"{base_name}_objective.csv")
+    cleaner.deltas.to_csv(folder_out / f"{base_name}_deltas.csv")
 
     # Post-processing (none for now)
-    cleaner.out.to_csv(tmp_folder / f"{file_name}_elec.csv")
+    cleaner.out.to_csv(folder_out / f"{base_name}_elec.csv")
     data = cleaner.out
 
     # Consumption-based emissions
     logger.info("Computing consumption-based emissions")
     co2_calc = ge.EmissionsCalc(data)
     co2_calc.process()
-    co2_calc.poll_data.to_csv(tmp_folder / f"{file_name}_co2.csv")
-    co2_calc.polli_data.to_csv(tmp_folder / f"{file_name}_co2i.csv")
+    co2_calc.poll_data.to_csv(folder_out / f"{base_name}_co2.csv")
+    co2_calc.polli_data.to_csv(folder_out / f"{base_name}_co2i.csv")
 
-    logger.info(
-        "gridemissions.workflows.make_dataset took %.2f seconds"
-        % (time.time() - start_time)
-    )
+    logger.info(f"make_dataset took {time.time() - start_time} seconds")
 
 
-def update_dataset(
-    folder_hist: pathlib.Path,
-    file_names: pathlib.Path,
-    folder_new=None,
-    folder_extract=None,
-    thresh_date_extract=None,
-):
+def update_dataset(folder_hist: pathlib.Path, folder_new: pathlib.Path, cutoff_date):
     """
     Update dataset in storage with new data.
 
-    Assumes fresh data has just been pulled into a temporary working folder.
-    Deletes that folder when updating is finished.
+    Parameters
+    ----------
+    folder_hist: pathlib.Path
+    folder_new: pathlib.Path
+    cutoff_date: datetime-like
+        only keep history after this date
     """
     folder_hist.mkdir(exist_ok=True)
-    for file_name in file_names:
-        _update_dataset(folder_hist, file_name, folder_new)
-
-    if folder_extract is not None:
-        logger.info(f"Creating {folder_extract}")
-        folder_extract.mkdir(exist_ok=True)
-        shutil.rmtree(folder_extract, ignore_errors=True)
-        os.makedirs(folder_extract, exist_ok=True)
-        for file_name in file_names:
-            _extract_data(folder_hist, file_name, folder_extract, thresh_date_extract)
-
-    # Remove
-    logger.warning("Removal of temporary folder not yet implemented")
-
-
-def _extract_data(
-    folder_hist: pathlib.Path,
-    file_name: str,
-    folder_extract: pathlib.Path,
-    thresh_date_extract,
-):
-    """
-    Helper for `update_dataset` to save data after a given date
-    """
-    logger = logging.getLogger("scraper")
-    file_hist = folder_hist / file_name
-    file_new = folder_extract / file_name
-
-    def load_file(x):
-        logger.debug("Reading %s" % x)
-        return pd.read_csv(x, index_col=0, parse_dates=True)
-
-    logger.debug(f"Saving data from {thresh_date_extract} for {file_name}")
-    df_hist = load_file(file_hist)
-    df_hist.loc[thresh_date_extract:].to_csv(file_new)
+    for f in folder_new.iterdir():
+        if f.name.endswith(".csv") and (folder_new / f.name).is_file():
+            _update_dataset(f.name, folder_hist, folder_new, cutoff_date)
 
 
 def _update_dataset(
-    folder_hist: pathlib.Path, file_name: str, folder_new: pathlib.Path = None
+    name: str, folder_hist: pathlib.Path, folder_new: pathlib.Path, cutoff_date
 ):
     """
-    Helper for `udpate_dataset`
+    Helper for update_dataset
 
-    Note: we prioritize new rows over old rows, when merging the old dataframe
+    Parameters
+    ----------
+    name : str
+    folder_hist : pathlib.Path
+    folder_new : pathlib.Path
+    cutoff_date : datetime-like
+
+    Notes
+    -----
+    We prioritize new rows over old rows, when merging the old dataframe
     with the new incoming data. Accordingly, we look for the rows in the old
     dataset that are not in the new dataset, and append them to the new dataset
     """
-    folder_new = folder_new or pathlib.Path("tmp")
-    file_hist = folder_hist / file_name
-    file_new = folder_new / file_name
+    file_hist = folder_hist / name
+    file_new = folder_new / name
 
     def load_file(x):
         logger.debug("Reading %s" % x)
@@ -218,18 +197,22 @@ def _update_dataset(
     df_hist.sort_index(inplace=True)
 
     logger.debug("Saving history")
-    df_hist.to_csv(file_hist)
+    df_hist.loc[cutoff_date:].to_csv(file_hist)
 
 
-def update_d3map(folder_in, folder_out, file_name, thresh_date="2000-01-01"):
-    poll = ge.read_csv(folder_in / f"{file_name}_co2.csv")
-    elec = ge.read_csv(folder_in / f"{file_name}_elec.csv")
+def update_d3map(
+    folder_in: pathlib.Path,
+    folder_out: pathlib.Path,
+    base_name: str,
+):
+    poll = ge.read_csv(folder_in / f"{base_name}_co2.csv")
+    elec = ge.read_csv(folder_in / f"{base_name}_elec.csv")
 
     # Remove old map data
     shutil.rmtree(folder_out, ignore_errors=True)
     os.makedirs(folder_out, exist_ok=True)
 
-    for ts in poll.df.loc[thresh_date:, :].index:
+    for ts in poll.df.index:
         _ = create_graph(poll, elec, ts, folder_out=folder_out, save_data=True)
 
 
