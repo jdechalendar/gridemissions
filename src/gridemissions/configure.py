@@ -84,6 +84,8 @@ config["API_URL"] = "http://localhost:5000"
 if config["ENV"] == "PROD":
     config["API_URL"] = "https://api.gridemissions.com"
 config["S3_URL"] = "https://gridemissions.s3.us-east-2.amazonaws.com/"
+if "DATA_PATH_LIVE" not in config:
+    config["DATA_PATH_LIVE"] = config["DATA_PATH"] / "live"
 
 
 def configure_logging(level="WARNING"):

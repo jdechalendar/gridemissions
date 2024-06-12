@@ -4,7 +4,7 @@ setup(
     name="gridemissions",
     package_dir={"": "src"},
     packages=find_packages("src"),
-    version="0.1.4",
+    version="0.1.5",
     python_requires=">=3.7",
     install_requires=["requests", "pandas>=2.0", "matplotlib>=3.4.2"],
     extras_require={
@@ -22,7 +22,7 @@ setup(
     entry_points={
         "console_scripts": [
             "ge_download=gridemissions.scripts.download:main",
-            "ge_update=gridemissions.scripts.update:main",
+            "ge_update_live_dataset=gridemissions.scripts.update_live_dataset:main",
             "ge_report=gridemissions.scripts.report:main",
         ],
     },

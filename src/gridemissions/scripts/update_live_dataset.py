@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import pathlib
 import pandas as pd
 import argparse
 import logging.config
@@ -16,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     ge.configure_logging(logging.INFO)
+
     # Parse command-line arguments
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
@@ -37,15 +37,6 @@ def main():
         help="Pull new data from the EIA",
     )
     argparser.add_argument(
-        "-u",
-        "--update",
-        default=True,
-        nargs="?",
-        const=True,
-        type=str2bool,
-        help="Update the historical data with what is in the tmp folder",
-    )
-    argparser.add_argument(
         "-um",
         "--update_d3map",
         default=True,
@@ -57,17 +48,6 @@ def main():
     argparser.add_argument("--start", default="now", help="start date (%%Y-%%m-%%d)")
     argparser.add_argument("--end", default="now", help="end date (%%Y-%%m-%%d)")
     argparser.add_argument(
-        "--folder_hist", default="webapp", help="folder in which history is saved"
-    )
-    argparser.add_argument(
-        "--folder_new",
-        default=ge.config["TMP_PATH"],
-        help="folder in which history is saved",
-    )
-    argparser.add_argument(
-        "--file_name", default="EBA", help="folder in which history is saved"
-    )
-    argparser.add_argument(
         "-d",
         "--debug",
         default=False,
@@ -77,15 +57,6 @@ def main():
         help="Whether to include debug information in logging",
     )
 
-    file_name = "EBA"
-    argparser.add_argument(
-        "--data_extract",
-        default=True,
-        nargs="?",
-        const=True,
-        type=str2bool,
-        help="whether to extract last month",
-    )
     args = argparser.parse_args()
 
     # Configure logging
@@ -123,66 +94,36 @@ def main():
     end = end.strftime(eia_api_v2.EIA_DATETIME_FORMAT)
     start = start.strftime(eia_api_v2.EIA_DATETIME_FORMAT)
 
-    if args.folder_hist == "webapp":
-        args.folder_hist = ge.config["DATA_PATH"] / "analysis" / "webapp"
-    elif args.folder_hist == "local":
-        args.folder_hist = ge.config["DATA_PATH"] / "analysis" / "local"
-    else:
-        args.folder_hist = pathlib.Path(args.folder_hist)
-
-    if args.folder_new == ge.config["TMP_PATH"]:
-        args.folder_new = ge.config["TMP_PATH"] / "emissions_app"
-
-    args.folder_new.mkdir(exist_ok=True)
-
-    if args.data_extract:
-        folder_extract = ge.config["DATA_PATH"] / "analysis" / "webapp" / "data_extract"
-    else:
-        folder_extract = None
-
-    file_names = [
-        el % args.file_name
-        for el in [
-            "%s_raw.csv",
-            "%s_basic.csv",
-            "%s_rolling.csv",
-            "%s_opt.csv",
-            "%s_elec.csv",
-            "%s_co2.csv",
-            "%s_co2i.csv",
-        ]
-    ]
+    folder_hist = ge.config["DATA_PATH_LIVE"] / "hist"
+    base_name = "live"
 
     logger.info(args)
+
     ###############################################################################
     if args.make:
         make_dataset(
+            ge.config["DATA_PATH_LIVE"],
             start=start,
             end=end,
-            file_name=file_name,
-            tmp_folder=args.folder_new,
-            folder_hist=args.folder_hist,
+            base_name=base_name,
+            folder_hist=folder_hist,
             scrape=args.scrape,
         )
 
-    thresh_date = (pd.to_datetime(end) - timedelta(hours=24 * 30)).isoformat()
-    if args.update:
+        logger.info("Updating dataset")
         update_dataset(
-            args.folder_hist,
-            file_names,
-            args.folder_new,
-            folder_extract=folder_extract,
-            thresh_date_extract=thresh_date,
+            folder_hist,
+            ge.config["DATA_PATH_LIVE"],
+            cutoff_date=(pd.to_datetime(end) - timedelta(hours=24 * 30)).isoformat(),
         )
 
     if args.update_d3map:
         update_d3map(
-            args.folder_new,
-            args.folder_hist / "d3map",
-            file_name=file_name,
-            thresh_date=thresh_date,
+            ge.config["DATA_PATH_LIVE"],
+            ge.config["DATA_PATH_LIVE"] / "d3map",
+            base_name=base_name,
         )
 
     logger.debug("Writing last_update.txt")
-    with open(args.folder_hist / "last_update.txt", "w") as fw:
+    with open(ge.config["DATA_PATH_LIVE"] / "last_update.txt", "w") as fw:
         fw.write(datetime.utcnow().isoformat())
