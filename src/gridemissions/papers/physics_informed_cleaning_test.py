@@ -47,9 +47,7 @@ def run_test(i="", level=0.2, debug=False):
 
     # Run workflow on fake dataset
     make_dataset(
-        tmp_folder=tmp_folder,
-        folder_hist=folder_hist,
-        scrape=False,
+        folder_out=tmp_folder, folder_hist=folder_hist, scrape=False, base_name="EBA"
     )
 
     # Reload results
