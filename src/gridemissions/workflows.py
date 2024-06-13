@@ -214,7 +214,3 @@ def update_d3map(
 
     for ts in poll.df.index:
         _ = create_graph(poll, elec, ts, folder_out=folder_out, save_data=True)
-
-
-if __name__ == "__main__":
-    make_dataset()
