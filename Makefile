@@ -5,7 +5,7 @@ export JUPYTER_PLATFORM_DIRS = 1
 data_path := $(shell python src/gridemissions/configure.py DATA_PATH)
 fig_path := $(shell python src/gridemissions/configure.py FIG_PATH)
 
-.PHONY: iea_data clean install snapshot test test_fast
+.PHONY: install snapshot test test_fast bulk bulk_upload bulk_report
 
 install: ## install all requirements in editable mode
 	pip install -e '.[all]'
@@ -21,20 +21,13 @@ test_fast: ## Run `flake8` and `SKIP_SLOW_TESTS=true pytest`
 	SKIP_SLOW_TESTS=true pytest --snapshot-warn-unused test/
 	flake8
 
-
-iea_data: ${data_path}/EIA_Grid_Monitor/downloads/.dummy_file_for_make
-
-# Note: the rules below do not check if there are new files to download/process
-# Could be improved to only download/process certain files
-${data_path}/EIA_Grid_Monitor/downloads/.dummy_file_for_make:
-	DATA_PATH=${data_path} bash src/gridemissions/scripts/bulk_download_grid_monitor.sh
-	touch ${data_path}/EIA_Grid_Monitor/.dummy_file_for_make
-
-bulk: ${data_path}/EIA_Grid_Monitor/downloads/.dummy_file_for_make
-	python src/gridemissions/scripts/bulk_process.py
-
-clean:
-	rm ${data_path}/EIA_Grid_Monitor/.dummy_file_for_make
+# Note 1: Files are only downloaded by wget if they do not exist (with wget -nc).
+# Note 2: Files are only processed if the "co2" file that is created at the end of the
+# workflow does not exist. Delete files to force an update
+bulk:
+		DATA_PATH=${data_path} bash src/gridemissions/scripts/bulk_download_grid_monitor.sh
+		python src/gridemissions/scripts/bulk_process.py
+		cd ${data_path}/EIA_Grid_Monitor && tar -czf processed.tar.gz processed/
 
 bulk_upload:  ## Upload bulk dataset to s3 bucket
 	aws s3 sync ${data_path}/EIA_Grid_Monitor/processed.tar.gz s3://gridemissions

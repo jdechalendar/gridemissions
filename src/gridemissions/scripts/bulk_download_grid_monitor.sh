@@ -12,11 +12,15 @@ do
     do
         for tail in "${tails[@]}"
         do
-            wget $base_eia_url$head$y$tail;
+            wget -nc $base_eia_url$head$y$tail;
         done
     done
 done
 
 # Only get the second part of the year for 2018
-wget $base_eia_url"EIA930_BALANCE_2018_Jul_Dec.csv";
-wget $base_eia_url"EIA930_INTERCHANGE_2018_Jul_Dec.csv";
+wget -nc $base_eia_url"EIA930_BALANCE_2018_Jul_Dec.csv";
+wget -nc $base_eia_url"EIA930_INTERCHANGE_2018_Jul_Dec.csv";
+
+# Only get the first part of the year for 2024
+wget -nc $base_eia_url"EIA930_BALANCE_2024_Jan_Jun.csv";
+wget -nc $base_eia_url"EIA930_INTERCHANGE_2024_Jan_Jun.csv";
