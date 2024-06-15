@@ -26,8 +26,14 @@ if __name__ == "__main__":
         ifile = bfile.parent / bfile.name.replace(
             "EIA930_BALANCE", "EIA930_INTERCHANGE"
         )
+        co2_file = (
+            folder_out / f"{bfile.stem.replace('EIA930_BALANCE', 'EIA930')}_co2.csv"
+        )
 
-        if ifile.is_file():
+        # 2 conditions must be met to run a file:
+        # ifile.is_file() -> we have both the balance file and the interchange file
+        # not co2_file.isfile() -> we have not run it yet
+        if ifile.is_file() and not co2_file.is_file():
             files_to_run.append((bfile, ifile))
     print(f"Collected {len(files_to_run)} six-month datasets to process")
 
