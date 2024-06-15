@@ -29,8 +29,9 @@ bulk:
 		python src/gridemissions/scripts/bulk_process.py
 		cd ${data_path}/EIA_Grid_Monitor && tar -czf processed.tar.gz processed/
 
+# Note: using --sse AES256 is required for the Stanford AWS account
 bulk_upload:  ## Upload bulk dataset to s3 bucket
-	aws s3 sync ${data_path}/EIA_Grid_Monitor/processed.tar.gz s3://gridemissions
+	aws s3 sync --sse AES256 --delete --exclude "*" --include="processed.tar.gz" ${data_path}/EIA_Grid_Monitor/ s3://gridemissions/
 
 bulk_report: ## Create heatmap and timeseries reports and upload to S3
 	ge_report --report heatmap
