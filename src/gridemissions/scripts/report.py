@@ -21,6 +21,7 @@ from gridemissions.viz.reports import (
 
 logger = logging.getLogger(__name__)
 
+
 def main():
     """
     Create reports from bulk datasets
@@ -63,20 +64,6 @@ def main():
         fig_folder = join(FIG_PATH, "weekly_full")
         for ba in elec.regions:
             annual_plot_weekly(elec, co2, ba, save=True, fig_folder=fig_folder)
-
-    elif args.report == "3":
-        logger.info("Creating hourly report for last 2 weeks")
-        fig_folder = join(FIG_PATH, "hourly_2weeks")
-        now = datetime.utcnow()
-        start = now - timedelta(hours=14 * 30)
-        end = now
-
-        small_elec = BaData(df=elec.df.loc[start:end])
-        small_co2 = BaData(df=co2.df.loc[start:end], variable="CO2")
-        for ba in elec.regions:
-            annual_plot_hourly(
-                small_elec, small_co2, ba, save=True, fig_folder=fig_folder
-            )
 
     elif args.report == "heatmap":
         fig_folder = pathlib.Path(FIG_PATH) / "heatmap_report"
