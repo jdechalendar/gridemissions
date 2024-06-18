@@ -5,7 +5,7 @@ setup(
     package_dir={"": "src"},
     packages=find_packages("src"),
     version="0.2.0",
-    python_requires=">=3.7",
+    python_requires=">=3.11",
     install_requires=["requests", "pandas>=2.0", "matplotlib>=3.4.2"],
     extras_require={
         "all": [
