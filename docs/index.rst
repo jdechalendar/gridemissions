@@ -12,6 +12,7 @@ Documentation contents
 .. toctree::
    :maxdepth: 2
 
+   datasets
    config
    operations
    api

@@ -20,7 +20,7 @@ import gridemissions
 # -- Project information -----------------------------------------------------
 
 project = "gridemissions"
-copyright = "2020, Jacques de Chalendar"
+copyright = "2020-2024, Jacques de Chalendar"
 author = "Jacques de Chalendar"
 
 
@@ -51,6 +51,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
+html_theme_options = {
+    "icon_links": [
+        {
+            # Label for this link
+            "name": "GitHub",
+            # URL where the link will redirect
+            "url": "https://github.com/jdechalendar/gridemissions",  # required
+            # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+            "icon": "fa-brands fa-square-github",
+            # The type of image to be used (see below for details)
+            "type": "fontawesome",
+        }
+    ]
+}
 
 
 # Add any paths that contain custom static files (such as style sheets) here,

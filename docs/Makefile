@@ -23,6 +23,10 @@ deploy:
 	make html
 	rsync -rv --delete _build/html/ $(DOCS_HOST)
 
+clean:
+	rm -r _build
+	rm -r generated
+
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
