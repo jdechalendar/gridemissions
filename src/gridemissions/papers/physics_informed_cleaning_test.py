@@ -7,21 +7,21 @@ import os
 import pandas as pd
 import numpy as np
 import gridemissions
-from gridemissions.load import BaData
+from gridemissions.load import GraphData
 from gridemissions.workflows import make_dataset
 
 
 def run_test(i="", level=0.2, debug=False):
     # Load raw data and restrict to a 2 day test period
     file_name_raw = join(gridemissions.config["APEN_PATH"], "data", "EBA_raw.csv")
-    data_raw = BaData(fileNm=file_name_raw)
+    data_raw = GraphData(fileNm=file_name_raw)
 
     start = pd.to_datetime("2020-11-01T00:00Z")
     end = pd.to_datetime("2020-11-03T00:00Z")
     data_raw.df = data_raw.df.loc[start:end]
 
     # Create a copy of the test dataset and modify it
-    data_raw_copy = BaData(df=data_raw.df.copy(deep=True))
+    data_raw_copy = GraphData(df=data_raw.df.copy(deep=True))
     data_raw_copy.df.loc[
         :, data_raw_copy.get_cols("CISO", "D")[0]
     ] *= np.random.uniform(1 - level, 1 + level, len(data_raw_copy.df))
@@ -37,7 +37,7 @@ def run_test(i="", level=0.2, debug=False):
         file_name_basic = join(
             gridemissions.config["APEN_PATH"], "data", "EBA_basic.csv"
         )
-        data_basic = BaData(fileNm=file_name_basic)
+        data_basic = GraphData(fileNm=file_name_basic)
         end_hist = start
         start_hist = end_hist - pd.Timedelta("15D")
         data_basic.df = data_basic.df.loc[start_hist:end_hist]
@@ -52,8 +52,8 @@ def run_test(i="", level=0.2, debug=False):
 
     # Reload results
     file_name = join(tmp_folder, "EBA_%s.csv")
-    raw = BaData(fileNm=file_name % "raw")
-    opt = BaData(fileNm=file_name % "opt")
+    raw = GraphData(fileNm=file_name % "raw")
+    opt = GraphData(fileNm=file_name % "opt")
 
     # Compute error
     d_col = raw.get_cols("CISO", "D")[0]
@@ -63,8 +63,8 @@ def run_test(i="", level=0.2, debug=False):
     ).mean()
 
     if debug:
-        basic = BaData(fileNm=file_name % "basic")
-        rolling = BaData(fileNm=file_name % "rolling")
+        basic = GraphData(fileNm=file_name % "basic")
+        rolling = GraphData(fileNm=file_name % "rolling")
         return error, raw, basic, rolling, opt, data_raw
 
     return error

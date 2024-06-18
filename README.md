@@ -137,23 +137,3 @@ GRIDEMISSIONS_DEFAULT_LOGGING_CONF: the default logging configuration (default c
 GRIDEMISSIONS_DATA_DIR_PATH:        the data directory (default: "$HOME/data/gridemissions")
 GRIDEMISSIONS_TMP_DIR_PATH:         the temporary data directory (default: "$HOME/tmp/gridemissions")
 ```
-
-## The `GraphData` class
-*Important note: this class will progressively replace the `BaData` class, which will be deprecated.*
-
-Abstraction to represent timeseries data on a graph. This class is a light wrapper around a pd.DataFrame, with convenience functions for accessing data. In the underlying pd.DataFrame, the index represents time (UTC) and columns represent data for different fields on the graph.
-
-A graph consists of regions (nodes) and trade links (edges). Trade links are defined as ordered region pairs.
-
-The class supports holding data for one variable and multiple fields. Examples of variables are electricity, co2, so2, etc. Examples of fields are demand, generation, interchange. Field data can be for regions or for links.
-
-The regions, variable, and fields are inferred from the underlying data columns.
-
-### `GraphData.get_cols`
-Retrieve column name(s) corresponding to given region(s) and field(s)
-
-### `GraphData.get_data`
-Convenience function to get the data from a call to `get_cols`
-
-### `GraphData.check_*`
-These functions can be used to check certain constraints are met for different fields. By convention, if one of the fields is missing, the check is `True`.
