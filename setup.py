@@ -4,7 +4,7 @@ setup(
     name="gridemissions",
     package_dir={"": "src"},
     packages=find_packages("src"),
-    version="0.1.6",
+    version="0.1.7",
     python_requires=">=3.7",
     install_requires=["requests", "pandas>=2.0", "matplotlib>=3.4.2"],
     extras_require={
@@ -17,6 +17,11 @@ setup(
             "seaborn",
             "syrupy",
             "pytest",
+            # As of June 22, 2024
+            # numpy 2.0 breaks gridemissions because osqp is not yet compatible with it
+            # see https://github.com/cvxpy/cvxpy/issues/2474
+            # Can probably allow higher versions of numpy once that issue is closed
+            "numpy==1.26.4",
         ]
     },
     entry_points={
