@@ -98,7 +98,7 @@ class EmissionsCalc(object):
         self.KEY_E = eia_api.get_key("E")
         self.KEY_poll = eia_api.get_key(poll)
         self.KEY_polli = eia_api.get_key(poll + "i")
-        self.EF = EF if EF else EMISSIONS_FACTORS[poll]
+        self.EF = EF if EF is not None else EMISSIONS_FACTORS[poll]
 
     def process(self):
         """
