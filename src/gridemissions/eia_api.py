@@ -100,6 +100,8 @@ KEYS = {
     }
 }
 SRC = ["COL", "NG", "NUC", "OIL", "OTH", "SUN", "UNK", "WAT", "WND", "GEO", "BIO"]
+FUELS = SRC  # for compatibility with gridemissions >=0.1.8.dev2
+FUEL_FIELD = "SRC_%s"
 for src in SRC:
     KEYS["E"][f"SRC_{src}"] = f"EBA.%s-ALL.NG.{src}.H"
 
