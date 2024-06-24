@@ -3,8 +3,8 @@ import logging
 import time
 import numpy as np
 import pandas as pd
-from gridemissions import eia_api_v2 as eia_api
-from gridemissions.eia_api_v2 import FUELS, KEYS
+from typing import Any
+from gridemissions import eia_api_v2
 from gridemissions.load import GraphData
 from packaging.version import Version
 
@@ -89,15 +89,24 @@ def consumption_emissions(F, P, ID):
 
 
 class EmissionsCalc(object):
-    def __init__(self, ba_data: GraphData, poll: str = "CO2", EF=None):
+    def __init__(
+        self, ba_data: GraphData, poll: str = "CO2", EF=None, api_module: Any = None
+    ):
         self.logger = logging.getLogger("gridemissions." + self.__class__.__name__)
         self.ba_data = ba_data
         self.df = ba_data.df.copy(deep=True)
         self.regions = ba_data.regions
         self.poll = poll
-        self.KEY_E = eia_api.get_key("E")
-        self.KEY_poll = eia_api.get_key(poll)
-        self.KEY_polli = eia_api.get_key(poll + "i")
+        self.api_module = eia_api_v2 if api_module is None else api_module
+
+        # Allow for a fuel field that is not just the fuel
+        # Needed for compatibility with EIA API v1 which has NG as a fuel that can clash with net generation
+        self.fuel_field = (
+            "%s" if not hasattr(api_module, "FUEL_FIELD") else api_module.FUEL_FIELD
+        )
+        self.KEY_E = self.api_module.get_key("E")
+        self.KEY_poll = self.api_module.get_key(poll)
+        self.KEY_polli = self.api_module.get_key(poll + "i")
         self.EF = EF if EF is not None else EMISSIONS_FACTORS[poll]
 
     def process(self):
@@ -178,7 +187,10 @@ class EmissionsCalc(object):
         Assumes elec data comes in MWh and EF data in kg/MWh.
         """
         for ba in self.regions:
-            gen_cols = [(fuel, self.KEY_E[fuel] % ba) for fuel in FUELS]
+            gen_cols = [
+                (fuel, self.KEY_E[self.fuel_field % fuel] % ba)
+                for fuel in self.api_module.FUELS
+            ]
             gen_cols = [(fuel, col) for fuel, col in gen_cols if col in self.df.columns]
             self.df.loc[:, self.KEY_poll["NG"] % ba] = self.df.apply(
                 lambda x: sum(self.EF[fuel] * x[col] for fuel, col in gen_cols), axis=1
@@ -206,12 +218,12 @@ class EmissionsCalc(object):
         Extract data for a row in the dataframe with EBA and AMPD data and call
         the consumption emissions function
         """
-        P = row[[KEYS["E"]["NG"] % r for r in self.regions]].values
+        P = row[[self.KEY_E["NG"] % r for r in self.regions]].values
         ID = np.zeros((len(self.regions), len(self.regions)))
         for i, ri in enumerate(self.regions):
             for j, rj in enumerate(self.regions):
-                if KEYS["E"]["ID"] % (ri, rj) in row.index:
-                    ID[i][j] = row[KEYS["E"]["ID"] % (ri, rj)]
+                if self.KEY_E["ID"] % (ri, rj) in row.index:
+                    ID[i][j] = row[self.KEY_E["ID"] % (ri, rj)]
 
         F = row[[self.KEY_poll["NG"] % ba for ba in self.regions]].values
         X = [np.nan for ba in self.regions]
