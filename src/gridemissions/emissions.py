@@ -156,14 +156,14 @@ class EmissionsCalc(object):
         # Create GraphData object for pollutant
         self.poll_data = GraphData(
             df=self.df.loc[
-                :, [col for col in self.df.columns if "%s_" % self.poll in col]
+                :, [col for col in self.df.columns if col.startswith(f"{self.poll}_")]
             ]
         )
 
         # Create GraphData object for pollutant intensity
         self.polli_data = GraphData(
             df=self.df.loc[
-                :, [col for col in self.df.columns if "%si_" % self.poll in col]
+                :, [col for col in self.df.columns if col.startswith(f"{self.poll}i_")]
             ]
         )
 
