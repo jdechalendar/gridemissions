@@ -6,7 +6,8 @@ from the parse.py script) or cleaned (outputs from clean.py).
 The data handler classes provide methods to access the data in different ways
 and perform some checks.
 """
-from typing import List, Union
+
+from typing import List, Union, Any
 import itertools
 from os.path import join
 from os import PathLike
@@ -47,11 +48,12 @@ class GraphData(object):
     is True.
     """
 
-    def __init__(self, df: pd.DataFrame) -> None:
+    def __init__(self, df: pd.DataFrame, api_module: Any = None) -> None:
         self.logger = logging.getLogger("gridemissions." + self.__class__.__name__)
         self.atol = ATOL
         self.rtol = RTOL
         self.df = df
+        self.api_module = eia_api_v2 if api_module is None else api_module
         self._parse_info()
 
     def _parse_info(self) -> None:
@@ -70,7 +72,7 @@ class GraphData(object):
         - link data is supplied for (r1, r2) but not (r2, r1)
         """
         parsed_columns = pd.DataFrame(
-            data=list(self.df.columns.map(eia_api_v2.parse_column))
+            data=list(self.df.columns.map(self.api_module.parse_column))
         )
         if "region2" not in parsed_columns.columns:
             parsed_columns["region2"] = np.nan
@@ -83,7 +85,7 @@ class GraphData(object):
             len(variables) == 1
         ), f"GraphData only support one variable! Got {variables}"
         self.variable = variables[0]
-        self.KEY = eia_api_v2.get_key(self.variable)
+        self.KEY = self.api_module.get_key(self.variable)
         self.regions = list(
             parsed_columns[["region", "region2"]].stack().dropna().unique()
         )
@@ -362,8 +364,10 @@ class GraphData(object):
         return out
 
 
-def read_csv(path: Union[str, "PathLike[str]"]) -> GraphData:
-    return GraphData(pd.read_csv(path, index_col=0, parse_dates=True))
+def read_csv(path: Union[str, "PathLike[str]"], api_module: Any = None) -> GraphData:
+    return GraphData(
+        pd.read_csv(path, index_col=0, parse_dates=True), api_module=api_module
+    )
 
 
 def read_parquet(path: Union[str, "PathLike[str]"]) -> GraphData:
