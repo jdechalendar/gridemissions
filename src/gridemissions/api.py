@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 
 import gridemissions
-from gridemissions import eia_api
+from gridemissions import eia_api_v1
 
 DATETIME_FMT = "%Y%m%dT%H%MZ"
 DATASET_TO_VARIABLE = {"raw": "E", "co2": "CO2", "elec": "E", "co2i": "CO2i"}
@@ -73,15 +73,15 @@ def retrieve(dataset, start=None, end=None, return_type="dataframe", **kwargs):
         elec = retrieve(
             dataset="elec", start=start, end=end, return_type="dataframe", **kwargs
         )
-        key_E = eia_api.get_key("E")
-        key_CO2 = eia_api.get_key("CO2")
-        key_CO2i = eia_api.get_key("CO2i")
+        key_E = eia_api_v1.get_key("E")
+        key_CO2 = eia_api_v1.get_key("CO2")
+        key_CO2i = eia_api_v1.get_key("CO2i")
         field = kwargs["field"]
         co2.columns = co2.columns.map(
-            lambda x: eia_api.column_name_to_region(x, key_CO2[field])
+            lambda x: eia_api_v1.column_name_to_region(x, key_CO2[field])
         )
         elec.columns = elec.columns.map(
-            lambda x: eia_api.column_name_to_region(x, key_E[field])
+            lambda x: eia_api_v1.column_name_to_region(x, key_E[field])
         )
         co2i = co2 / elec
         co2i.columns = co2i.columns.map(lambda x: key_CO2i[field] % x)

@@ -17,8 +17,8 @@ import logging
 import json
 import re
 import warnings
-from gridemissions import config, eia_api, eia_api_v2
-from gridemissions.eia_api import KEYS, EIA_ALLOWED_SERIES_ID
+from gridemissions import config, eia_api_v1, eia_api_v2
+from gridemissions.eia_api_v1 import KEYS, EIA_ALLOWED_SERIES_ID
 
 RTOL = 1e-05
 ATOL = 1e-08
@@ -449,13 +449,13 @@ class BaData(object):
             self.df = pd.read_csv(fileNm, index_col=0, parse_dates=True)
 
         # Infer variable from first data column
-        self.variable = eia_api.column_name_to_variable(self.df.columns[0])
+        self.variable = eia_api_v1.column_name_to_variable(self.df.columns[0])
         self.regions = self._parse_data_cols()
         self.fileNm = fileNm
         if variable in KEYS:
             self.KEY = KEYS[variable]
         else:
-            self.KEY = eia_api.generic_key(variable)
+            self.KEY = eia_api_v1.generic_key(variable)
 
     def get_cols(self, r=None, field="D"):
         """
