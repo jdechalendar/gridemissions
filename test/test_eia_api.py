@@ -1,6 +1,6 @@
 import pytest
 
-from gridemissions.eia_api import (
+from gridemissions.eia_api_v1 import (
     column_name_to_region,
     column_name_to_variable,
     parse_column,

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from gridemissions.viz.base import PAGE_WIDTH, ROW_HEIGHT, COLORS
-from gridemissions.eia_api import SRC
+from gridemissions.eia_api_v1 import SRC
 
 
 def figure1(ba, ba_data_A, ba_data_D, ba_data_C=None, scale=1e-3, save_fig=False):
