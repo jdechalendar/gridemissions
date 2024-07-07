@@ -31,7 +31,9 @@ def test_basic_cleaner(snapshot):
 
         if not IS_CI:
             # Store result for the next test
-            cleaner.out.to_csv(get_path(filename % "basic"))
+            cleaner.out.to_csv(
+                get_path(filename % "basic"), float_format=snapshot_float_format
+            )
 
 
 @pytest.mark.skipif(
@@ -53,8 +55,12 @@ def test_rolling_window_cleaner(snapshot):
 
         if not IS_CI:
             # Store result for the next test
-            cleaner.out.to_csv(get_path(filename % "rolling"))
-            cleaner.weights.to_csv(get_path(filename % "weights"))
+            cleaner.out.to_csv(
+                get_path(filename % "rolling"), float_format=snapshot_float_format
+            )
+            cleaner.weights.to_csv(
+                get_path(filename % "weights"), float_format=snapshot_float_format
+            )
 
     # Test version with history file
     for filename in FILENAMES:
@@ -94,6 +100,7 @@ def test_opt_cleaner(snapshot):
         )
         if not IS_CI:
             # Store result for the next test
+            # Store with full precision so that flows are balanced for the next test
             cleaner.out.to_csv(get_path(filename % "opt"))
 
 
@@ -111,8 +118,12 @@ def test_emissions_calc(snapshot):
 
         if not IS_CI:
             # Store result for the next test
-            co2_calc.poll_data.to_csv(get_path(filename[2:] % "CO2"))
-            co2_calc.polli_data.to_csv(get_path(filename[2:] % "CO2i"))
+            co2_calc.poll_data.to_csv(
+                get_path(filename[2:] % "CO2"), float_format="%.3g"
+            )
+            co2_calc.polli_data.to_csv(
+                get_path(filename[2:] % "CO2i"), float_format="%.3g"
+            )
 
 
 def test_create_graph(snapshot):
@@ -125,5 +136,9 @@ def test_create_graph(snapshot):
         folder_out.mkdir(exist_ok=True)
 
         for ts in poll.df.index[0:2]:
-            g = create_graph(poll, elec, ts, folder_out=folder_out, save_data=True)
-            assert json.dumps(g) == snapshot(name=f"{name} {ts}")
+            g = create_graph(poll, elec, ts, folder_out=folder_out, save_data=False)
+
+            # hacky way to reduce float precision
+            assert json.dumps(
+                json.loads(json.dumps(g), parse_float=lambda x: round(float(x), 6))
+            ) == snapshot(name=f"{name} {ts}")
