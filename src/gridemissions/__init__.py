@@ -3,6 +3,8 @@ import importlib.metadata
 from .configure import config, configure_logging
 from .load import GraphData, read_csv, load_bulk
 from .emissions import EmissionsCalc
+import eia_api_v1
+import eia_api_v2
 
 try:
     from .clean import BasicCleaner, RollingCleaner, CvxCleaner
@@ -15,6 +17,8 @@ except ModuleNotFoundError:  # Cleaning depends on pptional dependencies
 __all__ = [
     "config",
     "configure_logging",
+    "eia_api_v1",
+    "eia_api_v2",
     "EmissionsCalc",
     "GraphData",
     "read_csv",
