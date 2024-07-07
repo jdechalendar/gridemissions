@@ -16,7 +16,7 @@ pytestmark = [
 
 def test_compute_calls(snapshot):
     assert json.dumps(
-        eia_api_v2.EIASession().compute_facet_options(eia_api_v2.ROUTES)
+        eia_api_v2.EIASession().compute_facet_options(eia_api_v2.ROUTES), sort_keys=True
     ) == snapshot(name="Output from compute_facet_options")
 
 
