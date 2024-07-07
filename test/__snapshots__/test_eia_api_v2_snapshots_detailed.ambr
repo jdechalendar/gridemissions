@@ -3387,105 +3387,105 @@
 # name: test_scrape_by_ba[fuel-type-data-LGEE-2022-07-10-2022-07-11]
   '''
   ,period,respondent,respondent-name,fueltype,type-name,value,value-units
-  0,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2523,megawatthours
-  1,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1435,megawatthours
+  0,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2523.4,megawatthours
+  1,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1435.25,megawatthours
   2,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,1,megawatthours
   3,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,62,megawatthours
-  4,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2479,megawatthours
+  4,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2479.4,megawatthours
   5,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1309,megawatthours
-  6,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
+  6,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,.3,megawatthours
   7,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,61,megawatthours
-  8,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2459,megawatthours
-  9,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1264,megawatthours
+  8,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2458.7,megawatthours
+  9,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1263.6001,megawatthours
   10,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   11,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,60,megawatthours
-  12,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2455,megawatthours
-  13,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1129,megawatthours
+  12,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2454.6,megawatthours
+  13,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1128.7998,megawatthours
   14,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   15,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,59,megawatthours
-  16,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2457,megawatthours
+  16,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2457.1,megawatthours
   17,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,933,megawatthours
   18,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   19,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,59,megawatthours
-  20,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2456,megawatthours
-  21,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,745,megawatthours
-  22,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
+  20,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2456.2,megawatthours
+  21,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,745.1,megawatthours
+  22,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,-.1,megawatthours
   23,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,58,megawatthours
-  24,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2429,megawatthours
-  25,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,595,megawatthours
+  24,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2429.1,megawatthours
+  25,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,595.05,megawatthours
   26,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   27,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,57,megawatthours
-  28,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2374,megawatthours
-  29,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,552,megawatthours
+  28,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2373.7,megawatthours
+  29,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,552.35,megawatthours
   30,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   31,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,58,megawatthours
-  32,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2383,megawatthours
-  33,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,482,megawatthours
+  32,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2382.7,megawatthours
+  33,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,482.4,megawatthours
   34,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   35,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,59,megawatthours
-  36,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2403,megawatthours
-  37,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,457,megawatthours
-  38,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
+  36,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2402.9,megawatthours
+  37,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,456.9,megawatthours
+  38,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,-.1,megawatthours
   39,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,59,megawatthours
-  40,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2394,megawatthours
-  41,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,425,megawatthours
+  40,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2393.8,megawatthours
+  41,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,425.2,megawatthours
   42,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   43,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,60,megawatthours
   44,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2393,megawatthours
-  45,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,400,megawatthours
+  45,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,400.4,megawatthours
   46,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,0,megawatthours
   47,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,61,megawatthours
-  48,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2393,megawatthours
+  48,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2392.8,megawatthours
   49,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,437,megawatthours
-  50,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,1,megawatthours
+  50,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,.9,megawatthours
   51,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,61,megawatthours
-  52,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2451,megawatthours
-  53,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,589,megawatthours
-  54,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,3,megawatthours
+  52,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2450.9,megawatthours
+  53,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,589.2,megawatthours
+  54,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,3.2,megawatthours
   55,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,61,megawatthours
-  56,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2575,megawatthours
-  57,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,728,megawatthours
-  58,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,6,megawatthours
+  56,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2575.4,megawatthours
+  57,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,727.9,megawatthours
+  58,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,6.2,megawatthours
   59,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,63,megawatthours
   60,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2728,megawatthours
-  61,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,862,megawatthours
-  62,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,7,megawatthours
+  61,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,862.45,megawatthours
+  62,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,7.3,megawatthours
   63,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,62,megawatthours
-  64,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2853,megawatthours
-  65,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,996,megawatthours
-  66,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,8,megawatthours
+  64,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2852.6,megawatthours
+  65,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,995.5499,megawatthours
+  66,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,8.4,megawatthours
   67,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,64,megawatthours
-  68,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2998,megawatthours
-  69,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1212,megawatthours
-  70,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,11,megawatthours
+  68,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,2997.7,megawatthours
+  69,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1211.6002,megawatthours
+  70,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,11.1,megawatthours
   71,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,63,megawatthours
-  72,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3163,megawatthours
-  73,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1285,megawatthours
-  74,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9,megawatthours
+  72,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3163.4,megawatthours
+  73,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1285.2001,megawatthours
+  74,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9.3,megawatthours
   75,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,62,megawatthours
-  76,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3374,megawatthours
-  77,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1281,megawatthours
-  78,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9,megawatthours
+  76,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3373.5,megawatthours
+  77,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1280.5,megawatthours
+  78,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9.1,megawatthours
   79,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,64,megawatthours
-  80,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3470,megawatthours
-  81,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1305,megawatthours
-  82,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,10,megawatthours
+  80,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3470.3,megawatthours
+  81,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1304.6999,megawatthours
+  82,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,10.2,megawatthours
   83,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,64,megawatthours
-  84,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3571,megawatthours
-  85,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1315,megawatthours
-  86,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9,megawatthours
+  84,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3570.6,megawatthours
+  85,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1315.2,megawatthours
+  86,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,9.2,megawatthours
   87,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,63,megawatthours
-  88,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3712,megawatthours
-  89,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1315,megawatthours
-  90,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,7,megawatthours
+  88,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3712.4,megawatthours
+  89,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1314.9999,megawatthours
+  90,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,6.8,megawatthours
   91,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,65,megawatthours
-  92,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3729,megawatthours
-  93,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1308,megawatthours
-  94,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,4,megawatthours
+  92,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3729.2,megawatthours
+  93,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1307.5,megawatthours
+  94,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,3.9,megawatthours
   95,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,64,megawatthours
   96,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,COL,Coal,3640,megawatthours
-  97,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1312,megawatthours
-  98,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,1,megawatthours
+  97,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Natural gas,1312.1999,megawatthours
+  98,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,SUN,Solar,1.3,megawatthours
   99,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,WAT,Hydro,64,megawatthours
   
   '''
@@ -4879,9 +4879,9 @@
   '''
   ,period,respondent,respondent-name,fueltype,type-name,value,value-units
   0,2022-07-10T00,PNM,Public Service Company of New Mexico,COL,Coal,824,megawatthours
-  1,2022-07-10T00,PNM,Public Service Company of New Mexico,NG,Natural gas,690,megawatthours
+  1,2022-07-10T00,PNM,Public Service Company of New Mexico,NG,Natural gas,688,megawatthours
   2,2022-07-10T00,PNM,Public Service Company of New Mexico,OTH,Other,5,megawatthours
-  3,2022-07-10T00,PNM,Public Service Company of New Mexico,SUN,Solar,178,megawatthours
+  3,2022-07-10T00,PNM,Public Service Company of New Mexico,SUN,Solar,180,megawatthours
   4,2022-07-10T00,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   5,2022-07-10T00,PNM,Public Service Company of New Mexico,WND,Wind,740,megawatthours
   6,2022-07-10T01,PNM,Public Service Company of New Mexico,COL,Coal,823,megawatthours
@@ -4891,9 +4891,9 @@
   10,2022-07-10T01,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   11,2022-07-10T01,PNM,Public Service Company of New Mexico,WND,Wind,568,megawatthours
   12,2022-07-10T02,PNM,Public Service Company of New Mexico,COL,Coal,823,megawatthours
-  13,2022-07-10T02,PNM,Public Service Company of New Mexico,NG,Natural gas,740,megawatthours
+  13,2022-07-10T02,PNM,Public Service Company of New Mexico,NG,Natural gas,738,megawatthours
   14,2022-07-10T02,PNM,Public Service Company of New Mexico,OTH,Other,0,megawatthours
-  15,2022-07-10T02,PNM,Public Service Company of New Mexico,SUN,Solar,27,megawatthours
+  15,2022-07-10T02,PNM,Public Service Company of New Mexico,SUN,Solar,28,megawatthours
   16,2022-07-10T02,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   17,2022-07-10T02,PNM,Public Service Company of New Mexico,WND,Wind,624,megawatthours
   18,2022-07-10T03,PNM,Public Service Company of New Mexico,COL,Coal,851,megawatthours
@@ -4909,7 +4909,7 @@
   28,2022-07-10T04,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   29,2022-07-10T04,PNM,Public Service Company of New Mexico,WND,Wind,767,megawatthours
   30,2022-07-10T05,PNM,Public Service Company of New Mexico,COL,Coal,828,megawatthours
-  31,2022-07-10T05,PNM,Public Service Company of New Mexico,NG,Natural gas,553,megawatthours
+  31,2022-07-10T05,PNM,Public Service Company of New Mexico,NG,Natural gas,551,megawatthours
   32,2022-07-10T05,PNM,Public Service Company of New Mexico,OTH,Other,-1,megawatthours
   33,2022-07-10T05,PNM,Public Service Company of New Mexico,SUN,Solar,-1,megawatthours
   34,2022-07-10T05,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
@@ -4959,73 +4959,73 @@
   78,2022-07-10T13,PNM,Public Service Company of New Mexico,COL,Coal,710,megawatthours
   79,2022-07-10T13,PNM,Public Service Company of New Mexico,NG,Natural gas,425,megawatthours
   80,2022-07-10T13,PNM,Public Service Company of New Mexico,OTH,Other,-1,megawatthours
-  81,2022-07-10T13,PNM,Public Service Company of New Mexico,SUN,Solar,36,megawatthours
+  81,2022-07-10T13,PNM,Public Service Company of New Mexico,SUN,Solar,39,megawatthours
   82,2022-07-10T13,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   83,2022-07-10T13,PNM,Public Service Company of New Mexico,WND,Wind,4,megawatthours
   84,2022-07-10T14,PNM,Public Service Company of New Mexico,COL,Coal,711,megawatthours
   85,2022-07-10T14,PNM,Public Service Company of New Mexico,NG,Natural gas,348,megawatthours
   86,2022-07-10T14,PNM,Public Service Company of New Mexico,OTH,Other,4,megawatthours
-  87,2022-07-10T14,PNM,Public Service Company of New Mexico,SUN,Solar,250,megawatthours
+  87,2022-07-10T14,PNM,Public Service Company of New Mexico,SUN,Solar,258,megawatthours
   88,2022-07-10T14,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   89,2022-07-10T14,PNM,Public Service Company of New Mexico,WND,Wind,1,megawatthours
   90,2022-07-10T15,PNM,Public Service Company of New Mexico,COL,Coal,659,megawatthours
   91,2022-07-10T15,PNM,Public Service Company of New Mexico,NG,Natural gas,283,megawatthours
   92,2022-07-10T15,PNM,Public Service Company of New Mexico,OTH,Other,4,megawatthours
-  93,2022-07-10T15,PNM,Public Service Company of New Mexico,SUN,Solar,384,megawatthours
+  93,2022-07-10T15,PNM,Public Service Company of New Mexico,SUN,Solar,394,megawatthours
   94,2022-07-10T15,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   95,2022-07-10T15,PNM,Public Service Company of New Mexico,WND,Wind,2,megawatthours
   96,2022-07-10T16,PNM,Public Service Company of New Mexico,COL,Coal,653,megawatthours
   97,2022-07-10T16,PNM,Public Service Company of New Mexico,NG,Natural gas,280,megawatthours
   98,2022-07-10T16,PNM,Public Service Company of New Mexico,OTH,Other,4,megawatthours
-  99,2022-07-10T16,PNM,Public Service Company of New Mexico,SUN,Solar,413,megawatthours
+  99,2022-07-10T16,PNM,Public Service Company of New Mexico,SUN,Solar,424,megawatthours
   100,2022-07-10T16,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   101,2022-07-10T16,PNM,Public Service Company of New Mexico,WND,Wind,34,megawatthours
   102,2022-07-10T17,PNM,Public Service Company of New Mexico,COL,Coal,670,megawatthours
   103,2022-07-10T17,PNM,Public Service Company of New Mexico,NG,Natural gas,281,megawatthours
   104,2022-07-10T17,PNM,Public Service Company of New Mexico,OTH,Other,4,megawatthours
-  105,2022-07-10T17,PNM,Public Service Company of New Mexico,SUN,Solar,429,megawatthours
+  105,2022-07-10T17,PNM,Public Service Company of New Mexico,SUN,Solar,440,megawatthours
   106,2022-07-10T17,PNM,Public Service Company of New Mexico,WAT,Hydro,9,megawatthours
   107,2022-07-10T17,PNM,Public Service Company of New Mexico,WND,Wind,65,megawatthours
   108,2022-07-10T18,PNM,Public Service Company of New Mexico,COL,Coal,731,megawatthours
   109,2022-07-10T18,PNM,Public Service Company of New Mexico,NG,Natural gas,280,megawatthours
   110,2022-07-10T18,PNM,Public Service Company of New Mexico,OTH,Other,4,megawatthours
-  111,2022-07-10T18,PNM,Public Service Company of New Mexico,SUN,Solar,437,megawatthours
+  111,2022-07-10T18,PNM,Public Service Company of New Mexico,SUN,Solar,449,megawatthours
   112,2022-07-10T18,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   113,2022-07-10T18,PNM,Public Service Company of New Mexico,WND,Wind,67,megawatthours
   114,2022-07-10T19,PNM,Public Service Company of New Mexico,COL,Coal,736,megawatthours
   115,2022-07-10T19,PNM,Public Service Company of New Mexico,NG,Natural gas,360,megawatthours
   116,2022-07-10T19,PNM,Public Service Company of New Mexico,OTH,Other,1,megawatthours
-  117,2022-07-10T19,PNM,Public Service Company of New Mexico,SUN,Solar,434,megawatthours
+  117,2022-07-10T19,PNM,Public Service Company of New Mexico,SUN,Solar,445,megawatthours
   118,2022-07-10T19,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   119,2022-07-10T19,PNM,Public Service Company of New Mexico,WND,Wind,39,megawatthours
   120,2022-07-10T20,PNM,Public Service Company of New Mexico,COL,Coal,710,megawatthours
   121,2022-07-10T20,PNM,Public Service Company of New Mexico,NG,Natural gas,431,megawatthours
   122,2022-07-10T20,PNM,Public Service Company of New Mexico,OTH,Other,0,megawatthours
-  123,2022-07-10T20,PNM,Public Service Company of New Mexico,SUN,Solar,424,megawatthours
+  123,2022-07-10T20,PNM,Public Service Company of New Mexico,SUN,Solar,435,megawatthours
   124,2022-07-10T20,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   125,2022-07-10T20,PNM,Public Service Company of New Mexico,WND,Wind,31,megawatthours
   126,2022-07-10T21,PNM,Public Service Company of New Mexico,COL,Coal,711,megawatthours
   127,2022-07-10T21,PNM,Public Service Company of New Mexico,NG,Natural gas,617,megawatthours
   128,2022-07-10T21,PNM,Public Service Company of New Mexico,OTH,Other,0,megawatthours
-  129,2022-07-10T21,PNM,Public Service Company of New Mexico,SUN,Solar,408,megawatthours
+  129,2022-07-10T21,PNM,Public Service Company of New Mexico,SUN,Solar,418,megawatthours
   130,2022-07-10T21,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   131,2022-07-10T21,PNM,Public Service Company of New Mexico,WND,Wind,32,megawatthours
   132,2022-07-10T22,PNM,Public Service Company of New Mexico,COL,Coal,711,megawatthours
   133,2022-07-10T22,PNM,Public Service Company of New Mexico,NG,Natural gas,686,megawatthours
   134,2022-07-10T22,PNM,Public Service Company of New Mexico,OTH,Other,3,megawatthours
-  135,2022-07-10T22,PNM,Public Service Company of New Mexico,SUN,Solar,417,megawatthours
+  135,2022-07-10T22,PNM,Public Service Company of New Mexico,SUN,Solar,425,megawatthours
   136,2022-07-10T22,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   137,2022-07-10T22,PNM,Public Service Company of New Mexico,WND,Wind,40,megawatthours
   138,2022-07-10T23,PNM,Public Service Company of New Mexico,COL,Coal,715,megawatthours
-  139,2022-07-10T23,PNM,Public Service Company of New Mexico,NG,Natural gas,735,megawatthours
+  139,2022-07-10T23,PNM,Public Service Company of New Mexico,NG,Natural gas,737,megawatthours
   140,2022-07-10T23,PNM,Public Service Company of New Mexico,OTH,Other,2,megawatthours
-  141,2022-07-10T23,PNM,Public Service Company of New Mexico,SUN,Solar,383,megawatthours
+  141,2022-07-10T23,PNM,Public Service Company of New Mexico,SUN,Solar,390,megawatthours
   142,2022-07-10T23,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   143,2022-07-10T23,PNM,Public Service Company of New Mexico,WND,Wind,63,megawatthours
   144,2022-07-11T00,PNM,Public Service Company of New Mexico,COL,Coal,721,megawatthours
-  145,2022-07-11T00,PNM,Public Service Company of New Mexico,NG,Natural gas,838,megawatthours
+  145,2022-07-11T00,PNM,Public Service Company of New Mexico,NG,Natural gas,836,megawatthours
   146,2022-07-11T00,PNM,Public Service Company of New Mexico,OTH,Other,0,megawatthours
-  147,2022-07-11T00,PNM,Public Service Company of New Mexico,SUN,Solar,311,megawatthours
+  147,2022-07-11T00,PNM,Public Service Company of New Mexico,SUN,Solar,316,megawatthours
   148,2022-07-11T00,PNM,Public Service Company of New Mexico,WAT,Hydro,10,megawatthours
   149,2022-07-11T00,PNM,Public Service Company of New Mexico,WND,Wind,94,megawatthours
   
@@ -6886,205 +6886,205 @@
 # name: test_scrape_by_ba[fuel-type-data-TVA-2022-07-10-2022-07-11]
   '''
   ,period,respondent,respondent-name,fueltype,type-name,value,value-units
-  0,2022-07-10T00,TVA,Tennessee Valley Authority,COL,Coal,5478,megawatthours
-  1,2022-07-10T00,TVA,Tennessee Valley Authority,NG,Natural gas,8154,megawatthours
+  0,2022-07-10T00,TVA,Tennessee Valley Authority,COL,Coal,5481.77,megawatthours
+  1,2022-07-10T00,TVA,Tennessee Valley Authority,NG,Natural gas,8203.52,megawatthours
   2,2022-07-10T00,TVA,Tennessee Valley Authority,NUC,Nuclear,7440,megawatthours
   3,2022-07-10T00,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  4,2022-07-10T00,TVA,Tennessee Valley Authority,OTH,Other,0,megawatthours
-  5,2022-07-10T00,TVA,Tennessee Valley Authority,SUN,Solar,29,megawatthours
-  6,2022-07-10T00,TVA,Tennessee Valley Authority,WAT,Hydro,3025,megawatthours
+  4,2022-07-10T00,TVA,Tennessee Valley Authority,OTH,Other,18.6,megawatthours
+  5,2022-07-10T00,TVA,Tennessee Valley Authority,SUN,Solar,29.27,megawatthours
+  6,2022-07-10T00,TVA,Tennessee Valley Authority,WAT,Hydro,3024.7,megawatthours
   7,2022-07-10T00,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  8,2022-07-10T01,TVA,Tennessee Valley Authority,COL,Coal,4868,megawatthours
-  9,2022-07-10T01,TVA,Tennessee Valley Authority,NG,Natural gas,8478,megawatthours
+  8,2022-07-10T01,TVA,Tennessee Valley Authority,COL,Coal,4872.02,megawatthours
+  9,2022-07-10T01,TVA,Tennessee Valley Authority,NG,Natural gas,8529.36,megawatthours
   10,2022-07-10T01,TVA,Tennessee Valley Authority,NUC,Nuclear,7435,megawatthours
   11,2022-07-10T01,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  12,2022-07-10T01,TVA,Tennessee Valley Authority,OTH,Other,0,megawatthours
-  13,2022-07-10T01,TVA,Tennessee Valley Authority,SUN,Solar,6,megawatthours
-  14,2022-07-10T01,TVA,Tennessee Valley Authority,WAT,Hydro,1839,megawatthours
+  12,2022-07-10T01,TVA,Tennessee Valley Authority,OTH,Other,18.77,megawatthours
+  13,2022-07-10T01,TVA,Tennessee Valley Authority,SUN,Solar,5.74,megawatthours
+  14,2022-07-10T01,TVA,Tennessee Valley Authority,WAT,Hydro,1838.53,megawatthours
   15,2022-07-10T01,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  16,2022-07-10T02,TVA,Tennessee Valley Authority,COL,Coal,4093,megawatthours
-  17,2022-07-10T02,TVA,Tennessee Valley Authority,NG,Natural gas,8490,megawatthours
+  16,2022-07-10T02,TVA,Tennessee Valley Authority,COL,Coal,4097.17,megawatthours
+  17,2022-07-10T02,TVA,Tennessee Valley Authority,NG,Natural gas,8541.36,megawatthours
   18,2022-07-10T02,TVA,Tennessee Valley Authority,NUC,Nuclear,7454,megawatthours
   19,2022-07-10T02,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  20,2022-07-10T02,TVA,Tennessee Valley Authority,OTH,Other,0,megawatthours
-  21,2022-07-10T02,TVA,Tennessee Valley Authority,SUN,Solar,-2,megawatthours
-  22,2022-07-10T02,TVA,Tennessee Valley Authority,WAT,Hydro,1569,megawatthours
+  20,2022-07-10T02,TVA,Tennessee Valley Authority,OTH,Other,18.67,megawatthours
+  21,2022-07-10T02,TVA,Tennessee Valley Authority,SUN,Solar,-2.41,megawatthours
+  22,2022-07-10T02,TVA,Tennessee Valley Authority,WAT,Hydro,1569.03,megawatthours
   23,2022-07-10T02,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  24,2022-07-10T03,TVA,Tennessee Valley Authority,COL,Coal,3545,megawatthours
-  25,2022-07-10T03,TVA,Tennessee Valley Authority,NG,Natural gas,8493,megawatthours
+  24,2022-07-10T03,TVA,Tennessee Valley Authority,COL,Coal,3550.02,megawatthours
+  25,2022-07-10T03,TVA,Tennessee Valley Authority,NG,Natural gas,8545.52,megawatthours
   26,2022-07-10T03,TVA,Tennessee Valley Authority,NUC,Nuclear,7456,megawatthours
   27,2022-07-10T03,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  28,2022-07-10T03,TVA,Tennessee Valley Authority,OTH,Other,0,megawatthours
-  29,2022-07-10T03,TVA,Tennessee Valley Authority,SUN,Solar,0,megawatthours
-  30,2022-07-10T03,TVA,Tennessee Valley Authority,WAT,Hydro,984,megawatthours
+  28,2022-07-10T03,TVA,Tennessee Valley Authority,OTH,Other,19.64,megawatthours
+  29,2022-07-10T03,TVA,Tennessee Valley Authority,SUN,Solar,-.35,megawatthours
+  30,2022-07-10T03,TVA,Tennessee Valley Authority,WAT,Hydro,984.49,megawatthours
   31,2022-07-10T03,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  32,2022-07-10T04,TVA,Tennessee Valley Authority,COL,Coal,3525,megawatthours
-  33,2022-07-10T04,TVA,Tennessee Valley Authority,NG,Natural gas,7782,megawatthours
+  32,2022-07-10T04,TVA,Tennessee Valley Authority,COL,Coal,3527.93,megawatthours
+  33,2022-07-10T04,TVA,Tennessee Valley Authority,NG,Natural gas,7837.36,megawatthours
   34,2022-07-10T04,TVA,Tennessee Valley Authority,NUC,Nuclear,7456,megawatthours
   35,2022-07-10T04,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  36,2022-07-10T04,TVA,Tennessee Valley Authority,OTH,Other,6,megawatthours
-  37,2022-07-10T04,TVA,Tennessee Valley Authority,SUN,Solar,-2,megawatthours
-  38,2022-07-10T04,TVA,Tennessee Valley Authority,WAT,Hydro,820,megawatthours
+  36,2022-07-10T04,TVA,Tennessee Valley Authority,OTH,Other,24.71,megawatthours
+  37,2022-07-10T04,TVA,Tennessee Valley Authority,SUN,Solar,-2.12,megawatthours
+  38,2022-07-10T04,TVA,Tennessee Valley Authority,WAT,Hydro,820.21,megawatthours
   39,2022-07-10T04,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  40,2022-07-10T05,TVA,Tennessee Valley Authority,COL,Coal,3530,megawatthours
-  41,2022-07-10T05,TVA,Tennessee Valley Authority,NG,Natural gas,7150,megawatthours
+  40,2022-07-10T05,TVA,Tennessee Valley Authority,COL,Coal,3535.24,megawatthours
+  41,2022-07-10T05,TVA,Tennessee Valley Authority,NG,Natural gas,7205.36,megawatthours
   42,2022-07-10T05,TVA,Tennessee Valley Authority,NUC,Nuclear,7468,megawatthours
   43,2022-07-10T05,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  44,2022-07-10T05,TVA,Tennessee Valley Authority,OTH,Other,19,megawatthours
-  45,2022-07-10T05,TVA,Tennessee Valley Authority,SUN,Solar,-2,megawatthours
-  46,2022-07-10T05,TVA,Tennessee Valley Authority,WAT,Hydro,643,megawatthours
+  44,2022-07-10T05,TVA,Tennessee Valley Authority,OTH,Other,33.82,megawatthours
+  45,2022-07-10T05,TVA,Tennessee Valley Authority,SUN,Solar,-2.36,megawatthours
+  46,2022-07-10T05,TVA,Tennessee Valley Authority,WAT,Hydro,643.34,megawatthours
   47,2022-07-10T05,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  48,2022-07-10T06,TVA,Tennessee Valley Authority,COL,Coal,3502,megawatthours
-  49,2022-07-10T06,TVA,Tennessee Valley Authority,NG,Natural gas,6814,megawatthours
+  48,2022-07-10T06,TVA,Tennessee Valley Authority,COL,Coal,3504.87,megawatthours
+  49,2022-07-10T06,TVA,Tennessee Valley Authority,NG,Natural gas,6868.52,megawatthours
   50,2022-07-10T06,TVA,Tennessee Valley Authority,NUC,Nuclear,7490,megawatthours
   51,2022-07-10T06,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  52,2022-07-10T06,TVA,Tennessee Valley Authority,OTH,Other,23,megawatthours
-  53,2022-07-10T06,TVA,Tennessee Valley Authority,SUN,Solar,0,megawatthours
-  54,2022-07-10T06,TVA,Tennessee Valley Authority,WAT,Hydro,357,megawatthours
+  52,2022-07-10T06,TVA,Tennessee Valley Authority,OTH,Other,36.82,megawatthours
+  53,2022-07-10T06,TVA,Tennessee Valley Authority,SUN,Solar,-.4,megawatthours
+  54,2022-07-10T06,TVA,Tennessee Valley Authority,WAT,Hydro,357.11,megawatthours
   55,2022-07-10T06,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  56,2022-07-10T07,TVA,Tennessee Valley Authority,COL,Coal,3475,megawatthours
-  57,2022-07-10T07,TVA,Tennessee Valley Authority,NG,Natural gas,6479,megawatthours
+  56,2022-07-10T07,TVA,Tennessee Valley Authority,COL,Coal,3480.28,megawatthours
+  57,2022-07-10T07,TVA,Tennessee Valley Authority,NG,Natural gas,6534.36,megawatthours
   58,2022-07-10T07,TVA,Tennessee Valley Authority,NUC,Nuclear,7498,megawatthours
   59,2022-07-10T07,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  60,2022-07-10T07,TVA,Tennessee Valley Authority,OTH,Other,24,megawatthours
-  61,2022-07-10T07,TVA,Tennessee Valley Authority,SUN,Solar,0,megawatthours
-  62,2022-07-10T07,TVA,Tennessee Valley Authority,WAT,Hydro,-160,megawatthours
+  60,2022-07-10T07,TVA,Tennessee Valley Authority,OTH,Other,38.96,megawatthours
+  61,2022-07-10T07,TVA,Tennessee Valley Authority,SUN,Solar,-.21,megawatthours
+  62,2022-07-10T07,TVA,Tennessee Valley Authority,WAT,Hydro,-160.06,megawatthours
   63,2022-07-10T07,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  64,2022-07-10T08,TVA,Tennessee Valley Authority,COL,Coal,3464,megawatthours
-  65,2022-07-10T08,TVA,Tennessee Valley Authority,NG,Natural gas,5752,megawatthours
+  64,2022-07-10T08,TVA,Tennessee Valley Authority,COL,Coal,3469.29,megawatthours
+  65,2022-07-10T08,TVA,Tennessee Valley Authority,NG,Natural gas,5806.52,megawatthours
   66,2022-07-10T08,TVA,Tennessee Valley Authority,NUC,Nuclear,7503,megawatthours
   67,2022-07-10T08,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  68,2022-07-10T08,TVA,Tennessee Valley Authority,OTH,Other,24,megawatthours
-  69,2022-07-10T08,TVA,Tennessee Valley Authority,SUN,Solar,-3,megawatthours
-  70,2022-07-10T08,TVA,Tennessee Valley Authority,WAT,Hydro,-112,megawatthours
+  68,2022-07-10T08,TVA,Tennessee Valley Authority,OTH,Other,37.79,megawatthours
+  69,2022-07-10T08,TVA,Tennessee Valley Authority,SUN,Solar,-3.08,megawatthours
+  70,2022-07-10T08,TVA,Tennessee Valley Authority,WAT,Hydro,-112.27,megawatthours
   71,2022-07-10T08,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  72,2022-07-10T09,TVA,Tennessee Valley Authority,COL,Coal,3473,megawatthours
-  73,2022-07-10T09,TVA,Tennessee Valley Authority,NG,Natural gas,5352,megawatthours
+  72,2022-07-10T09,TVA,Tennessee Valley Authority,COL,Coal,3477.08,megawatthours
+  73,2022-07-10T09,TVA,Tennessee Valley Authority,NG,Natural gas,5402.36,megawatthours
   74,2022-07-10T09,TVA,Tennessee Valley Authority,NUC,Nuclear,7510,megawatthours
   75,2022-07-10T09,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  76,2022-07-10T09,TVA,Tennessee Valley Authority,OTH,Other,23,megawatthours
-  77,2022-07-10T09,TVA,Tennessee Valley Authority,SUN,Solar,0,megawatthours
+  76,2022-07-10T09,TVA,Tennessee Valley Authority,OTH,Other,38.8,megawatthours
+  77,2022-07-10T09,TVA,Tennessee Valley Authority,SUN,Solar,-.17,megawatthours
   78,2022-07-10T09,TVA,Tennessee Valley Authority,WAT,Hydro,-130,megawatthours
-  79,2022-07-10T09,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  80,2022-07-10T10,TVA,Tennessee Valley Authority,COL,Coal,3559,megawatthours
-  81,2022-07-10T10,TVA,Tennessee Valley Authority,NG,Natural gas,5310,megawatthours
+  79,2022-07-10T09,TVA,Tennessee Valley Authority,WND,Wind,-1,megawatthours
+  80,2022-07-10T10,TVA,Tennessee Valley Authority,COL,Coal,3562.09,megawatthours
+  81,2022-07-10T10,TVA,Tennessee Valley Authority,NG,Natural gas,5361.36,megawatthours
   82,2022-07-10T10,TVA,Tennessee Valley Authority,NUC,Nuclear,7511,megawatthours
   83,2022-07-10T10,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  84,2022-07-10T10,TVA,Tennessee Valley Authority,OTH,Other,24,megawatthours
-  85,2022-07-10T10,TVA,Tennessee Valley Authority,SUN,Solar,-2,megawatthours
-  86,2022-07-10T10,TVA,Tennessee Valley Authority,WAT,Hydro,-451,megawatthours
+  84,2022-07-10T10,TVA,Tennessee Valley Authority,OTH,Other,38.96,megawatthours
+  85,2022-07-10T10,TVA,Tennessee Valley Authority,SUN,Solar,-2.35,megawatthours
+  86,2022-07-10T10,TVA,Tennessee Valley Authority,WAT,Hydro,-451.17,megawatthours
   87,2022-07-10T10,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  88,2022-07-10T11,TVA,Tennessee Valley Authority,COL,Coal,3625,megawatthours
-  89,2022-07-10T11,TVA,Tennessee Valley Authority,NG,Natural gas,5210,megawatthours
+  88,2022-07-10T11,TVA,Tennessee Valley Authority,COL,Coal,3631.18,megawatthours
+  89,2022-07-10T11,TVA,Tennessee Valley Authority,NG,Natural gas,5259.52,megawatthours
   90,2022-07-10T11,TVA,Tennessee Valley Authority,NUC,Nuclear,7514,megawatthours
   91,2022-07-10T11,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  92,2022-07-10T11,TVA,Tennessee Valley Authority,OTH,Other,24,megawatthours
-  93,2022-07-10T11,TVA,Tennessee Valley Authority,SUN,Solar,-1,megawatthours
-  94,2022-07-10T11,TVA,Tennessee Valley Authority,WAT,Hydro,-443,megawatthours
+  92,2022-07-10T11,TVA,Tennessee Valley Authority,OTH,Other,38.8,megawatthours
+  93,2022-07-10T11,TVA,Tennessee Valley Authority,SUN,Solar,-1.24,megawatthours
+  94,2022-07-10T11,TVA,Tennessee Valley Authority,WAT,Hydro,-443.19,megawatthours
   95,2022-07-10T11,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  96,2022-07-10T12,TVA,Tennessee Valley Authority,COL,Coal,3626,megawatthours
-  97,2022-07-10T12,TVA,Tennessee Valley Authority,NG,Natural gas,5133,megawatthours
+  96,2022-07-10T12,TVA,Tennessee Valley Authority,COL,Coal,3629.32,megawatthours
+  97,2022-07-10T12,TVA,Tennessee Valley Authority,NG,Natural gas,5184.36,megawatthours
   98,2022-07-10T12,TVA,Tennessee Valley Authority,NUC,Nuclear,7528,megawatthours
   99,2022-07-10T12,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  100,2022-07-10T12,TVA,Tennessee Valley Authority,OTH,Other,24,megawatthours
-  101,2022-07-10T12,TVA,Tennessee Valley Authority,SUN,Solar,2,megawatthours
-  102,2022-07-10T12,TVA,Tennessee Valley Authority,WAT,Hydro,-248,megawatthours
+  100,2022-07-10T12,TVA,Tennessee Valley Authority,OTH,Other,37.96,megawatthours
+  101,2022-07-10T12,TVA,Tennessee Valley Authority,SUN,Solar,1.6,megawatthours
+  102,2022-07-10T12,TVA,Tennessee Valley Authority,WAT,Hydro,-248.41,megawatthours
   103,2022-07-10T12,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  104,2022-07-10T13,TVA,Tennessee Valley Authority,COL,Coal,3665,megawatthours
-  105,2022-07-10T13,TVA,Tennessee Valley Authority,NG,Natural gas,5642,megawatthours
+  104,2022-07-10T13,TVA,Tennessee Valley Authority,COL,Coal,3668.88,megawatthours
+  105,2022-07-10T13,TVA,Tennessee Valley Authority,NG,Natural gas,5692.36,megawatthours
   106,2022-07-10T13,TVA,Tennessee Valley Authority,NUC,Nuclear,7531,megawatthours
   107,2022-07-10T13,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  108,2022-07-10T13,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  109,2022-07-10T13,TVA,Tennessee Valley Authority,SUN,Solar,14,megawatthours
-  110,2022-07-10T13,TVA,Tennessee Valley Authority,WAT,Hydro,-316,megawatthours
+  108,2022-07-10T13,TVA,Tennessee Valley Authority,OTH,Other,38.81,megawatthours
+  109,2022-07-10T13,TVA,Tennessee Valley Authority,SUN,Solar,13.5,megawatthours
+  110,2022-07-10T13,TVA,Tennessee Valley Authority,WAT,Hydro,-315.79,megawatthours
   111,2022-07-10T13,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  112,2022-07-10T14,TVA,Tennessee Valley Authority,COL,Coal,3723,megawatthours
-  113,2022-07-10T14,TVA,Tennessee Valley Authority,NG,Natural gas,5840,megawatthours
+  112,2022-07-10T14,TVA,Tennessee Valley Authority,COL,Coal,3727.72,megawatthours
+  113,2022-07-10T14,TVA,Tennessee Valley Authority,NG,Natural gas,5889.52,megawatthours
   114,2022-07-10T14,TVA,Tennessee Valley Authority,NUC,Nuclear,7534,megawatthours
   115,2022-07-10T14,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  116,2022-07-10T14,TVA,Tennessee Valley Authority,OTH,Other,23,megawatthours
-  117,2022-07-10T14,TVA,Tennessee Valley Authority,SUN,Solar,71,megawatthours
-  118,2022-07-10T14,TVA,Tennessee Valley Authority,WAT,Hydro,-124,megawatthours
+  116,2022-07-10T14,TVA,Tennessee Valley Authority,OTH,Other,37.88,megawatthours
+  117,2022-07-10T14,TVA,Tennessee Valley Authority,SUN,Solar,71.22,megawatthours
+  118,2022-07-10T14,TVA,Tennessee Valley Authority,WAT,Hydro,-123.77,megawatthours
   119,2022-07-10T14,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  120,2022-07-10T15,TVA,Tennessee Valley Authority,COL,Coal,3717,megawatthours
-  121,2022-07-10T15,TVA,Tennessee Valley Authority,NG,Natural gas,6127,megawatthours
+  120,2022-07-10T15,TVA,Tennessee Valley Authority,COL,Coal,3722.79,megawatthours
+  121,2022-07-10T15,TVA,Tennessee Valley Authority,NG,Natural gas,6178.36,megawatthours
   122,2022-07-10T15,TVA,Tennessee Valley Authority,NUC,Nuclear,7528,megawatthours
   123,2022-07-10T15,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  124,2022-07-10T15,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  125,2022-07-10T15,TVA,Tennessee Valley Authority,SUN,Solar,111,megawatthours
-  126,2022-07-10T15,TVA,Tennessee Valley Authority,WAT,Hydro,89,megawatthours
+  124,2022-07-10T15,TVA,Tennessee Valley Authority,OTH,Other,38.76,megawatthours
+  125,2022-07-10T15,TVA,Tennessee Valley Authority,SUN,Solar,111.14,megawatthours
+  126,2022-07-10T15,TVA,Tennessee Valley Authority,WAT,Hydro,88.69,megawatthours
   127,2022-07-10T15,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  128,2022-07-10T16,TVA,Tennessee Valley Authority,COL,Coal,3816,megawatthours
-  129,2022-07-10T16,TVA,Tennessee Valley Authority,NG,Natural gas,6348,megawatthours
+  128,2022-07-10T16,TVA,Tennessee Valley Authority,COL,Coal,3818.87,megawatthours
+  129,2022-07-10T16,TVA,Tennessee Valley Authority,NG,Natural gas,6397.52,megawatthours
   130,2022-07-10T16,TVA,Tennessee Valley Authority,NUC,Nuclear,7520,megawatthours
   131,2022-07-10T16,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  132,2022-07-10T16,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  133,2022-07-10T16,TVA,Tennessee Valley Authority,SUN,Solar,193,megawatthours
-  134,2022-07-10T16,TVA,Tennessee Valley Authority,WAT,Hydro,680,megawatthours
+  132,2022-07-10T16,TVA,Tennessee Valley Authority,OTH,Other,39.11,megawatthours
+  133,2022-07-10T16,TVA,Tennessee Valley Authority,SUN,Solar,192.58,megawatthours
+  134,2022-07-10T16,TVA,Tennessee Valley Authority,WAT,Hydro,679.54,megawatthours
   135,2022-07-10T16,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  136,2022-07-10T17,TVA,Tennessee Valley Authority,COL,Coal,4067,megawatthours
-  137,2022-07-10T17,TVA,Tennessee Valley Authority,NG,Natural gas,6479,megawatthours
+  136,2022-07-10T17,TVA,Tennessee Valley Authority,COL,Coal,4072.71,megawatthours
+  137,2022-07-10T17,TVA,Tennessee Valley Authority,NG,Natural gas,6529.36,megawatthours
   138,2022-07-10T17,TVA,Tennessee Valley Authority,NUC,Nuclear,7665,megawatthours
   139,2022-07-10T17,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  140,2022-07-10T17,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  141,2022-07-10T17,TVA,Tennessee Valley Authority,SUN,Solar,333,megawatthours
-  142,2022-07-10T17,TVA,Tennessee Valley Authority,WAT,Hydro,1246,megawatthours
+  140,2022-07-10T17,TVA,Tennessee Valley Authority,OTH,Other,41.37,megawatthours
+  141,2022-07-10T17,TVA,Tennessee Valley Authority,SUN,Solar,330.74,megawatthours
+  142,2022-07-10T17,TVA,Tennessee Valley Authority,WAT,Hydro,1246.03,megawatthours
   143,2022-07-10T17,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  144,2022-07-10T18,TVA,Tennessee Valley Authority,COL,Coal,4168,megawatthours
-  145,2022-07-10T18,TVA,Tennessee Valley Authority,NG,Natural gas,7026,megawatthours
+  144,2022-07-10T18,TVA,Tennessee Valley Authority,COL,Coal,4171.84,megawatthours
+  145,2022-07-10T18,TVA,Tennessee Valley Authority,NG,Natural gas,7077.36,megawatthours
   146,2022-07-10T18,TVA,Tennessee Valley Authority,NUC,Nuclear,7882,megawatthours
   147,2022-07-10T18,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  148,2022-07-10T18,TVA,Tennessee Valley Authority,OTH,Other,23,megawatthours
-  149,2022-07-10T18,TVA,Tennessee Valley Authority,SUN,Solar,309,megawatthours
-  150,2022-07-10T18,TVA,Tennessee Valley Authority,WAT,Hydro,1894,megawatthours
+  148,2022-07-10T18,TVA,Tennessee Valley Authority,OTH,Other,38.52,megawatthours
+  149,2022-07-10T18,TVA,Tennessee Valley Authority,SUN,Solar,309.09,megawatthours
+  150,2022-07-10T18,TVA,Tennessee Valley Authority,WAT,Hydro,1894.18,megawatthours
   151,2022-07-10T18,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  152,2022-07-10T19,TVA,Tennessee Valley Authority,COL,Coal,4534,megawatthours
-  153,2022-07-10T19,TVA,Tennessee Valley Authority,NG,Natural gas,7241,megawatthours
+  152,2022-07-10T19,TVA,Tennessee Valley Authority,COL,Coal,4539.06,megawatthours
+  153,2022-07-10T19,TVA,Tennessee Valley Authority,NG,Natural gas,7290.52,megawatthours
   154,2022-07-10T19,TVA,Tennessee Valley Authority,NUC,Nuclear,8111,megawatthours
   155,2022-07-10T19,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  156,2022-07-10T19,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  157,2022-07-10T19,TVA,Tennessee Valley Authority,SUN,Solar,436,megawatthours
-  158,2022-07-10T19,TVA,Tennessee Valley Authority,WAT,Hydro,2194,megawatthours
+  156,2022-07-10T19,TVA,Tennessee Valley Authority,OTH,Other,41.76,megawatthours
+  157,2022-07-10T19,TVA,Tennessee Valley Authority,SUN,Solar,434.01,megawatthours
+  158,2022-07-10T19,TVA,Tennessee Valley Authority,WAT,Hydro,2193.62,megawatthours
   159,2022-07-10T19,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  160,2022-07-10T20,TVA,Tennessee Valley Authority,COL,Coal,4590,megawatthours
-  161,2022-07-10T20,TVA,Tennessee Valley Authority,NG,Natural gas,7213,megawatthours
+  160,2022-07-10T20,TVA,Tennessee Valley Authority,COL,Coal,4593.99,megawatthours
+  161,2022-07-10T20,TVA,Tennessee Valley Authority,NG,Natural gas,7263.36,megawatthours
   162,2022-07-10T20,TVA,Tennessee Valley Authority,NUC,Nuclear,8117,megawatthours
   163,2022-07-10T20,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  164,2022-07-10T20,TVA,Tennessee Valley Authority,OTH,Other,25,megawatthours
-  165,2022-07-10T20,TVA,Tennessee Valley Authority,SUN,Solar,551,megawatthours
-  166,2022-07-10T20,TVA,Tennessee Valley Authority,WAT,Hydro,2771,megawatthours
+  164,2022-07-10T20,TVA,Tennessee Valley Authority,OTH,Other,39.64,megawatthours
+  165,2022-07-10T20,TVA,Tennessee Valley Authority,SUN,Solar,548.9,megawatthours
+  166,2022-07-10T20,TVA,Tennessee Valley Authority,WAT,Hydro,2771.11,megawatthours
   167,2022-07-10T20,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  168,2022-07-10T21,TVA,Tennessee Valley Authority,COL,Coal,4816,megawatthours
-  169,2022-07-10T21,TVA,Tennessee Valley Authority,NG,Natural gas,7170,megawatthours
+  168,2022-07-10T21,TVA,Tennessee Valley Authority,COL,Coal,4820.27,megawatthours
+  169,2022-07-10T21,TVA,Tennessee Valley Authority,NG,Natural gas,7220.52,megawatthours
   170,2022-07-10T21,TVA,Tennessee Valley Authority,NUC,Nuclear,8116,megawatthours
   171,2022-07-10T21,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  172,2022-07-10T21,TVA,Tennessee Valley Authority,OTH,Other,17,megawatthours
-  173,2022-07-10T21,TVA,Tennessee Valley Authority,SUN,Solar,519,megawatthours
-  174,2022-07-10T21,TVA,Tennessee Valley Authority,WAT,Hydro,3458,megawatthours
-  175,2022-07-10T21,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  176,2022-07-10T22,TVA,Tennessee Valley Authority,COL,Coal,5209,megawatthours
-  177,2022-07-10T22,TVA,Tennessee Valley Authority,NG,Natural gas,7067,megawatthours
+  172,2022-07-10T21,TVA,Tennessee Valley Authority,OTH,Other,32.76,megawatthours
+  173,2022-07-10T21,TVA,Tennessee Valley Authority,SUN,Solar,518.51,megawatthours
+  174,2022-07-10T21,TVA,Tennessee Valley Authority,WAT,Hydro,3481.95,megawatthours
+  175,2022-07-10T21,TVA,Tennessee Valley Authority,WND,Wind,1,megawatthours
+  176,2022-07-10T22,TVA,Tennessee Valley Authority,COL,Coal,5211.92,megawatthours
+  177,2022-07-10T22,TVA,Tennessee Valley Authority,NG,Natural gas,7117.36,megawatthours
   178,2022-07-10T22,TVA,Tennessee Valley Authority,NUC,Nuclear,8110,megawatthours
   179,2022-07-10T22,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  180,2022-07-10T22,TVA,Tennessee Valley Authority,OTH,Other,22,megawatthours
-  181,2022-07-10T22,TVA,Tennessee Valley Authority,SUN,Solar,471,megawatthours
-  182,2022-07-10T22,TVA,Tennessee Valley Authority,WAT,Hydro,3656,megawatthours
-  183,2022-07-10T22,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  184,2022-07-10T23,TVA,Tennessee Valley Authority,COL,Coal,5224,megawatthours
-  185,2022-07-10T23,TVA,Tennessee Valley Authority,NG,Natural gas,7308,megawatthours
+  180,2022-07-10T22,TVA,Tennessee Valley Authority,OTH,Other,37.63,megawatthours
+  181,2022-07-10T22,TVA,Tennessee Valley Authority,SUN,Solar,471.31,megawatthours
+  182,2022-07-10T22,TVA,Tennessee Valley Authority,WAT,Hydro,3675.32,megawatthours
+  183,2022-07-10T22,TVA,Tennessee Valley Authority,WND,Wind,1,megawatthours
+  184,2022-07-10T23,TVA,Tennessee Valley Authority,COL,Coal,5229.32,megawatthours
+  185,2022-07-10T23,TVA,Tennessee Valley Authority,NG,Natural gas,7360.36,megawatthours
   186,2022-07-10T23,TVA,Tennessee Valley Authority,NUC,Nuclear,8098,megawatthours
   187,2022-07-10T23,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  188,2022-07-10T23,TVA,Tennessee Valley Authority,OTH,Other,20,megawatthours
-  189,2022-07-10T23,TVA,Tennessee Valley Authority,SUN,Solar,466,megawatthours
-  190,2022-07-10T23,TVA,Tennessee Valley Authority,WAT,Hydro,3504,megawatthours
-  191,2022-07-10T23,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
-  192,2022-07-11T00,TVA,Tennessee Valley Authority,COL,Coal,5243,megawatthours
-  193,2022-07-11T00,TVA,Tennessee Valley Authority,NG,Natural gas,7008,megawatthours
+  188,2022-07-10T23,TVA,Tennessee Valley Authority,OTH,Other,36.77,megawatthours
+  189,2022-07-10T23,TVA,Tennessee Valley Authority,SUN,Solar,466.2,megawatthours
+  190,2022-07-10T23,TVA,Tennessee Valley Authority,WAT,Hydro,3503.89,megawatthours
+  191,2022-07-10T23,TVA,Tennessee Valley Authority,WND,Wind,1,megawatthours
+  192,2022-07-11T00,TVA,Tennessee Valley Authority,COL,Coal,5247.48,megawatthours
+  193,2022-07-11T00,TVA,Tennessee Valley Authority,NG,Natural gas,7060.68,megawatthours
   194,2022-07-11T00,TVA,Tennessee Valley Authority,NUC,Nuclear,8105,megawatthours
   195,2022-07-11T00,TVA,Tennessee Valley Authority,OIL,Petroleum,0,megawatthours
-  196,2022-07-11T00,TVA,Tennessee Valley Authority,OTH,Other,22,megawatthours
-  197,2022-07-11T00,TVA,Tennessee Valley Authority,SUN,Solar,356,megawatthours
-  198,2022-07-11T00,TVA,Tennessee Valley Authority,WAT,Hydro,3413,megawatthours
+  196,2022-07-11T00,TVA,Tennessee Valley Authority,OTH,Other,39.62,megawatthours
+  197,2022-07-11T00,TVA,Tennessee Valley Authority,SUN,Solar,356.01,megawatthours
+  198,2022-07-11T00,TVA,Tennessee Valley Authority,WAT,Hydro,3413.08,megawatthours
   199,2022-07-11T00,TVA,Tennessee Valley Authority,WND,Wind,0,megawatthours
   
   '''
@@ -12479,36 +12479,36 @@
   53,2022-07-10T07,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
   54,2022-07-10T07,PNM,Public Service Company of New Mexico,TEPC,Tucson Electric Power,344,megawatthours
   55,2022-07-10T07,PNM,Public Service Company of New Mexico,WACM,Western Area Power Administration - Rocky Mountain Region,-357,megawatthours
-  56,2022-07-10T08,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-355,megawatthours
+  56,2022-07-10T08,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-354,megawatthours
   57,2022-07-10T08,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,319,megawatthours
   58,2022-07-10T08,PNM,Public Service Company of New Mexico,GRID,"Gridforce Energy Management, LLC",-127,megawatthours
   59,2022-07-10T08,PNM,Public Service Company of New Mexico,PSCO,Public Service Company of Colorado,-154,megawatthours
   60,2022-07-10T08,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
   61,2022-07-10T08,PNM,Public Service Company of New Mexico,TEPC,Tucson Electric Power,328,megawatthours
   62,2022-07-10T08,PNM,Public Service Company of New Mexico,WACM,Western Area Power Administration - Rocky Mountain Region,-339,megawatthours
-  63,2022-07-10T09,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-400,megawatthours
+  63,2022-07-10T09,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-399,megawatthours
   64,2022-07-10T09,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,339,megawatthours
   65,2022-07-10T09,PNM,Public Service Company of New Mexico,GRID,"Gridforce Energy Management, LLC",-34,megawatthours
   66,2022-07-10T09,PNM,Public Service Company of New Mexico,PSCO,Public Service Company of Colorado,-156,megawatthours
   67,2022-07-10T09,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
   68,2022-07-10T09,PNM,Public Service Company of New Mexico,TEPC,Tucson Electric Power,321,megawatthours
   69,2022-07-10T09,PNM,Public Service Company of New Mexico,WACM,Western Area Power Administration - Rocky Mountain Region,-363,megawatthours
-  70,2022-07-10T10,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-385,megawatthours
+  70,2022-07-10T10,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-382,megawatthours
   71,2022-07-10T10,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,352,megawatthours
   72,2022-07-10T10,PNM,Public Service Company of New Mexico,GRID,"Gridforce Energy Management, LLC",-18,megawatthours
   73,2022-07-10T10,PNM,Public Service Company of New Mexico,PSCO,Public Service Company of Colorado,-158,megawatthours
   74,2022-07-10T10,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
   75,2022-07-10T10,PNM,Public Service Company of New Mexico,TEPC,Tucson Electric Power,344,megawatthours
   76,2022-07-10T10,PNM,Public Service Company of New Mexico,WACM,Western Area Power Administration - Rocky Mountain Region,-396,megawatthours
-  77,2022-07-10T11,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-360,megawatthours
+  77,2022-07-10T11,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-359,megawatthours
   78,2022-07-10T11,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,340,megawatthours
   79,2022-07-10T11,PNM,Public Service Company of New Mexico,GRID,"Gridforce Energy Management, LLC",-25,megawatthours
   80,2022-07-10T11,PNM,Public Service Company of New Mexico,PSCO,Public Service Company of Colorado,-156,megawatthours
   81,2022-07-10T11,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
   82,2022-07-10T11,PNM,Public Service Company of New Mexico,TEPC,Tucson Electric Power,362,megawatthours
   83,2022-07-10T11,PNM,Public Service Company of New Mexico,WACM,Western Area Power Administration - Rocky Mountain Region,-389,megawatthours
-  84,2022-07-10T12,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-356,megawatthours
-  85,2022-07-10T12,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,339,megawatthours
+  84,2022-07-10T12,PNM,Public Service Company of New Mexico,AZPS,Arizona Public Service Company,-355,megawatthours
+  85,2022-07-10T12,PNM,Public Service Company of New Mexico,EPE,El Paso Electric Company,340,megawatthours
   86,2022-07-10T12,PNM,Public Service Company of New Mexico,GRID,"Gridforce Energy Management, LLC",-38,megawatthours
   87,2022-07-10T12,PNM,Public Service Company of New Mexico,PSCO,Public Service Company of Colorado,-154,megawatthours
   88,2022-07-10T12,PNM,Public Service Company of New Mexico,SWPP,Southwest Power Pool,0,megawatthours
@@ -14506,179 +14506,179 @@
 # name: test_scrape_by_ba[interchange-data-TVA-2022-07-10-2022-07-11]
   '''
   ,period,fromba,fromba-name,toba,toba-name,value,value-units
-  0,2022-07-10T00,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-180,megawatthours
+  0,2022-07-10T00,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-178,megawatthours
   1,2022-07-10T00,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-40,megawatthours
   2,2022-07-10T00,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,13,megawatthours
   3,2022-07-10T00,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,294,megawatthours
-  4,2022-07-10T00,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-951,megawatthours
-  5,2022-07-10T00,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",136,megawatthours
+  4,2022-07-10T00,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-928,megawatthours
+  5,2022-07-10T00,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",134,megawatthours
   6,2022-07-10T00,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",-85,megawatthours
-  7,2022-07-10T01,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-178,megawatthours
+  7,2022-07-10T01,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-177,megawatthours
   8,2022-07-10T01,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-35,megawatthours
   9,2022-07-10T01,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,-47,megawatthours
   10,2022-07-10T01,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,252,megawatthours
-  11,2022-07-10T01,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1023,megawatthours
-  12,2022-07-10T01,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",-2,megawatthours
+  11,2022-07-10T01,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1033,megawatthours
+  12,2022-07-10T01,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",0,megawatthours
   13,2022-07-10T01,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",-145,megawatthours
-  14,2022-07-10T02,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-182,megawatthours
+  14,2022-07-10T02,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-180,megawatthours
   15,2022-07-10T02,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-15,megawatthours
   16,2022-07-10T02,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,-20,megawatthours
   17,2022-07-10T02,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,268,megawatthours
-  18,2022-07-10T02,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1425,megawatthours
-  19,2022-07-10T02,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",237,megawatthours
+  18,2022-07-10T02,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1474,megawatthours
+  19,2022-07-10T02,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",236,megawatthours
   20,2022-07-10T02,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",-25,megawatthours
-  21,2022-07-10T03,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-186,megawatthours
+  21,2022-07-10T03,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-184,megawatthours
   22,2022-07-10T03,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-6,megawatthours
   23,2022-07-10T03,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,-4,megawatthours
   24,2022-07-10T03,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,215,megawatthours
-  25,2022-07-10T03,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1680,megawatthours
+  25,2022-07-10T03,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1878,megawatthours
   26,2022-07-10T03,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",403,megawatthours
   27,2022-07-10T03,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",217,megawatthours
-  28,2022-07-10T04,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-197,megawatthours
+  28,2022-07-10T04,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-194,megawatthours
   29,2022-07-10T04,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,13,megawatthours
   30,2022-07-10T04,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,44,megawatthours
   31,2022-07-10T04,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,90,megawatthours
-  32,2022-07-10T04,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1764,megawatthours
-  33,2022-07-10T04,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",288,megawatthours
+  32,2022-07-10T04,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2012,megawatthours
+  33,2022-07-10T04,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",286,megawatthours
   34,2022-07-10T04,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",993,megawatthours
-  35,2022-07-10T05,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-209,megawatthours
+  35,2022-07-10T05,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-206,megawatthours
   36,2022-07-10T05,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,19,megawatthours
   37,2022-07-10T05,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,100,megawatthours
   38,2022-07-10T05,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-9,megawatthours
-  39,2022-07-10T05,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1453,megawatthours
-  40,2022-07-10T05,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",97,megawatthours
+  39,2022-07-10T05,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1708,megawatthours
+  40,2022-07-10T05,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",100,megawatthours
   41,2022-07-10T05,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1482,megawatthours
-  42,2022-07-10T06,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-208,megawatthours
+  42,2022-07-10T06,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-205,megawatthours
   43,2022-07-10T06,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,39,megawatthours
   44,2022-07-10T06,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,143,megawatthours
   45,2022-07-10T06,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,23,megawatthours
-  46,2022-07-10T06,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1831,megawatthours
+  46,2022-07-10T06,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2037,megawatthours
   47,2022-07-10T06,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",366,megawatthours
   48,2022-07-10T06,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1886,megawatthours
-  49,2022-07-10T07,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-209,megawatthours
+  49,2022-07-10T07,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-207,megawatthours
   50,2022-07-10T07,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,37,megawatthours
   51,2022-07-10T07,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,167,megawatthours
   52,2022-07-10T07,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-48,megawatthours
-  53,2022-07-10T07,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1708,megawatthours
+  53,2022-07-10T07,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1929,megawatthours
   54,2022-07-10T07,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",233,megawatthours
   55,2022-07-10T07,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1987,megawatthours
-  56,2022-07-10T08,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-207,megawatthours
+  56,2022-07-10T08,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-205,megawatthours
   57,2022-07-10T08,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,36,megawatthours
   58,2022-07-10T08,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,181,megawatthours
   59,2022-07-10T08,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-66,megawatthours
-  60,2022-07-10T08,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1646,megawatthours
+  60,2022-07-10T08,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1888,megawatthours
   61,2022-07-10T08,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",161,megawatthours
   62,2022-07-10T08,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1865,megawatthours
-  63,2022-07-10T09,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-202,megawatthours
+  63,2022-07-10T09,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-200,megawatthours
   64,2022-07-10T09,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,37,megawatthours
   65,2022-07-10T09,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,178,megawatthours
   66,2022-07-10T09,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-63,megawatthours
-  67,2022-07-10T09,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1558,megawatthours
+  67,2022-07-10T09,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1785,megawatthours
   68,2022-07-10T09,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",191,megawatthours
   69,2022-07-10T09,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1750,megawatthours
-  70,2022-07-10T10,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-202,megawatthours
+  70,2022-07-10T10,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-201,megawatthours
   71,2022-07-10T10,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,44,megawatthours
   72,2022-07-10T10,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,185,megawatthours
   73,2022-07-10T10,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-34,megawatthours
-  74,2022-07-10T10,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1648,megawatthours
+  74,2022-07-10T10,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1851,megawatthours
   75,2022-07-10T10,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",303,megawatthours
   76,2022-07-10T10,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1657,megawatthours
-  77,2022-07-10T11,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-203,megawatthours
+  77,2022-07-10T11,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-201,megawatthours
   78,2022-07-10T11,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,41,megawatthours
   79,2022-07-10T11,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,182,megawatthours
   80,2022-07-10T11,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,-16,megawatthours
-  81,2022-07-10T11,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1604,megawatthours
+  81,2022-07-10T11,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1805,megawatthours
   82,2022-07-10T11,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",399,megawatthours
   83,2022-07-10T11,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1518,megawatthours
-  84,2022-07-10T12,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-197,megawatthours
+  84,2022-07-10T12,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-195,megawatthours
   85,2022-07-10T12,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,38,megawatthours
   86,2022-07-10T12,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,160,megawatthours
   87,2022-07-10T12,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,45,megawatthours
-  88,2022-07-10T12,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1362,megawatthours
+  88,2022-07-10T12,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1566,megawatthours
   89,2022-07-10T12,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",586,megawatthours
   90,2022-07-10T12,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",1079,megawatthours
-  91,2022-07-10T13,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-200,megawatthours
+  91,2022-07-10T13,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-198,megawatthours
   92,2022-07-10T13,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,30,megawatthours
   93,2022-07-10T13,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,149,megawatthours
   94,2022-07-10T13,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,92,megawatthours
-  95,2022-07-10T13,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1145,megawatthours
+  95,2022-07-10T13,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1354,megawatthours
   96,2022-07-10T13,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",557,megawatthours
   97,2022-07-10T13,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",641,megawatthours
-  98,2022-07-10T14,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-199,megawatthours
+  98,2022-07-10T14,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-198,megawatthours
   99,2022-07-10T14,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,25,megawatthours
   100,2022-07-10T14,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,110,megawatthours
   101,2022-07-10T14,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,155,megawatthours
-  102,2022-07-10T14,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1384,megawatthours
+  102,2022-07-10T14,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1537,megawatthours
   103,2022-07-10T14,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",494,megawatthours
   104,2022-07-10T14,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",442,megawatthours
-  105,2022-07-10T15,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-205,megawatthours
+  105,2022-07-10T15,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-204,megawatthours
   106,2022-07-10T15,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,16,megawatthours
   107,2022-07-10T15,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,90,megawatthours
   108,2022-07-10T15,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,201,megawatthours
-  109,2022-07-10T15,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1516,megawatthours
+  109,2022-07-10T15,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1653,megawatthours
   110,2022-07-10T15,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",429,megawatthours
   111,2022-07-10T15,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",162,megawatthours
   112,2022-07-10T16,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-218,megawatthours
   113,2022-07-10T16,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,16,megawatthours
   114,2022-07-10T16,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,91,megawatthours
   115,2022-07-10T16,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,298,megawatthours
-  116,2022-07-10T16,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2173,megawatthours
+  116,2022-07-10T16,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2298,megawatthours
   117,2022-07-10T16,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",577,megawatthours
   118,2022-07-10T16,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",441,megawatthours
   119,2022-07-10T17,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-220,megawatthours
   120,2022-07-10T17,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,11,megawatthours
   121,2022-07-10T17,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,80,megawatthours
   122,2022-07-10T17,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,374,megawatthours
-  123,2022-07-10T17,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2413,megawatthours
+  123,2022-07-10T17,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2538,megawatthours
   124,2022-07-10T17,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",656,megawatthours
   125,2022-07-10T17,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",552,megawatthours
   126,2022-07-10T18,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-221,megawatthours
   127,2022-07-10T18,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,7,megawatthours
   128,2022-07-10T18,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,100,megawatthours
   129,2022-07-10T18,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,441,megawatthours
-  130,2022-07-10T18,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2285,megawatthours
+  130,2022-07-10T18,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2436,megawatthours
   131,2022-07-10T18,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",646,megawatthours
   132,2022-07-10T18,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",596,megawatthours
   133,2022-07-10T19,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-214,megawatthours
   134,2022-07-10T19,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-10,megawatthours
   135,2022-07-10T19,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,80,megawatthours
   136,2022-07-10T19,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,471,megawatthours
-  137,2022-07-10T19,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2068,megawatthours
+  137,2022-07-10T19,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2112,megawatthours
   138,2022-07-10T19,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",490,megawatthours
   139,2022-07-10T19,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",574,megawatthours
-  140,2022-07-10T20,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-207,megawatthours
+  140,2022-07-10T20,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-206,megawatthours
   141,2022-07-10T20,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-26,megawatthours
   142,2022-07-10T20,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,63,megawatthours
   143,2022-07-10T20,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,503,megawatthours
-  144,2022-07-10T20,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1924,megawatthours
+  144,2022-07-10T20,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1955,megawatthours
   145,2022-07-10T20,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",353,megawatthours
   146,2022-07-10T20,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",593,megawatthours
   147,2022-07-10T21,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-211,megawatthours
   148,2022-07-10T21,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-42,megawatthours
   149,2022-07-10T21,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,79,megawatthours
   150,2022-07-10T21,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,518,megawatthours
-  151,2022-07-10T21,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1981,megawatthours
+  151,2022-07-10T21,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-2004,megawatthours
   152,2022-07-10T21,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",376,megawatthours
   153,2022-07-10T21,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",612,megawatthours
-  154,2022-07-10T22,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-205,megawatthours
+  154,2022-07-10T22,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-204,megawatthours
   155,2022-07-10T22,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-41,megawatthours
   156,2022-07-10T22,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,100,megawatthours
   157,2022-07-10T22,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,534,megawatthours
-  158,2022-07-10T22,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1832,megawatthours
+  158,2022-07-10T22,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1835,megawatthours
   159,2022-07-10T22,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",385,megawatthours
   160,2022-07-10T22,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",401,megawatthours
   161,2022-07-10T23,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-198,megawatthours
   162,2022-07-10T23,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-44,megawatthours
   163,2022-07-10T23,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,94,megawatthours
   164,2022-07-10T23,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,517,megawatthours
-  165,2022-07-10T23,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1877,megawatthours
+  165,2022-07-10T23,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1866,megawatthours
   166,2022-07-10T23,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",333,megawatthours
   167,2022-07-10T23,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",429,megawatthours
   168,2022-07-11T00,TVA,Tennessee Valley Authority,AECI,"Associated Electric Cooperative, Inc.",-182,megawatthours
   169,2022-07-11T00,TVA,Tennessee Valley Authority,CPLW,Duke Energy Progress West,-43,megawatthours
   170,2022-07-11T00,TVA,Tennessee Valley Authority,DUK,Duke Energy Carolinas,104,megawatthours
   171,2022-07-11T00,TVA,Tennessee Valley Authority,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,498,megawatthours
-  172,2022-07-11T00,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1897,megawatthours
+  172,2022-07-11T00,TVA,Tennessee Valley Authority,MISO,"Midcontinent Independent System Operator, Inc.",-1857,megawatthours
   173,2022-07-11T00,TVA,Tennessee Valley Authority,PJM,"PJM Interconnection, LLC",307,megawatthours
   174,2022-07-11T00,TVA,Tennessee Valley Authority,SOCO,"Southern Company Services, Inc. - Trans",435,megawatthours
   
@@ -17577,80 +17577,80 @@
 # name: test_scrape_by_ba[region-data-LGEE-2022-07-10-2022-07-11]
   '''
   ,period,respondent,respondent-name,type,type-name,value,value-units
-  0,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4304,megawatthours
-  1,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4022,megawatthours
+  0,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4303.65,megawatthours
+  1,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4021.65,megawatthours
   2,2022-07-10T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-282,megawatthours
-  3,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4309,megawatthours
-  4,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3850,megawatthours
+  3,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4308.7,megawatthours
+  4,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3849.7,megawatthours
   5,2022-07-10T01,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-459,megawatthours
-  6,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4225,megawatthours
-  7,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3782,megawatthours
+  6,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4225.3001,megawatthours
+  7,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3782.3001,megawatthours
   8,2022-07-10T02,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-443,megawatthours
-  9,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4010,megawatthours
-  10,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3642,megawatthours
+  9,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4010.3998,megawatthours
+  10,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3642.3998,megawatthours
   11,2022-07-10T03,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-368,megawatthours
-  12,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3794,megawatthours
-  13,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3449,megawatthours
+  12,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3794.1,megawatthours
+  13,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3449.1,megawatthours
   14,2022-07-10T04,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-345,megawatthours
-  15,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3528,megawatthours
-  16,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3259,megawatthours
+  15,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3528.2,megawatthours
+  16,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3259.2,megawatthours
   17,2022-07-10T05,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-269,megawatthours
-  18,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3326,megawatthours
-  19,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3081,megawatthours
+  18,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3326.15,megawatthours
+  19,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3081.15,megawatthours
   20,2022-07-10T06,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-245,megawatthours
-  21,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3188,megawatthours
-  22,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2984,megawatthours
+  21,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3188.05,megawatthours
+  22,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2984.05,megawatthours
   23,2022-07-10T07,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-204,megawatthours
-  24,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3176,megawatthours
-  25,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2924,megawatthours
+  24,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3176.1,megawatthours
+  25,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2924.1,megawatthours
   26,2022-07-10T08,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-252,megawatthours
-  27,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3187,megawatthours
-  28,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2919,megawatthours
+  27,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3186.7,megawatthours
+  28,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2918.7,megawatthours
   29,2022-07-10T09,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-268,megawatthours
   30,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3145,megawatthours
   31,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2879,megawatthours
   32,2022-07-10T10,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-266,megawatthours
-  33,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3146,megawatthours
-  34,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2854,megawatthours
+  33,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3146.4,megawatthours
+  34,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2854.4,megawatthours
   35,2022-07-10T11,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-292,megawatthours
-  36,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3200,megawatthours
-  37,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2892,megawatthours
+  36,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3199.7,megawatthours
+  37,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,2891.7,megawatthours
   38,2022-07-10T12,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-308,megawatthours
-  39,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3443,megawatthours
-  40,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3104,megawatthours
+  39,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3443.3,megawatthours
+  40,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3104.3,megawatthours
   41,2022-07-10T13,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-339,megawatthours
-  42,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3745,megawatthours
-  43,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3373,megawatthours
+  42,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,3744.5,megawatthours
+  43,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3372.5,megawatthours
   44,2022-07-10T14,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-372,megawatthours
-  45,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4091,megawatthours
-  46,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3660,megawatthours
+  45,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4090.75,megawatthours
+  46,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3659.75,megawatthours
   47,2022-07-10T15,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-431,megawatthours
-  48,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4373,megawatthours
-  49,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3921,megawatthours
+  48,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4372.5499,megawatthours
+  49,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,3920.5499,megawatthours
   50,2022-07-10T16,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-452,megawatthours
-  51,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4692,megawatthours
-  52,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4283,megawatthours
+  51,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4692.4002,megawatthours
+  52,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4283.4002,megawatthours
   53,2022-07-10T17,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-409,megawatthours
-  54,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4982,megawatthours
-  55,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4520,megawatthours
+  54,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,4981.9001,megawatthours
+  55,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4519.9001,megawatthours
   56,2022-07-10T18,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-462,megawatthours
-  57,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5188,megawatthours
-  58,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4727,megawatthours
+  57,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5188.1,megawatthours
+  58,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4727.1,megawatthours
   59,2022-07-10T19,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-461,megawatthours
-  60,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5364,megawatthours
-  61,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4849,megawatthours
+  60,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5364.1999,megawatthours
+  61,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4849.1999,megawatthours
   62,2022-07-10T20,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-515,megawatthours
   63,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5520,megawatthours
   64,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,4958,megawatthours
   65,2022-07-10T21,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-562,megawatthours
-  66,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5690,megawatthours
-  67,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5099,megawatthours
+  66,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5690.1999,megawatthours
+  67,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5099.1999,megawatthours
   68,2022-07-10T22,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-591,megawatthours
-  69,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5695,megawatthours
-  70,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5105,megawatthours
+  69,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5694.6,megawatthours
+  70,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5104.6,megawatthours
   71,2022-07-10T23,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-590,megawatthours
-  72,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5609,megawatthours
-  73,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5017,megawatthours
+  72,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,D,Demand,5609.4999,megawatthours
+  73,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,NG,Net generation,5017.4999,megawatthours
   74,2022-07-11T00,LGEE,Louisville Gas and Electric Company and Kentucky Utilities Company,TI,Total interchange,-592,megawatthours
   
   '''
@@ -18324,8 +18324,8 @@
   3,2022-07-10T01,PNM,Public Service Company of New Mexico,D,Demand,2203,megawatthours
   4,2022-07-10T01,PNM,Public Service Company of New Mexico,NG,Net generation,2228,megawatthours
   5,2022-07-10T01,PNM,Public Service Company of New Mexico,TI,Total interchange,24,megawatthours
-  6,2022-07-10T02,PNM,Public Service Company of New Mexico,D,Demand,2115,megawatthours
-  7,2022-07-10T02,PNM,Public Service Company of New Mexico,NG,Net generation,2226,megawatthours
+  6,2022-07-10T02,PNM,Public Service Company of New Mexico,D,Demand,2114,megawatthours
+  7,2022-07-10T02,PNM,Public Service Company of New Mexico,NG,Net generation,2225,megawatthours
   8,2022-07-10T02,PNM,Public Service Company of New Mexico,TI,Total interchange,110,megawatthours
   9,2022-07-10T03,PNM,Public Service Company of New Mexico,D,Demand,2054,megawatthours
   10,2022-07-10T03,PNM,Public Service Company of New Mexico,NG,Net generation,2290,megawatthours
@@ -18333,8 +18333,8 @@
   12,2022-07-10T04,PNM,Public Service Company of New Mexico,D,Demand,1995,megawatthours
   13,2022-07-10T04,PNM,Public Service Company of New Mexico,NG,Net generation,2272,megawatthours
   14,2022-07-10T04,PNM,Public Service Company of New Mexico,TI,Total interchange,276,megawatthours
-  15,2022-07-10T05,PNM,Public Service Company of New Mexico,D,Demand,1901,megawatthours
-  16,2022-07-10T05,PNM,Public Service Company of New Mexico,NG,Net generation,1727,megawatthours
+  15,2022-07-10T05,PNM,Public Service Company of New Mexico,D,Demand,1899,megawatthours
+  16,2022-07-10T05,PNM,Public Service Company of New Mexico,NG,Net generation,1725,megawatthours
   17,2022-07-10T05,PNM,Public Service Company of New Mexico,TI,Total interchange,-175,megawatthours
   18,2022-07-10T06,PNM,Public Service Company of New Mexico,D,Demand,1784,megawatthours
   19,2022-07-10T06,PNM,Public Service Company of New Mexico,NG,Net generation,1378,megawatthours
@@ -18342,56 +18342,56 @@
   21,2022-07-10T07,PNM,Public Service Company of New Mexico,D,Demand,1682,megawatthours
   22,2022-07-10T07,PNM,Public Service Company of New Mexico,NG,Net generation,1292,megawatthours
   23,2022-07-10T07,PNM,Public Service Company of New Mexico,TI,Total interchange,-391,megawatthours
-  24,2022-07-10T08,PNM,Public Service Company of New Mexico,D,Demand,1602,megawatthours
+  24,2022-07-10T08,PNM,Public Service Company of New Mexico,D,Demand,1601,megawatthours
   25,2022-07-10T08,PNM,Public Service Company of New Mexico,NG,Net generation,1275,megawatthours
-  26,2022-07-10T08,PNM,Public Service Company of New Mexico,TI,Total interchange,-328,megawatthours
-  27,2022-07-10T09,PNM,Public Service Company of New Mexico,D,Demand,1548,megawatthours
+  26,2022-07-10T08,PNM,Public Service Company of New Mexico,TI,Total interchange,-327,megawatthours
+  27,2022-07-10T09,PNM,Public Service Company of New Mexico,D,Demand,1547,megawatthours
   28,2022-07-10T09,PNM,Public Service Company of New Mexico,NG,Net generation,1255,megawatthours
-  29,2022-07-10T09,PNM,Public Service Company of New Mexico,TI,Total interchange,-293,megawatthours
-  30,2022-07-10T10,PNM,Public Service Company of New Mexico,D,Demand,1507,megawatthours
+  29,2022-07-10T09,PNM,Public Service Company of New Mexico,TI,Total interchange,-292,megawatthours
+  30,2022-07-10T10,PNM,Public Service Company of New Mexico,D,Demand,1504,megawatthours
   31,2022-07-10T10,PNM,Public Service Company of New Mexico,NG,Net generation,1247,megawatthours
-  32,2022-07-10T10,PNM,Public Service Company of New Mexico,TI,Total interchange,-261,megawatthours
-  33,2022-07-10T11,PNM,Public Service Company of New Mexico,D,Demand,1488,megawatthours
+  32,2022-07-10T10,PNM,Public Service Company of New Mexico,TI,Total interchange,-258,megawatthours
+  33,2022-07-10T11,PNM,Public Service Company of New Mexico,D,Demand,1487,megawatthours
   34,2022-07-10T11,PNM,Public Service Company of New Mexico,NG,Net generation,1260,megawatthours
-  35,2022-07-10T11,PNM,Public Service Company of New Mexico,TI,Total interchange,-228,megawatthours
-  36,2022-07-10T12,PNM,Public Service Company of New Mexico,D,Demand,1475,megawatthours
+  35,2022-07-10T11,PNM,Public Service Company of New Mexico,TI,Total interchange,-227,megawatthours
+  36,2022-07-10T12,PNM,Public Service Company of New Mexico,D,Demand,1473,megawatthours
   37,2022-07-10T12,PNM,Public Service Company of New Mexico,NG,Net generation,1190,megawatthours
-  38,2022-07-10T12,PNM,Public Service Company of New Mexico,TI,Total interchange,-286,megawatthours
-  39,2022-07-10T13,PNM,Public Service Company of New Mexico,D,Demand,1451,megawatthours
-  40,2022-07-10T13,PNM,Public Service Company of New Mexico,NG,Net generation,1185,megawatthours
+  38,2022-07-10T12,PNM,Public Service Company of New Mexico,TI,Total interchange,-284,megawatthours
+  39,2022-07-10T13,PNM,Public Service Company of New Mexico,D,Demand,1454,megawatthours
+  40,2022-07-10T13,PNM,Public Service Company of New Mexico,NG,Net generation,1188,megawatthours
   41,2022-07-10T13,PNM,Public Service Company of New Mexico,TI,Total interchange,-267,megawatthours
-  42,2022-07-10T14,PNM,Public Service Company of New Mexico,D,Demand,1489,megawatthours
-  43,2022-07-10T14,PNM,Public Service Company of New Mexico,NG,Net generation,1325,megawatthours
+  42,2022-07-10T14,PNM,Public Service Company of New Mexico,D,Demand,1497,megawatthours
+  43,2022-07-10T14,PNM,Public Service Company of New Mexico,NG,Net generation,1333,megawatthours
   44,2022-07-10T14,PNM,Public Service Company of New Mexico,TI,Total interchange,-165,megawatthours
-  45,2022-07-10T15,PNM,Public Service Company of New Mexico,D,Demand,1574,megawatthours
-  46,2022-07-10T15,PNM,Public Service Company of New Mexico,NG,Net generation,1343,megawatthours
+  45,2022-07-10T15,PNM,Public Service Company of New Mexico,D,Demand,1585,megawatthours
+  46,2022-07-10T15,PNM,Public Service Company of New Mexico,NG,Net generation,1354,megawatthours
   47,2022-07-10T15,PNM,Public Service Company of New Mexico,TI,Total interchange,-232,megawatthours
-  48,2022-07-10T16,PNM,Public Service Company of New Mexico,D,Demand,1651,megawatthours
-  49,2022-07-10T16,PNM,Public Service Company of New Mexico,NG,Net generation,1396,megawatthours
+  48,2022-07-10T16,PNM,Public Service Company of New Mexico,D,Demand,1662,megawatthours
+  49,2022-07-10T16,PNM,Public Service Company of New Mexico,NG,Net generation,1407,megawatthours
   50,2022-07-10T16,PNM,Public Service Company of New Mexico,TI,Total interchange,-256,megawatthours
-  51,2022-07-10T17,PNM,Public Service Company of New Mexico,D,Demand,1765,megawatthours
-  52,2022-07-10T17,PNM,Public Service Company of New Mexico,NG,Net generation,1460,megawatthours
+  51,2022-07-10T17,PNM,Public Service Company of New Mexico,D,Demand,1777,megawatthours
+  52,2022-07-10T17,PNM,Public Service Company of New Mexico,NG,Net generation,1472,megawatthours
   53,2022-07-10T17,PNM,Public Service Company of New Mexico,TI,Total interchange,-306,megawatthours
-  54,2022-07-10T18,PNM,Public Service Company of New Mexico,D,Demand,1891,megawatthours
-  55,2022-07-10T18,PNM,Public Service Company of New Mexico,NG,Net generation,1531,megawatthours
+  54,2022-07-10T18,PNM,Public Service Company of New Mexico,D,Demand,1903,megawatthours
+  55,2022-07-10T18,PNM,Public Service Company of New Mexico,NG,Net generation,1543,megawatthours
   56,2022-07-10T18,PNM,Public Service Company of New Mexico,TI,Total interchange,-361,megawatthours
-  57,2022-07-10T19,PNM,Public Service Company of New Mexico,D,Demand,2021,megawatthours
-  58,2022-07-10T19,PNM,Public Service Company of New Mexico,NG,Net generation,1582,megawatthours
+  57,2022-07-10T19,PNM,Public Service Company of New Mexico,D,Demand,2033,megawatthours
+  58,2022-07-10T19,PNM,Public Service Company of New Mexico,NG,Net generation,1594,megawatthours
   59,2022-07-10T19,PNM,Public Service Company of New Mexico,TI,Total interchange,-440,megawatthours
-  60,2022-07-10T20,PNM,Public Service Company of New Mexico,D,Demand,2123,megawatthours
-  61,2022-07-10T20,PNM,Public Service Company of New Mexico,NG,Net generation,1608,megawatthours
+  60,2022-07-10T20,PNM,Public Service Company of New Mexico,D,Demand,2134,megawatthours
+  61,2022-07-10T20,PNM,Public Service Company of New Mexico,NG,Net generation,1619,megawatthours
   62,2022-07-10T20,PNM,Public Service Company of New Mexico,TI,Total interchange,-516,megawatthours
-  63,2022-07-10T21,PNM,Public Service Company of New Mexico,D,Demand,2217,megawatthours
-  64,2022-07-10T21,PNM,Public Service Company of New Mexico,NG,Net generation,1780,megawatthours
+  63,2022-07-10T21,PNM,Public Service Company of New Mexico,D,Demand,2228,megawatthours
+  64,2022-07-10T21,PNM,Public Service Company of New Mexico,NG,Net generation,1791,megawatthours
   65,2022-07-10T21,PNM,Public Service Company of New Mexico,TI,Total interchange,-438,megawatthours
-  66,2022-07-10T22,PNM,Public Service Company of New Mexico,D,Demand,2312,megawatthours
-  67,2022-07-10T22,PNM,Public Service Company of New Mexico,NG,Net generation,1868,megawatthours
+  66,2022-07-10T22,PNM,Public Service Company of New Mexico,D,Demand,2320,megawatthours
+  67,2022-07-10T22,PNM,Public Service Company of New Mexico,NG,Net generation,1876,megawatthours
   68,2022-07-10T22,PNM,Public Service Company of New Mexico,TI,Total interchange,-445,megawatthours
-  69,2022-07-10T23,PNM,Public Service Company of New Mexico,D,Demand,2382,megawatthours
-  70,2022-07-10T23,PNM,Public Service Company of New Mexico,NG,Net generation,1908,megawatthours
+  69,2022-07-10T23,PNM,Public Service Company of New Mexico,D,Demand,2390,megawatthours
+  70,2022-07-10T23,PNM,Public Service Company of New Mexico,NG,Net generation,1917,megawatthours
   71,2022-07-10T23,PNM,Public Service Company of New Mexico,TI,Total interchange,-474,megawatthours
-  72,2022-07-11T00,PNM,Public Service Company of New Mexico,D,Demand,2449,megawatthours
-  73,2022-07-11T00,PNM,Public Service Company of New Mexico,NG,Net generation,1976,megawatthours
+  72,2022-07-11T00,PNM,Public Service Company of New Mexico,D,Demand,2452,megawatthours
+  73,2022-07-11T00,PNM,Public Service Company of New Mexico,NG,Net generation,1978,megawatthours
   74,2022-07-11T00,PNM,Public Service Company of New Mexico,TI,Total interchange,-474,megawatthours
   
   '''
@@ -19676,81 +19676,81 @@
 # name: test_scrape_by_ba[region-data-TVA-2022-07-10-2022-07-11]
   '''
   ,period,respondent,respondent-name,type,type-name,value,value-units
-  0,2022-07-10T00,TVA,Tennessee Valley Authority,D,Demand,25161,megawatthours
-  1,2022-07-10T00,TVA,Tennessee Valley Authority,NG,Net generation,24139,megawatthours
-  2,2022-07-10T00,TVA,Tennessee Valley Authority,TI,Total interchange,-1022,megawatthours
-  3,2022-07-10T01,TVA,Tennessee Valley Authority,D,Demand,24014,megawatthours
-  4,2022-07-10T01,TVA,Tennessee Valley Authority,NG,Net generation,22773,megawatthours
-  5,2022-07-10T01,TVA,Tennessee Valley Authority,TI,Total interchange,-1241,megawatthours
-  6,2022-07-10T02,TVA,Tennessee Valley Authority,D,Demand,23018,megawatthours
-  7,2022-07-10T02,TVA,Tennessee Valley Authority,NG,Net generation,21746,megawatthours
-  8,2022-07-10T02,TVA,Tennessee Valley Authority,TI,Total interchange,-1272,megawatthours
-  9,2022-07-10T03,TVA,Tennessee Valley Authority,D,Demand,21916,megawatthours
-  10,2022-07-10T03,TVA,Tennessee Valley Authority,NG,Net generation,20681,megawatthours
-  11,2022-07-10T03,TVA,Tennessee Valley Authority,TI,Total interchange,-1235,megawatthours
-  12,2022-07-10T04,TVA,Tennessee Valley Authority,D,Demand,20559,megawatthours
-  13,2022-07-10T04,TVA,Tennessee Valley Authority,NG,Net generation,19896,megawatthours
-  14,2022-07-10T04,TVA,Tennessee Valley Authority,TI,Total interchange,-663,megawatthours
-  15,2022-07-10T05,TVA,Tennessee Valley Authority,D,Demand,19205,megawatthours
-  16,2022-07-10T05,TVA,Tennessee Valley Authority,NG,Net generation,19086,megawatthours
-  17,2022-07-10T05,TVA,Tennessee Valley Authority,TI,Total interchange,-119,megawatthours
-  18,2022-07-10T06,TVA,Tennessee Valley Authority,D,Demand,18141,megawatthours
-  19,2022-07-10T06,TVA,Tennessee Valley Authority,NG,Net generation,18419,megawatthours
-  20,2022-07-10T06,TVA,Tennessee Valley Authority,TI,Total interchange,278,megawatthours
-  21,2022-07-10T07,TVA,Tennessee Valley Authority,D,Demand,17236,megawatthours
-  22,2022-07-10T07,TVA,Tennessee Valley Authority,NG,Net generation,17523,megawatthours
-  23,2022-07-10T07,TVA,Tennessee Valley Authority,TI,Total interchange,287,megawatthours
-  24,2022-07-10T08,TVA,Tennessee Valley Authority,D,Demand,16687,megawatthours
-  25,2022-07-10T08,TVA,Tennessee Valley Authority,NG,Net generation,16801,megawatthours
-  26,2022-07-10T08,TVA,Tennessee Valley Authority,TI,Total interchange,114,megawatthours
-  27,2022-07-10T09,TVA,Tennessee Valley Authority,D,Demand,16255,megawatthours
-  28,2022-07-10T09,TVA,Tennessee Valley Authority,NG,Net generation,16385,megawatthours
-  29,2022-07-10T09,TVA,Tennessee Valley Authority,TI,Total interchange,130,megawatthours
-  30,2022-07-10T10,TVA,Tennessee Valley Authority,D,Demand,15986,megawatthours
-  31,2022-07-10T10,TVA,Tennessee Valley Authority,NG,Net generation,16100,megawatthours
-  32,2022-07-10T10,TVA,Tennessee Valley Authority,TI,Total interchange,114,megawatthours
-  33,2022-07-10T11,TVA,Tennessee Valley Authority,D,Demand,15951,megawatthours
-  34,2022-07-10T11,TVA,Tennessee Valley Authority,NG,Net generation,16068,megawatthours
-  35,2022-07-10T11,TVA,Tennessee Valley Authority,TI,Total interchange,117,megawatthours
-  36,2022-07-10T12,TVA,Tennessee Valley Authority,D,Demand,16051,megawatthours
-  37,2022-07-10T12,TVA,Tennessee Valley Authority,NG,Net generation,16192,megawatthours
-  38,2022-07-10T12,TVA,Tennessee Valley Authority,TI,Total interchange,141,megawatthours
-  39,2022-07-10T13,TVA,Tennessee Valley Authority,D,Demand,16783,megawatthours
-  40,2022-07-10T13,TVA,Tennessee Valley Authority,NG,Net generation,16670,megawatthours
-  41,2022-07-10T13,TVA,Tennessee Valley Authority,TI,Total interchange,-113,megawatthours
-  42,2022-07-10T14,TVA,Tennessee Valley Authority,D,Demand,17751,megawatthours
-  43,2022-07-10T14,TVA,Tennessee Valley Authority,NG,Net generation,17156,megawatthours
-  44,2022-07-10T14,TVA,Tennessee Valley Authority,TI,Total interchange,-595,megawatthours
-  45,2022-07-10T15,TVA,Tennessee Valley Authority,D,Demand,18758,megawatthours
-  46,2022-07-10T15,TVA,Tennessee Valley Authority,NG,Net generation,17673,megawatthours
-  47,2022-07-10T15,TVA,Tennessee Valley Authority,TI,Total interchange,-1085,megawatthours
-  48,2022-07-10T16,TVA,Tennessee Valley Authority,D,Demand,19898,megawatthours
-  49,2022-07-10T16,TVA,Tennessee Valley Authority,NG,Net generation,18642,megawatthours
-  50,2022-07-10T16,TVA,Tennessee Valley Authority,TI,Total interchange,-1256,megawatthours
-  51,2022-07-10T17,TVA,Tennessee Valley Authority,D,Demand,21148,megawatthours
-  52,2022-07-10T17,TVA,Tennessee Valley Authority,NG,Net generation,19882,megawatthours
-  53,2022-07-10T17,TVA,Tennessee Valley Authority,TI,Total interchange,-1266,megawatthours
-  54,2022-07-10T18,TVA,Tennessee Valley Authority,D,Demand,22413,megawatthours
-  55,2022-07-10T18,TVA,Tennessee Valley Authority,NG,Net generation,21367,megawatthours
-  56,2022-07-10T18,TVA,Tennessee Valley Authority,TI,Total interchange,-1046,megawatthours
-  57,2022-07-10T19,TVA,Tennessee Valley Authority,D,Demand,23504,megawatthours
-  58,2022-07-10T19,TVA,Tennessee Valley Authority,NG,Net generation,22420,megawatthours
-  59,2022-07-10T19,TVA,Tennessee Valley Authority,TI,Total interchange,-1084,megawatthours
-  60,2022-07-10T20,TVA,Tennessee Valley Authority,D,Demand,24193,megawatthours
-  61,2022-07-10T20,TVA,Tennessee Valley Authority,NG,Net generation,23151,megawatthours
-  62,2022-07-10T20,TVA,Tennessee Valley Authority,TI,Total interchange,-1042,megawatthours
-  63,2022-07-10T21,TVA,Tennessee Valley Authority,D,Demand,25023,megawatthours
-  64,2022-07-10T21,TVA,Tennessee Valley Authority,NG,Net generation,23967,megawatthours
-  65,2022-07-10T21,TVA,Tennessee Valley Authority,TI,Total interchange,-1056,megawatthours
-  66,2022-07-10T22,TVA,Tennessee Valley Authority,D,Demand,25454,megawatthours
-  67,2022-07-10T22,TVA,Tennessee Valley Authority,NG,Net generation,24401,megawatthours
-  68,2022-07-10T22,TVA,Tennessee Valley Authority,TI,Total interchange,-1053,megawatthours
-  69,2022-07-10T23,TVA,Tennessee Valley Authority,D,Demand,25615,megawatthours
-  70,2022-07-10T23,TVA,Tennessee Valley Authority,NG,Net generation,24490,megawatthours
-  71,2022-07-10T23,TVA,Tennessee Valley Authority,TI,Total interchange,-1125,megawatthours
-  72,2022-07-11T00,TVA,Tennessee Valley Authority,D,Demand,25151,megawatthours
-  73,2022-07-11T00,TVA,Tennessee Valley Authority,NG,Net generation,24022,megawatthours
-  74,2022-07-11T00,TVA,Tennessee Valley Authority,TI,Total interchange,-1129,megawatthours
+  0,2022-07-10T00,TVA,Tennessee Valley Authority,D,Demand,25032.86,megawatthours
+  1,2022-07-10T00,TVA,Tennessee Valley Authority,NG,Net generation,24197.86,megawatthours
+  2,2022-07-10T00,TVA,Tennessee Valley Authority,TI,Total interchange,-790,megawatthours
+  3,2022-07-10T01,TVA,Tennessee Valley Authority,D,Demand,23890.42,megawatthours
+  4,2022-07-10T01,TVA,Tennessee Valley Authority,NG,Net generation,22699.42,megawatthours
+  5,2022-07-10T01,TVA,Tennessee Valley Authority,TI,Total interchange,-1185,megawatthours
+  6,2022-07-10T02,TVA,Tennessee Valley Authority,D,Demand,22898.82,megawatthours
+  7,2022-07-10T02,TVA,Tennessee Valley Authority,NG,Net generation,21677.82,megawatthours
+  8,2022-07-10T02,TVA,Tennessee Valley Authority,TI,Total interchange,-1210,megawatthours
+  9,2022-07-10T03,TVA,Tennessee Valley Authority,D,Demand,21803.32,megawatthours
+  10,2022-07-10T03,TVA,Tennessee Valley Authority,NG,Net generation,20555.32,megawatthours
+  11,2022-07-10T03,TVA,Tennessee Valley Authority,TI,Total interchange,-1237,megawatthours
+  12,2022-07-10T04,TVA,Tennessee Valley Authority,D,Demand,20454.09,megawatthours
+  13,2022-07-10T04,TVA,Tennessee Valley Authority,NG,Net generation,19664.09,megawatthours
+  14,2022-07-10T04,TVA,Tennessee Valley Authority,TI,Total interchange,-780,megawatthours
+  15,2022-07-10T05,TVA,Tennessee Valley Authority,D,Demand,19104.4,megawatthours
+  16,2022-07-10T05,TVA,Tennessee Valley Authority,NG,Net generation,18883.4,megawatthours
+  17,2022-07-10T05,TVA,Tennessee Valley Authority,TI,Total interchange,-222,megawatthours
+  18,2022-07-10T06,TVA,Tennessee Valley Authority,D,Demand,18048.92,megawatthours
+  19,2022-07-10T06,TVA,Tennessee Valley Authority,NG,Net generation,18256.92,megawatthours
+  20,2022-07-10T06,TVA,Tennessee Valley Authority,TI,Total interchange,215,megawatthours
+  21,2022-07-10T07,TVA,Tennessee Valley Authority,D,Demand,17150.33,megawatthours
+  22,2022-07-10T07,TVA,Tennessee Valley Authority,NG,Net generation,17391.33,megawatthours
+  23,2022-07-10T07,TVA,Tennessee Valley Authority,TI,Total interchange,240,megawatthours
+  24,2022-07-10T08,TVA,Tennessee Valley Authority,D,Demand,16606.25,megawatthours
+  25,2022-07-10T08,TVA,Tennessee Valley Authority,NG,Net generation,16701.25,megawatthours
+  26,2022-07-10T08,TVA,Tennessee Valley Authority,TI,Total interchange,84,megawatthours
+  27,2022-07-10T09,TVA,Tennessee Valley Authority,D,Demand,16173.07,megawatthours
+  28,2022-07-10T09,TVA,Tennessee Valley Authority,NG,Net generation,16297.07,megawatthours
+  29,2022-07-10T09,TVA,Tennessee Valley Authority,TI,Total interchange,108,megawatthours
+  30,2022-07-10T10,TVA,Tennessee Valley Authority,D,Demand,15905.89,megawatthours
+  31,2022-07-10T10,TVA,Tennessee Valley Authority,NG,Net generation,16019.89,megawatthours
+  32,2022-07-10T10,TVA,Tennessee Valley Authority,TI,Total interchange,103,megawatthours
+  33,2022-07-10T11,TVA,Tennessee Valley Authority,D,Demand,15871.06,megawatthours
+  34,2022-07-10T11,TVA,Tennessee Valley Authority,NG,Net generation,15999.06,megawatthours
+  35,2022-07-10T11,TVA,Tennessee Valley Authority,TI,Total interchange,118,megawatthours
+  36,2022-07-10T12,TVA,Tennessee Valley Authority,D,Demand,15980.83,megawatthours
+  37,2022-07-10T12,TVA,Tennessee Valley Authority,NG,Net generation,16132.83,megawatthours
+  38,2022-07-10T12,TVA,Tennessee Valley Authority,TI,Total interchange,147,megawatthours
+  39,2022-07-10T13,TVA,Tennessee Valley Authority,D,Demand,16696.76,megawatthours
+  40,2022-07-10T13,TVA,Tennessee Valley Authority,NG,Net generation,16628.76,megawatthours
+  41,2022-07-10T13,TVA,Tennessee Valley Authority,TI,Total interchange,-83,megawatthours
+  42,2022-07-10T14,TVA,Tennessee Valley Authority,D,Demand,17654.57,megawatthours
+  43,2022-07-10T14,TVA,Tennessee Valley Authority,NG,Net generation,17136.57,megawatthours
+  44,2022-07-10T14,TVA,Tennessee Valley Authority,TI,Total interchange,-509,megawatthours
+  45,2022-07-10T15,TVA,Tennessee Valley Authority,D,Demand,18652.74,megawatthours
+  46,2022-07-10T15,TVA,Tennessee Valley Authority,NG,Net generation,17667.74,megawatthours
+  47,2022-07-10T15,TVA,Tennessee Valley Authority,TI,Total interchange,-959,megawatthours
+  48,2022-07-10T16,TVA,Tennessee Valley Authority,D,Demand,19782.62,megawatthours
+  49,2022-07-10T16,TVA,Tennessee Valley Authority,NG,Net generation,18647.62,megawatthours
+  50,2022-07-10T16,TVA,Tennessee Valley Authority,TI,Total interchange,-1093,megawatthours
+  51,2022-07-10T17,TVA,Tennessee Valley Authority,D,Demand,21021.21,megawatthours
+  52,2022-07-10T17,TVA,Tennessee Valley Authority,NG,Net generation,19885.21,megawatthours
+  53,2022-07-10T17,TVA,Tennessee Valley Authority,TI,Total interchange,-1085,megawatthours
+  54,2022-07-10T18,TVA,Tennessee Valley Authority,D,Demand,22278.99,megawatthours
+  55,2022-07-10T18,TVA,Tennessee Valley Authority,NG,Net generation,21372.99,megawatthours
+  56,2022-07-10T18,TVA,Tennessee Valley Authority,TI,Total interchange,-867,megawatthours
+  57,2022-07-10T19,TVA,Tennessee Valley Authority,D,Demand,23361.98,megawatthours
+  58,2022-07-10T19,TVA,Tennessee Valley Authority,NG,Net generation,22609.98,megawatthours
+  59,2022-07-10T19,TVA,Tennessee Valley Authority,TI,Total interchange,-721,megawatthours
+  60,2022-07-10T20,TVA,Tennessee Valley Authority,D,Demand,24042,megawatthours
+  61,2022-07-10T20,TVA,Tennessee Valley Authority,NG,Net generation,23334,megawatthours
+  62,2022-07-10T20,TVA,Tennessee Valley Authority,TI,Total interchange,-675,megawatthours
+  63,2022-07-10T21,TVA,Tennessee Valley Authority,D,Demand,24895.01,megawatthours
+  64,2022-07-10T21,TVA,Tennessee Valley Authority,NG,Net generation,24191.01,megawatthours
+  65,2022-07-10T21,TVA,Tennessee Valley Authority,TI,Total interchange,-672,megawatthours
+  66,2022-07-10T22,TVA,Tennessee Valley Authority,D,Demand,25319.54,megawatthours
+  67,2022-07-10T22,TVA,Tennessee Valley Authority,NG,Net generation,24624.54,megawatthours
+  68,2022-07-10T22,TVA,Tennessee Valley Authority,TI,Total interchange,-660,megawatthours
+  69,2022-07-10T23,TVA,Tennessee Valley Authority,D,Demand,25461.54,megawatthours
+  70,2022-07-10T23,TVA,Tennessee Valley Authority,NG,Net generation,24695.54,megawatthours
+  71,2022-07-10T23,TVA,Tennessee Valley Authority,TI,Total interchange,-735,megawatthours
+  72,2022-07-11T00,TVA,Tennessee Valley Authority,D,Demand,24998.87,megawatthours
+  73,2022-07-11T00,TVA,Tennessee Valley Authority,NG,Net generation,24221.87,megawatthours
+  74,2022-07-11T00,TVA,Tennessee Valley Authority,TI,Total interchange,-738,megawatthours
   
   '''
 # ---
