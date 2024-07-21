@@ -6,14 +6,15 @@ Data are converted to the format that is output by `eia_api_v2.scrape`
 
 Note: there do not seem to be data on Geothermal or Biomass
 """
+
 import pandas as pd
 from gridemissions.eia_api_v2 import get_key, EIA_DATETIME_FORMAT
 
 EIA_BULK_DATETIME_FORMAT = "%m/%d/%Y %I:%M:%S %p"
 
 
-def parse_balance_file(filename):
-    df = pd.read_csv(filename, thousands=",")
+def parse_balance_files(filenames):
+
     col_renamer = {
         "Balancing Authority": "BA",
         "Demand (MW)": "D",
@@ -30,7 +31,13 @@ def parse_balance_file(filename):
         "Total Interchange (MW)": "TI",
         "UTC Time at End of Hour": "period",
     }
-    df = df[col_renamer.keys()].rename(col_renamer, axis=1)
+
+    def _parse_balance_file(filename):
+        df = pd.read_csv(filename, thousands=",")
+        df = df[col_renamer.keys()].rename(col_renamer, axis=1)
+        return df
+
+    df = pd.concat([_parse_balance_file(filename) for filename in filenames], axis=0)
     df = df.melt(id_vars=["period", "BA"])
     key = get_key("E")
     df["column"] = df.apply(lambda x: key[x.variable] % x.BA, axis=1)
@@ -41,19 +48,25 @@ def parse_balance_file(filename):
     return df
 
 
-def parse_interchange_file(filename):
-    df = pd.read_csv(filename, thousands=",")
+def parse_interchange_files(filenames):
     col_renamer = {
         "Interchange (MW)": "value",
         "UTC Time at End of Hour": "period",
         "Balancing Authority": "BA",
         "Directly Interconnected Balancing Authority": "BA2",
     }
-    df = df[col_renamer.keys()].rename(col_renamer, axis=1)
-    key = get_key("E")["ID"]
-    df["column"] = df.apply(lambda x: key % (x.BA, x.BA2), axis=1)
-    df.period = pd.to_datetime(df.period, format=EIA_BULK_DATETIME_FORMAT).dt.strftime(
-        EIA_DATETIME_FORMAT
-    )
-    df = df.pivot(index="period", columns="column", values="value")
+
+    def _parse_interchange_file(filename):
+        df = pd.read_csv(filename, thousands=",")
+        df = df[col_renamer.keys()].rename(col_renamer, axis=1)
+        key = get_key("E")["ID"]
+        df["column"] = df.apply(lambda x: key % (x.BA, x.BA2), axis=1)
+        df.period = pd.to_datetime(
+            df.period, format=EIA_BULK_DATETIME_FORMAT
+        ).dt.strftime(EIA_DATETIME_FORMAT)
+        return df
+
+    df = pd.concat(
+        [_parse_interchange_file(filename) for filename in filenames], axis=0
+    ).pivot(index="period", columns="column", values="value")
     return df
