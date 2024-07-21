@@ -5,6 +5,8 @@ export JUPYTER_PLATFORM_DIRS = 1
 data_path := $(shell python src/gridemissions/configure.py DATA_PATH)
 fig_path := $(shell python src/gridemissions/configure.py FIG_PATH)
 
+ge_version := $(shell python -c "import gridemissions; print(gridemissions.__version__)")
+
 .PHONY: install snapshot test test_fast bulk bulk_upload bulk_report
 
 install: ## install all requirements in editable mode
@@ -27,11 +29,11 @@ test_fast: ## Run `flake8` and `SKIP_SLOW_TESTS=true pytest`
 bulk:
 		DATA_PATH=${data_path} bash src/gridemissions/scripts/bulk_download_grid_monitor.sh
 		python src/gridemissions/scripts/bulk_process.py
-		cd ${data_path}/EIA_Grid_Monitor && tar -czf processed.tar.gz processed/
+		cd ${data_path}/EIA_Grid_Monitor && tar -czf processed.${ge_version}.tar.gz processed/
 
 # Note: using --sse AES256 is required for the Stanford AWS account
 bulk_upload:  ## Upload bulk dataset to s3 bucket
-	aws s3 sync --sse AES256 --delete --exclude "*" --include="processed.tar.gz" ${data_path}/EIA_Grid_Monitor/ s3://gridemissions/
+	aws s3 sync --sse AES256 --delete --exclude "*" --include="processed.${ge_version}.tar.gz" ${data_path}/EIA_Grid_Monitor/ s3://gridemissions/
 
 bulk_report: ## Create heatmap and timeseries reports and upload to S3
 	ge_report --report heatmap
