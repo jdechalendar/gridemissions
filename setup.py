@@ -4,7 +4,7 @@ setup(
     name="gridemissions",
     package_dir={"": "src"},
     packages=find_packages("src"),
-    version="0.1.10",
+    version="0.1.10.dev0",
     python_requires=">=3.11",
     install_requires=["requests", "pandas>=2.1.0", "matplotlib>=3.4.2"],
     extras_require={
